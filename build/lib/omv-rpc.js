@@ -29,7 +29,8 @@ var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: tru
 var omv_rpc_exports = {};
 __export(omv_rpc_exports, {
   ApiEndpoints: () => ApiEndpoints,
-  OmvApi: () => OmvApi
+  OmvApi: () => OmvApi,
+  iobObjectDef: () => iobObjectDef
 });
 module.exports = __toCommonJS(omv_rpc_exports);
 var import_node_fetch = __toESM(require("node-fetch"));
@@ -243,9 +244,32 @@ var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
   ApiEndpoints2["kvm"] = "kvm";
   return ApiEndpoints2;
 })(ApiEndpoints || {});
+const iobObjectDef = {
+  hwInfo: {
+    channelName: "hardware info",
+    deviceIdProperty: void 0,
+    deviceNameProperty: void 0
+  },
+  disk: {
+    channelName: "disk info",
+    deviceIdProperty: "devicename",
+    deviceNameProperty: "devicename"
+  },
+  smart: {
+    channelName: "S.M.A.R.T info",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "devicename"
+  },
+  fileSystem: {
+    channelName: "file system info",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "comment"
+  }
+};
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ApiEndpoints,
-  OmvApi
+  OmvApi,
+  iobObjectDef
 });
 //# sourceMappingURL=omv-rpc.js.map

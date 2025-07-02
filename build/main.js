@@ -129,11 +129,22 @@ class Openmediavault extends utils.Adapter {
         if (!this.omvApi.isConnected) {
           await this.omvApi.login();
         }
-        await this.updateDataGeneric(import_omv_rpc.ApiEndpoints.hwInfo, tree.hwInfo, "hardware info", void 0, void 0, this.config.hwInfoEnabled, isAdapterStart, this.config.hwInfoStatesIsWhiteList, this.config.hwInfoStatesBlackList);
-        await this.updateDataGeneric(import_omv_rpc.ApiEndpoints.disk, tree.disk, "disk info", "devicename", "devicename", this.config.diskEnabled, isAdapterStart, this.config.diskStatesIsWhiteList, this.config.diskStatesBlackList);
-        await this.updateDataGeneric(import_omv_rpc.ApiEndpoints.smart, tree.smart, "smart info", "uuid", "devicename", this.config.smartEnabled, isAdapterStart, this.config.smartStatesIsWhiteList, this.config.smartStatesBlackList);
-        await this.updateDataGeneric(import_omv_rpc.ApiEndpoints.fileSystem, tree.fileSystem, "file system info", "uuid", "comment", this.config.fileSystemEnabled, isAdapterStart, this.config.fileSystemStatesIsWhiteList, this.config.fileSystemStatesBlackList);
-        this.log.warn(JSON.stringify(this.config["diskStatesBlackList"]));
+        for (const endpoint in import_omv_rpc.ApiEndpoints) {
+          if (import_omv_rpc.iobObjectDef[endpoint]) {
+            await this.updateDataGeneric(
+              endpoint,
+              tree[endpoint],
+              import_omv_rpc.iobObjectDef[endpoint].channelName,
+              import_omv_rpc.iobObjectDef[endpoint].deviceIdProperty,
+              import_omv_rpc.iobObjectDef[endpoint].deviceNameProperty,
+              isAdapterStart
+            );
+          } else {
+            if (this.log.level === "debug") {
+              this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+            }
+          }
+        }
       }
     } catch (error) {
       this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
@@ -149,12 +160,12 @@ class Openmediavault extends utils.Adapter {
    * @param configEnabled 
    * @param isAdapterStart 
    */
-  async updateDataGeneric(endpoint, treeType, channelName, propertyDeviceId, deviceName, configEnabled, isAdapterStart = false, statesIsWhiteList = false, blacklist = []) {
+  async updateDataGeneric(endpoint, treeType, channelName, propertyDeviceId, deviceName, isAdapterStart = false) {
     var _a;
     const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
     try {
       if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
-        if (configEnabled) {
+        if (this.config[`${endpoint}Enabled`]) {
           if (isAdapterStart) {
             await this.createOrUpdateChannel(treeType.idChannel, channelName, void 0, true);
           }
@@ -165,14 +176,14 @@ class Openmediavault extends utils.Adapter {
                 if (propertyDeviceId && device[propertyDeviceId]) {
                   const idDevice = `${treeType.idChannel}.${device[propertyDeviceId]}`;
                   await this.createOrUpdateDevice(idDevice, deviceName && device[deviceName] ? device[deviceName] : "unknown", void 0, void 0, void 0, isAdapterStart, true);
-                  await this.createOrUpdateGenericState(idDevice, treeType.get(), device, blacklist, statesIsWhiteList, device, device, isAdapterStart);
+                  await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
                   this.log.debug(`${logPrefix} device '${device[propertyDeviceId]}' data successfully updated`);
                 } else {
                   this.log.error(`${logPrefix} deviceName property '${propertyDeviceId}' not exists in device`);
                 }
               }
             } else {
-              await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, blacklist, statesIsWhiteList, data, data, isAdapterStart);
+              await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], data, data, isAdapterStart);
               this.log.debug(`${logPrefix} channel '${channelName}' data successfully updated`);
             }
             if (isAdapterStart) {
@@ -185,6 +196,8 @@ class Openmediavault extends utils.Adapter {
             this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
           }
         }
+      } else {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
       }
     } catch (error) {
       this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
@@ -342,7 +355,7 @@ class Openmediavault extends utils.Adapter {
               } else {
                 if (await this.objectExists(`${channel}.${stateId}`)) {
                   await this.delObjectAsync(`${channel}.${stateId}`);
-                  this.log.info(`${logPrefix} '${objDevices == null ? void 0 : objDevices.name}' ${logDetails ? `(${logDetails}) ` : ""}state '${channel}.${stateId}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
+                  this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ""}state '${channel}.${stateId}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
                 }
               }
             } else {
@@ -355,7 +368,7 @@ class Openmediavault extends utils.Adapter {
                 } else {
                   if (await this.objectExists(idChannel)) {
                     await this.delObjectAsync(idChannel, { recursive: true });
-                    this.log.info(`${logPrefix} '${objDevices == null ? void 0 : objDevices.name}' ${logDetails ? `(${logDetails}) ` : ""}channel '${idChannel}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
+                    this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ""}channel '${idChannel}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
                   }
                 }
               }
@@ -384,7 +397,7 @@ class Openmediavault extends utils.Adapter {
                   } else {
                     if (await this.objectExists(idChannel)) {
                       await this.delObjectAsync(idChannel, { recursive: true });
-                      this.log.info(`${logPrefix} '${objDevices == null ? void 0 : objDevices.name}' ${logDetails ? `(${logDetails}) ` : ""}channel '${idChannel}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
+                      this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ""}channel '${idChannel}' delete, ${isWhiteList ? "it's not on the whitelist" : "it's on the blacklist"}`);
                     }
                   }
                 }

@@ -8,7 +8,7 @@ import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
 
 // Load your modules here, e.g.:
-import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
+import { ApiEndpoints, OmvApi, iobObjectDef } from './lib/omv-rpc.js';
 import { HwInfo } from './lib/types-hwInfo.js';
 import * as tree from './lib/tree/index.js'
 import * as myHelper from './lib/helper.js';
@@ -206,13 +206,24 @@ class Openmediavault extends utils.Adapter {
 					await this.omvApi.login();
 				}
 
-				await this.updateDataGeneric(ApiEndpoints.hwInfo, tree.hwInfo, 'hardware info', undefined, undefined, this.config.hwInfoEnabled, isAdapterStart, this.config.hwInfoStatesIsWhiteList, this.config.hwInfoStatesBlackList);
-				await this.updateDataGeneric(ApiEndpoints.disk, tree.disk, 'disk info', 'devicename', 'devicename', this.config.diskEnabled, isAdapterStart, this.config.diskStatesIsWhiteList, this.config.diskStatesBlackList);
-				await this.updateDataGeneric(ApiEndpoints.smart, tree.smart, 'smart info', 'uuid', 'devicename', this.config.smartEnabled, isAdapterStart, this.config.smartStatesIsWhiteList, this.config.smartStatesBlackList);
-				await this.updateDataGeneric(ApiEndpoints.fileSystem, tree.fileSystem, 'file system info', 'uuid', 'comment', this.config.fileSystemEnabled, isAdapterStart, this.config.fileSystemStatesIsWhiteList, this.config.fileSystemStatesBlackList);
+				// await this.updateDataGeneric(ApiEndpoints.hwInfo, tree.hwInfo, 'hardware info', undefined, undefined, this.config.hwInfoEnabled, isAdapterStart, this.config.hwInfoStatesIsWhiteList, this.config.hwInfoStatesBlackList);
+				// await this.updateDataGeneric(ApiEndpoints.disk, tree.disk, 'disk info', 'devicename', 'devicename', this.config.diskEnabled, isAdapterStart, this.config.diskStatesIsWhiteList, this.config.diskStatesBlackList);
+				// await this.updateDataGeneric(ApiEndpoints.smart, tree.smart, 'smart info', 'uuid', 'devicename', this.config.smartEnabled, isAdapterStart, this.config.smartStatesIsWhiteList, this.config.smartStatesBlackList);
+				// await this.updateDataGeneric(ApiEndpoints.fileSystem, tree.fileSystem, 'file system info', 'uuid', 'comment', this.config.fileSystemEnabled, isAdapterStart, this.config.fileSystemStatesIsWhiteList, this.config.fileSystemStatesBlackList);
 
-				//@ts-ignore
-				this.log.warn(JSON.stringify(this.config['diskStatesBlackList']));
+				for (const endpoint in ApiEndpoints) {
+					if (iobObjectDef[endpoint]) {
+
+						//@ts-ignore
+						await this.updateDataGeneric(endpoint, tree[endpoint],
+							iobObjectDef[endpoint].channelName, iobObjectDef[endpoint].deviceIdProperty, iobObjectDef[endpoint].deviceNameProperty, isAdapterStart);
+
+					} else {
+						if (this.log.level === 'debug') {
+							this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+						}
+					}
+				}
 			}
 
 		} catch (error: any) {
@@ -231,12 +242,14 @@ class Openmediavault extends utils.Adapter {
 	 * @param isAdapterStart 
 	 */
 
-	private async updateDataGeneric(endpoint: ApiEndpoints, treeType: any, channelName: string, propertyDeviceId: string | undefined, deviceName: string | undefined, configEnabled: boolean, isAdapterStart: boolean = false, statesIsWhiteList: boolean = false, blacklist: { id: string }[] = []) {
+	private async updateDataGeneric(endpoint: ApiEndpoints, treeType: any, channelName: string, propertyDeviceId: string | undefined, deviceName: string | undefined, isAdapterStart: boolean = false) {
 		const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
 
 		try {
 			if (this.connected && this.omvApi?.isConnected) {
-				if (configEnabled) {
+
+				//@ts-ignore
+				if (this.config[`${endpoint}Enabled`]) {
 					if (isAdapterStart) {
 						await this.createOrUpdateChannel(treeType.idChannel, channelName, undefined, true);
 					}
@@ -250,7 +263,8 @@ class Openmediavault extends utils.Adapter {
 									const idDevice = `${treeType.idChannel}.${device[propertyDeviceId]}`;
 
 									await this.createOrUpdateDevice(idDevice, deviceName && device[deviceName] ? device[deviceName] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
-									await this.createOrUpdateGenericState(idDevice, treeType.get(), device, blacklist, statesIsWhiteList, device, device, isAdapterStart);
+									//@ts-ignore
+									await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
 
 									this.log.debug(`${logPrefix} device '${device[propertyDeviceId]}' data successfully updated`);
 								} else {
@@ -258,7 +272,8 @@ class Openmediavault extends utils.Adapter {
 								}
 							}
 						} else {
-							await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, blacklist, statesIsWhiteList, data, data, isAdapterStart);
+							//@ts-ignore
+							await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], data, data, isAdapterStart);
 
 							this.log.debug(`${logPrefix} channel '${channelName}' data successfully updated`);
 						}
@@ -273,8 +288,9 @@ class Openmediavault extends utils.Adapter {
 						this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
 					}
 				}
+			} else {
+				this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
 			}
-
 		} catch (error: any) {
 			this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
 		}
@@ -483,7 +499,7 @@ class Openmediavault extends utils.Adapter {
 								if (await this.objectExists(`${channel}.${stateId}`)) {
 									await this.delObjectAsync(`${channel}.${stateId}`);
 
-									this.log.info(`${logPrefix} '${objDevices?.name}' ${logDetails ? `(${logDetails}) ` : ''}state '${channel}.${stateId}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+									this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ''}state '${channel}.${stateId}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 								}
 							}
 						} else {
@@ -499,7 +515,7 @@ class Openmediavault extends utils.Adapter {
 									// channel is on blacklist
 									if (await this.objectExists(idChannel)) {
 										await this.delObjectAsync(idChannel, { recursive: true });
-										this.log.info(`${logPrefix} '${objDevices?.name}' ${logDetails ? `(${logDetails}) ` : ''}channel '${idChannel}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+										this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ''}channel '${idChannel}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 									}
 								}
 							}
@@ -538,7 +554,7 @@ class Openmediavault extends utils.Adapter {
 										// channel is on blacklist, wlan is comming from realtime api
 										if (await this.objectExists(idChannel)) {
 											await this.delObjectAsync(idChannel, { recursive: true });
-											this.log.info(`${logPrefix} '${objDevices?.name}' ${logDetails ? `(${logDetails}) ` : ''}channel '${idChannel}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+											this.log.info(`${logPrefix} ${logDetails ? `(${logDetails}) ` : ''}channel '${idChannel}' delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 										}
 									}
 								}

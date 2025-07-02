@@ -59,3 +59,9 @@ export interface myCommonChannelArray {
 export interface myCache {
     hwInfo: { [key: string]: HwInfo; },
 }
+
+export interface IoBrokerObjectDefinitions {
+    channelName: string,                        // Channel name attribute
+    deviceIdProperty: string | undefined,       // channel id attribute, if source is an array and is avaiable in api data (see definitions in tree)
+    deviceNameProperty: string | undefined,     // channel name attribute and is avaiable in api data (see definitions in tree)
+}
