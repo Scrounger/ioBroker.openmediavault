@@ -1,0 +1,30 @@
+{
+    "label": "General",
+    "items": {
+        "url": {
+            "type": "text",
+            "label": "url",
+            "sm": 12,
+            "md": 2,
+            "validator": "!!data.url.startsWith('http://') || !!data.url.startsWith('https://')"
+        },
+        "user": {
+            "type": "text",
+            "label": "user",
+            "sm": 12,
+            "md": 2
+        },
+        "password": {
+            "type": "password",
+            "label": "password",
+            "sm": 12,
+            "md": 3
+        },
+        "ignoreSSLCertificate": {
+            "type": "checkbox",
+            "label": "ignoreSSLCertificate",
+            "sm": 12,
+            "md": 3
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+	"i18n": true,
+	"type": "tabs",
+	"items": {
+		"tab_general": {
+			"type": "panel",
+			"#include": "general.jsonConfig.json"
+		},
+		"tab_hwInfo": {
+			"type": "panel",
+			"#include": "hwInfo.jsonConfig.json"
+		},
+		"tab_disk": {
+			"type": "panel",
+			"#include": "disk.jsonConfig.json"
+		},
+		"tab_smart": {
+			"type": "panel",
+			"#include": "smart.jsonConfig.json"
+		},
+		"tab_fileSystem": {
+			"type": "panel",
+			"#include": "fileSystem.jsonConfig.json"
+		},
+	}
+}

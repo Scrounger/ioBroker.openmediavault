@@ -1,0 +1,31 @@
+export interface FileSystem {
+    devicename: string
+    devicefile: string
+    predictabledevicefile: string
+    canonicaldevicefile: string
+    parentdevicefile: string
+    devlinks: string[]
+    uuid: string
+    label: string
+    type: string
+    blocks: string
+    mounted: boolean
+    mountpoint: string
+    used: string
+    available: string
+    size: string
+    percentage: number
+    description: string
+    propposixacl: boolean
+    propquota: boolean
+    propresize: boolean
+    propfstab: boolean
+    propcompress: boolean
+    propautodefrag: boolean
+    hasmultipledevices: boolean
+    devicefiles: string[]
+    comment: string
+    _readonly: boolean
+    _used: boolean
+    propreadonly: boolean
+}

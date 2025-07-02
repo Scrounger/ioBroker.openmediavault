@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/types-smart.ts"],
+  "sourcesContent": ["export interface Smart {\n    devicename: string\n    canonicaldevicefile: string\n    devicefile: string\n    devicelinks: string[]\n    model: string\n    size: string\n    temperature: string\n    description: string\n    vendor: string\n    serialnumber: string\n    wwn: string\n    overallstatus: string\n    uuid: string\n    monitor: boolean\n}"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}

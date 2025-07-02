@@ -1,0 +1,136 @@
+{
+	"common": {
+		"name": "openmediavault",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "OpenMediaVault",
+			"de": "OpenMediAvault",
+			"ru": "OpenMediaVault",
+			"pt": "OpenMediavault",
+			"nl": "Openmediavault",
+			"fr": "OpenMediaVault",
+			"it": "OpenMediavault",
+			"es": "OpenMediavault",
+			"pl": "OpenMediavault",
+			"uk": "OpenMediavault",
+			"zh-cn": "OpenMediaVault"
+		},
+		"desc": {
+			"en": "openmediavault",
+			"de": "OpenMediAvault",
+			"ru": "OpenMediaVault",
+			"pt": "OpenMediavault",
+			"nl": "Openmediavault",
+			"fr": "OpenMediaVault",
+			"it": "OpenMediavault",
+			"es": "OpenMediavault",
+			"pl": "OpenMediavault",
+			"uk": "OpenMediavault",
+			"zh-cn": "OpenMediaVault"
+		},
+		"authors": [
+			"Scrounger <scrounger@gmx.net>"
+		],
+		"keywords": [
+			"openmediavault",
+			"nas",
+			"api"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "openmediavault.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/Scrounger/ioBroker.openmediavault/main/admin/openmediavault.png",
+		"readme": "https://github.com/Scrounger/ioBroker.openmediavault/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "infrastructure",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"messagebox": true,
+		"localLinks": {
+			"_default": "%url%"
+		},
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=7.0.23"
+			}
+		]
+	},
+	"encryptedNative": [
+		"password"
+	],
+	"protectedNative": [
+		"password"
+	],
+	"native": {
+		"url": "",
+		"user": "",
+		"password": "",
+		"ignoreSSLCertificate": false,
+		"hwInfoEnabled": true,
+		"hwInfoStatesIsWhiteList": false,
+		"hwInfoStatesBlackList": [],
+		"diskEnabled": true,
+		"diskStatesIsWhiteList": false,
+		"diskStatesBlackList": [],
+		"smartEnabled": true,
+		"smartStatesIsWhiteList": false,
+		"smartStatesBlackList": [],
+		"fileSystemEnabled": true,
+		"fileSystemStatesIsWhiteList": false,
+		"fileSystemStatesBlackList": []
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "If master connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
+}

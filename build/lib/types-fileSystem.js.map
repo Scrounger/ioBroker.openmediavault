@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/lib/types-fileSystem.ts"],
+  "sourcesContent": ["export interface FileSystem {\n    devicename: string\n    devicefile: string\n    predictabledevicefile: string\n    canonicaldevicefile: string\n    parentdevicefile: string\n    devlinks: string[]\n    uuid: string\n    label: string\n    type: string\n    blocks: string\n    mounted: boolean\n    mountpoint: string\n    used: string\n    available: string\n    size: string\n    percentage: number\n    description: string\n    propposixacl: boolean\n    propquota: boolean\n    propresize: boolean\n    propfstab: boolean\n    propcompress: boolean\n    propautodefrag: boolean\n    hasmultipledevices: boolean\n    devicefiles: string[]\n    comment: string\n    _readonly: boolean\n    _used: boolean\n    propreadonly: boolean\n}"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
+  "names": []
+}
