@@ -97,17 +97,61 @@
 		"password": "",
 		"ignoreSSLCertificate": false,
 		"hwInfoEnabled": true,
-		"hwInfoStatesIsWhiteList": false,
-		"hwInfoStatesBlackList": [],
+		"hwInfoStatesIsWhiteList": true,
+		"hwInfoStatesBlackList": [
+			{
+				"id": "cpuModelName"
+			},
+			{
+				"id": "cpuCores"
+			},
+			{
+				"id": "cpuMhz"
+			},
+			{
+				"id": "hostname"
+			},
+			{
+				"id": "kernel"
+			},
+			{
+				"id": "loadAverage"
+			},
+			{
+				"id": "memTotal"
+			},
+			{
+				"id": "memFree"
+			},
+			{
+				"id": "memUsed"
+			},
+			{
+				"id": "memAvailable"
+			},
+			{
+				"id": "version"
+			}
+		],
 		"diskEnabled": true,
-		"diskStatesIsWhiteList": false,
-		"diskStatesBlackList": [],
+		"diskStatesIsWhiteList": true,
+		"diskStatesBlackList": [
+			{
+				"id": "size"
+			},
+			{
+				"id": "temperature"
+			}
+		],
 		"smartEnabled": true,
 		"smartStatesIsWhiteList": false,
 		"smartStatesBlackList": [],
 		"fileSystemEnabled": true,
 		"fileSystemStatesIsWhiteList": false,
-		"fileSystemStatesBlackList": []
+		"fileSystemStatesBlackList": [],
+		"shareMgmtEnabled": true,
+		"shareMgmtStatesIsWhiteList": true,
+		"shareMgmtStatesBlackList": []
 	},
 	"objects": [],
 	"instanceObjects": [

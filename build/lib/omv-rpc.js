@@ -191,6 +191,15 @@ class OmvApi {
           service: "FileSystemMgmt",
           method: "enumerateMountedFilesystems"
         };
+      case "shareMgmt" /* shareMgmt */:
+        return {
+          service: "ShareMgmt",
+          method: "enumerateSharedFolders",
+          params: {
+            start: 0,
+            limit: -1
+          }
+        };
       case "service" /* service */:
         return {
           service: "Services",
@@ -238,6 +247,7 @@ var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
   ApiEndpoints2["disk"] = "disk";
   ApiEndpoints2["smart"] = "smart";
   ApiEndpoints2["fileSystem"] = "fileSystem";
+  ApiEndpoints2["shareMgmt"] = "shareMgmt";
   ApiEndpoints2["service"] = "service";
   ApiEndpoints2["plugin"] = "plugin";
   ApiEndpoints2["network"] = "network";
@@ -264,6 +274,11 @@ const iobObjectDef = {
     channelName: "file system info",
     deviceIdProperty: "uuid",
     deviceNameProperty: "comment"
+  },
+  shareMgmt: {
+    channelName: "shared folders",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "name"
   }
 };
 // Annotate the CommonJS export names for ESM import in node:

@@ -24,6 +24,10 @@ declare global {
 			fileSystemEnabled: boolean;
 			fileSystemStatesIsWhiteList: boolean;
 			fileSystemStatesBlackList: { id: string }[];
+
+			shareMgmtEnabled: boolean;
+			shareMgmtStatesIsWhiteList: boolean;
+			shareMgmtStatesBlackList: { id: string }[];
 		}
 	}
 }

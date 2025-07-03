@@ -10,8 +10,19 @@ export namespace disk {
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {
+            canonicaldevicefile: {
+                iobType: 'string',
+                name: 'canonical device file',
+            },
+            description: {
+                iobType: 'string',
+                name: 'description',
+            },
+            devicefile: {
+                iobType: 'string',
+                name: 'device file',
+            },
             devicelinks: {
-                id: 'devicelinks',
                 iobType: 'string',
                 name: 'hostname',
                 readVal(val: string, adapter: ioBroker.Adapter, deviceOrClient: Disk, id: string): ioBroker.StateValue {
@@ -19,17 +30,46 @@ export namespace disk {
                 }
             },
             devicename: {
-                id: 'devicename',
                 iobType: 'string',
                 name: 'device name',
             },
+            hotpluggable: {
+                iobType: 'boolean',
+                name: 'hot pluggable'
+            },
+            israid: {
+                iobType: 'boolean',
+                name: 'is raid'
+            },
             isreadonly: {
-                id: 'isreadonly',
                 iobType: 'boolean',
                 name: 'is read only'
             },
+            isroot: {
+                iobType: 'boolean',
+                name: 'is root'
+            },
+            model: {
+                iobType: 'string',
+                name: 'model',
+            },
+            powermode: {
+                iobType: 'string',
+                name: 'powermode',
+            },
+            serialnumber: {
+                iobType: 'string',
+                name: 'serialnumber',
+            },
+            size: {
+                iobType: 'number',
+                name: 'size',
+                unit: 'TB',
+                readVal(val: number, adapter: ioBroker.Adapter, deviceOrClient: Disk, id: string): ioBroker.StateValue {
+                    return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+                }
+            },
             temperature: {
-                id: 'temperature',
                 iobType: 'number',
                 name: 'temperature',
                 unit: '°C',
@@ -39,7 +79,11 @@ export namespace disk {
                 readVal: function (val: number, adapter: ioBroker.Adapter, deviceOrClient: Disk, id: string): ioBroker.StateValue {
                     return Math.round(val * 10) / 10;
                 },
-            }
+            },
+            vendor: {
+                iobType: 'string',
+                name: 'vendor',
+            },
         }
     }
 

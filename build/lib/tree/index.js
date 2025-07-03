@@ -21,6 +21,7 @@ __export(tree_exports, {
   disk: () => import_disk.disk,
   fileSystem: () => import_fileSystem.fileSystem,
   hwInfo: () => import_hwInfo.hwInfo,
+  shareMgmt: () => import_shareMgmt.shareMgmt,
   smart: () => import_smart.smart
 });
 module.exports = __toCommonJS(tree_exports);
@@ -28,11 +29,13 @@ var import_hwInfo = require("./hwInfo.js");
 var import_disk = require("./disk.js");
 var import_smart = require("./smart.js");
 var import_fileSystem = require("./fileSystem.js");
+var import_shareMgmt = require("./shareMgmt.js");
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   disk,
   fileSystem,
   hwInfo,
+  shareMgmt,
   smart
 });
 //# sourceMappingURL=index.js.map

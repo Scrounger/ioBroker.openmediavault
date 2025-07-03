@@ -26,102 +26,47 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-var smart_exports = {};
-__export(smart_exports, {
-  smart: () => smart
+var shareMgmt_exports = {};
+__export(shareMgmt_exports, {
+  shareMgmt: () => shareMgmt
 });
-module.exports = __toCommonJS(smart_exports);
+module.exports = __toCommonJS(shareMgmt_exports);
 var myHelper = __toESM(require("../helper.js"));
-var smart;
-((smart2) => {
+var shareMgmt;
+((shareMgmt2) => {
   let keys = void 0;
-  smart2.idChannel = "smart";
+  shareMgmt2.idChannel = "shareMgmt";
   function get() {
     return {
-      canonicaldevicefile: {
+      name: {
         iobType: "string",
-        name: "canonical device file"
+        name: "folder name"
       },
-      description: {
+      comment: {
         iobType: "string",
-        name: "description"
+        name: "comment"
       },
-      devicefile: {
+      device: {
         iobType: "string",
-        name: "device file"
-      },
-      devicelinks: {
-        iobType: "string",
-        name: "hostname",
-        readVal(val, adapter, deviceOrClient, id) {
-          return JSON.stringify(val);
-        }
-      },
-      devicename: {
-        id: "devicename",
-        iobType: "string",
-        name: "device name"
-      },
-      model: {
-        iobType: "string",
-        name: "model"
-      },
-      monitor: {
-        iobType: "boolean",
-        name: "is monitored"
-      },
-      overallstatus: {
-        iobType: "string",
-        name: "overall status"
-      },
-      serialnumber: {
-        iobType: "string",
-        name: "serialnumber"
-      },
-      size: {
-        iobType: "number",
-        name: "size",
-        unit: "TB",
-        readVal(val, adapter, deviceOrClient, id) {
-          return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
-        }
-      },
-      temperature: {
-        iobType: "number",
-        name: "temperature",
-        unit: "\xB0C",
-        conditionToCreateState(objDevice, adapter) {
-          return objDevice.temperature > 0;
-        },
-        readVal: function(val, adapter, deviceOrClient, id) {
-          return Math.round(val * 10) / 10;
-        }
-      },
-      uuid: {
-        iobType: "string",
-        name: "uuid"
-      },
-      vendor: {
-        iobType: "string",
-        name: "vendor"
+        name: "device of folder"
       }
     };
   }
-  smart2.get = get;
+  shareMgmt2.get = get;
   function getKeys() {
     if (keys === void 0) {
       keys = myHelper.getAllKeysOfTreeDefinition(get());
     }
     return keys;
   }
-  smart2.getKeys = getKeys;
+  shareMgmt2.getKeys = getKeys;
   function getStateIDs() {
     return myHelper.getAllIdsOfTreeDefinition(get());
   }
-  smart2.getStateIDs = getStateIDs;
-})(smart || (smart = {}));
+  shareMgmt2.getStateIDs = getStateIDs;
+})(shareMgmt || (shareMgmt = {}));
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  smart
+  shareMgmt
 });
-//# sourceMappingURL=smart.js.map
+//# sourceMappingURL=shareMgmt.js.map

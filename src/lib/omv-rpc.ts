@@ -191,6 +191,15 @@ export class OmvApi {
                     service: 'FileSystemMgmt',
                     method: 'enumerateMountedFilesystems',
                 }
+            case ApiEndpoints.shareMgmt:
+                return {
+                    service: 'ShareMgmt',
+                    method: 'enumerateSharedFolders',
+                    params: {
+                        start: 0,
+                        limit: -1
+                    }
+                }
             case ApiEndpoints.service:
                 return {
                     service: 'Services',
@@ -243,6 +252,7 @@ export enum ApiEndpoints {
     disk = 'disk',
     smart = 'smart',
     fileSystem = 'fileSystem',
+    shareMgmt = 'shareMgmt',
     service = 'service',
     plugin = 'plugin',
     network = 'network',
@@ -270,4 +280,9 @@ export const iobObjectDef: { [key: string]: IoBrokerObjectDefinitions; } = {
         deviceIdProperty: 'uuid',
         deviceNameProperty: 'comment',
     },
+    shareMgmt: {
+        channelName: 'shared folders',
+        deviceIdProperty: 'uuid',
+        deviceNameProperty: 'name',
+    }
 }

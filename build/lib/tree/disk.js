@@ -38,8 +38,19 @@ var disk;
   disk2.idChannel = "disk";
   function get() {
     return {
+      canonicaldevicefile: {
+        iobType: "string",
+        name: "canonical device file"
+      },
+      description: {
+        iobType: "string",
+        name: "description"
+      },
+      devicefile: {
+        iobType: "string",
+        name: "device file"
+      },
       devicelinks: {
-        id: "devicelinks",
         iobType: "string",
         name: "hostname",
         readVal(val, adapter, deviceOrClient, id) {
@@ -47,17 +58,46 @@ var disk;
         }
       },
       devicename: {
-        id: "devicename",
         iobType: "string",
         name: "device name"
       },
+      hotpluggable: {
+        iobType: "boolean",
+        name: "hot pluggable"
+      },
+      israid: {
+        iobType: "boolean",
+        name: "is raid"
+      },
       isreadonly: {
-        id: "isreadonly",
         iobType: "boolean",
         name: "is read only"
       },
+      isroot: {
+        iobType: "boolean",
+        name: "is root"
+      },
+      model: {
+        iobType: "string",
+        name: "model"
+      },
+      powermode: {
+        iobType: "string",
+        name: "powermode"
+      },
+      serialnumber: {
+        iobType: "string",
+        name: "serialnumber"
+      },
+      size: {
+        iobType: "number",
+        name: "size",
+        unit: "TB",
+        readVal(val, adapter, deviceOrClient, id) {
+          return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
+        }
+      },
       temperature: {
-        id: "temperature",
         iobType: "number",
         name: "temperature",
         unit: "\xB0C",
@@ -67,6 +107,10 @@ var disk;
         readVal: function(val, adapter, deviceOrClient, id) {
           return Math.round(val * 10) / 10;
         }
+      },
+      vendor: {
+        iobType: "string",
+        name: "vendor"
       }
     };
   }

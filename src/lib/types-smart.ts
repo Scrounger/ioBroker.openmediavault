@@ -5,7 +5,7 @@ export interface Smart {
     devicelinks: string[]
     model: string
     size: string
-    temperature: string
+    temperature: number
     description: string
     vendor: string
     serialnumber: string

@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../../src/lib/tree/index.ts"],
-  "sourcesContent": ["import { hwInfo } from './hwInfo.js';\nimport { disk } from './disk.js';\nimport { smart } from './smart.js';\nimport { fileSystem } from './fileSystem.js';\n\n\n\nexport { hwInfo, disk, smart, fileSystem };"],
-  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAuB;AACvB,kBAAqB;AACrB,mBAAsB;AACtB,wBAA2B;",
+  "sourcesContent": ["import { hwInfo } from './hwInfo.js';\nimport { disk } from './disk.js';\nimport { smart } from './smart.js';\nimport { fileSystem } from './fileSystem.js';\nimport { shareMgmt } from './shareMgmt.js';\n\n\n\nexport { hwInfo, disk, smart, fileSystem, shareMgmt };"],
+  "mappings": ";;;;;;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA,oBAAuB;AACvB,kBAAqB;AACrB,mBAAsB;AACtB,wBAA2B;AAC3B,uBAA0B;",
   "names": []
 }

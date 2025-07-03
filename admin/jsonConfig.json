@@ -22,5 +22,9 @@
 			"type": "panel",
 			"#include": "fileSystem.jsonConfig.json"
 		},
+		"tab_shareMgmt": {
+			"type": "panel",
+			"#include": "shareMgmt.jsonConfig.json"
+		}
 	}
 }
