@@ -36,6 +36,11 @@ var disk;
 ((disk2) => {
   let keys = void 0;
   disk2.idChannel = "disk";
+  disk2.iobObjectDefintions = {
+    channelName: "disk info",
+    deviceIdProperty: "devicename",
+    deviceNameProperty: "devicename"
+  };
   function get() {
     return {
       canonicaldevicefile: {

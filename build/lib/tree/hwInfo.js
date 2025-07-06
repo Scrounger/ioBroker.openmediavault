@@ -36,6 +36,11 @@ var hwInfo;
 ((hwInfo2) => {
   let keys = void 0;
   hwInfo2.idChannel = "hwInfo";
+  hwInfo2.iobObjectDefintions = {
+    channelName: "hardware info",
+    deviceIdProperty: void 0,
+    deviceNameProperty: void 0
+  };
   function get() {
     return {
       availablePkgUpdates: {

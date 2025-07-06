@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { FileSystem } from "../types-fileSystem.js";
 
@@ -7,6 +7,12 @@ export namespace fileSystem {
     let keys: string[] | undefined = undefined;
 
     export const idChannel = 'fileSystem'
+
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'file system info',
+        deviceIdProperty: 'uuid',
+        deviceNameProperty: 'label',
+    }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {

@@ -36,6 +36,11 @@ var shareMgmt;
 ((shareMgmt2) => {
   let keys = void 0;
   shareMgmt2.idChannel = "shareMgmt";
+  shareMgmt2.iobObjectDefintions = {
+    channelName: "shared folders",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "name"
+  };
   function get() {
     return {
       name: {

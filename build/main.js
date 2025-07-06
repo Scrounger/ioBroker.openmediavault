@@ -142,18 +142,13 @@ class Openmediavault extends utils.Adapter {
         if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
           this.log.debug(`${logPrefix} start updating data...`);
           for (const endpoint in import_omv_rpc.ApiEndpoints) {
-            if (import_omv_rpc.iobObjectDef[endpoint]) {
-              await this.updateDataGeneric(
-                endpoint,
-                tree[endpoint],
-                import_omv_rpc.iobObjectDef[endpoint].channelName,
-                import_omv_rpc.iobObjectDef[endpoint].deviceIdProperty,
-                import_omv_rpc.iobObjectDef[endpoint].deviceNameProperty,
-                isAdapterStart
-              );
-            } else {
-              if (this.log.level === "debug") {
-                this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+            if (tree[endpoint]) {
+              if (Object.hasOwn(tree[endpoint], "iobObjectDefintions")) {
+                await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
+              } else {
+                if (this.log.level === "debug") {
+                  this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+                }
               }
             }
           }
@@ -166,40 +161,37 @@ class Openmediavault extends utils.Adapter {
     }
   }
   /**
-   * 
+   * update data gerneric
    * @param endpoint 
    * @param treeType 
-   * @param channelName 
-   * @param propertyDeviceId property to be used as id of device
-   * @param deviceName property to be used as name of device
-   * @param configEnabled 
+   * @param iobObjectDefintions 
    * @param isAdapterStart 
    */
-  async updateDataGeneric(endpoint, treeType, channelName, propertyDeviceId, deviceName, isAdapterStart = false) {
+  async updateDataGeneric(endpoint, treeType, iobObjectDefintions, isAdapterStart = false) {
     var _a, _b;
     const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
     try {
       if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
         if (this.config[`${endpoint}Enabled`]) {
           if (isAdapterStart) {
-            await this.createOrUpdateChannel(treeType.idChannel, channelName, void 0, true);
+            await this.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, void 0, true);
           }
           const data = await ((_b = this.omvApi) == null ? void 0 : _b.retrievData(endpoint));
           if (data) {
             if (Array.isArray(data)) {
               for (let device of data) {
-                if (propertyDeviceId && device[propertyDeviceId]) {
-                  const idDevice = `${treeType.idChannel}.${device[propertyDeviceId]}`;
-                  await this.createOrUpdateDevice(idDevice, deviceName && device[deviceName] ? device[deviceName] : "unknown", void 0, void 0, void 0, isAdapterStart, true);
+                if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
+                  const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
+                  await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : "unknown", void 0, void 0, void 0, isAdapterStart, true);
                   await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
-                  this.log.debug(`${logPrefix} device '${device[propertyDeviceId]}' data successfully updated`);
+                  this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
                 } else {
-                  this.log.error(`${logPrefix} deviceName property '${propertyDeviceId}' not exists in device`);
+                  this.log.error(`${logPrefix} deviceName property '${iobObjectDefintions.deviceIdProperty}' not exists in device`);
                 }
               }
             } else {
               await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], data, data, isAdapterStart);
-              this.log.debug(`${logPrefix} channel '${channelName}' data successfully updated`);
+              this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
             }
             if (isAdapterStart) {
               this.log.info(`${logPrefix} data successfully updated`);

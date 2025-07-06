@@ -12,8 +12,8 @@ export interface FileSystem {
     mounted: boolean
     mountpoint: string
     used: string
-    available: string
-    size: string
+    available: number
+    size: number
     percentage: number
     description: string
     propposixacl: boolean

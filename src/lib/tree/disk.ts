@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { Disk } from "../types-disk.js";
 
@@ -7,6 +7,12 @@ export namespace disk {
     let keys: string[] | undefined = undefined;
 
     export const idChannel = 'disk'
+
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'disk info',
+        deviceIdProperty: 'devicename',
+        deviceNameProperty: 'devicename',
+    }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {

@@ -36,6 +36,11 @@ var smart;
 ((smart2) => {
   let keys = void 0;
   smart2.idChannel = "smart";
+  smart2.iobObjectDefintions = {
+    channelName: "S.M.A.R.T info",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "devicename"
+  };
   function get() {
     return {
       canonicaldevicefile: {

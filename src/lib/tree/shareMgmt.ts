@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { ShareMgmt } from "../types-shareMgmt.js";
 
@@ -7,6 +7,12 @@ export namespace shareMgmt {
     let keys: string[] | undefined = undefined;
 
     export const idChannel = 'shareMgmt'
+
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'shared folders',
+        deviceIdProperty: 'uuid',
+        deviceNameProperty: 'name',
+    }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {

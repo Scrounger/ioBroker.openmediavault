@@ -5,7 +5,6 @@ import https from 'https';
 import * as url from 'url';
 
 import * as myTypes from './myTypes.js'
-import { IoBrokerObjectDefinitions } from './myTypes.js';
 
 export class OmvApi {
     private logPrefix: string = 'OmvApi';
@@ -295,32 +294,4 @@ export enum ApiEndpoints {
     plugin = 'plugin',
     network = 'network',
     kvm = 'kvm'
-}
-
-export const iobObjectDef: { [key: string]: IoBrokerObjectDefinitions; } = {
-    hwInfo: {
-        channelName: 'hardware info',
-        deviceIdProperty: undefined,
-        deviceNameProperty: undefined,
-    },
-    disk: {
-        channelName: 'disk info',
-        deviceIdProperty: 'devicename',
-        deviceNameProperty: 'devicename',
-    },
-    smart: {
-        channelName: 'S.M.A.R.T info',
-        deviceIdProperty: 'uuid',
-        deviceNameProperty: 'devicename',
-    },
-    fileSystem: {
-        channelName: 'file system info',
-        deviceIdProperty: 'uuid',
-        deviceNameProperty: 'label',
-    },
-    shareMgmt: {
-        channelName: 'shared folders',
-        deviceIdProperty: 'uuid',
-        deviceNameProperty: 'name',
-    }
 }

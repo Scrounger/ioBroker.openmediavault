@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { HwInfo } from "../types-hwInfo.js";
 
@@ -7,6 +7,12 @@ export namespace hwInfo {
     let keys: string[] | undefined = undefined;
 
     export const idChannel = 'hwInfo'
+
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'hardware info',
+        deviceIdProperty: undefined,
+        deviceNameProperty: undefined,
+    }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {

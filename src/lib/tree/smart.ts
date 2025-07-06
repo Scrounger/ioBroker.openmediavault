@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { Smart } from "../types-smart.js";
 
@@ -7,6 +7,12 @@ export namespace smart {
     let keys: string[] | undefined = undefined;
 
     export const idChannel = 'smart'
+
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'S.M.A.R.T info',
+        deviceIdProperty: 'uuid',
+        deviceNameProperty: 'devicename',
+    }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {

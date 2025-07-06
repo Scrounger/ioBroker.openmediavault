@@ -36,6 +36,11 @@ var fileSystem;
 ((fileSystem2) => {
   let keys = void 0;
   fileSystem2.idChannel = "fileSystem";
+  fileSystem2.iobObjectDefintions = {
+    channelName: "file system info",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "label"
+  };
   function get() {
     return {
       available: {
