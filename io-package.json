@@ -127,8 +127,11 @@
 		"ignoreSSLCertificate": false,
 		"updateInterval": 60,
 		"hwInfoEnabled": true,
-		"hwInfoStatesIsWhiteList": true,
+		"hwInfoStatesIsWhiteList": false,
 		"hwInfoStatesBlackList": [
+			{
+				"id": "availablePkgUpdates"
+			},
 			{
 				"id": "cpuModelName"
 			},
@@ -163,22 +166,105 @@
 				"id": "version"
 			}
 		],
-		"diskEnabled": true,
-		"diskStatesIsWhiteList": true,
+		"diskEnabled": false,
+		"diskStatesIsWhiteList": false,
 		"diskStatesBlackList": [
 			{
-				"id": "size"
+				"id": "canonicaldevicefile"
 			},
 			{
-				"id": "temperature"
+				"id": "description"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "devicelinks"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "hotpluggable"
+			},
+			{
+				"id": "israid"
+			},
+			{
+				"id": "isreadonly"
+			},
+			{
+				"id": "isroot"
+			},
+			{
+				"id": "model"
+			},
+			{
+				"id": "powermode"
+			},
+			{
+				"id": "serialnumber"
+			},
+			{
+				"id": "vendor"
 			}
 		],
 		"smartEnabled": true,
 		"smartStatesIsWhiteList": false,
-		"smartStatesBlackList": [],
+		"smartStatesBlackList": [
+			{
+				"id": "canonicaldevicefile"
+			},
+			{
+				"id": "description"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "model"
+			},
+			{
+				"id": "monitor"
+			},
+			{
+				"id": "serialnumber"
+			},
+			{
+				"id": "size"
+			},
+			{
+				"id": "uuid"
+			},
+			{
+				"id": "vendor"
+			}
+		],
 		"fileSystemEnabled": true,
 		"fileSystemStatesIsWhiteList": false,
-		"fileSystemStatesBlackList": [],
+		"fileSystemStatesBlackList": [
+			{
+				"id": "comment"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "description"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "type"
+			},
+			{
+				"id": "uuid"
+			}
+		],
 		"shareMgmtEnabled": false,
 		"shareMgmtStatesIsWhiteList": false,
 		"shareMgmtStatesBlackList": [],

@@ -67,13 +67,6 @@ var fileSystem;
         iobType: "string",
         name: "device name"
       },
-      devicelinks: {
-        iobType: "string",
-        name: "hostname",
-        readVal(val, adapter, deviceOrClient, id) {
-          return JSON.stringify(val);
-        }
-      },
       label: {
         iobType: "string",
         name: "device name"

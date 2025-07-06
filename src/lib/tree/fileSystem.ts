@@ -40,13 +40,6 @@ export namespace fileSystem {
                 iobType: 'string',
                 name: 'device name',
             },
-            devicelinks: {
-                iobType: 'string',
-                name: 'hostname',
-                readVal(val: string, adapter: ioBroker.Adapter, deviceOrClient: FileSystem, id: string): ioBroker.StateValue {
-                    return JSON.stringify(val);
-                }
-            },
             label: {
                 iobType: 'string',
                 name: 'device name',

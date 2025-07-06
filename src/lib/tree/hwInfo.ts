@@ -120,6 +120,15 @@ export namespace hwInfo {
                     return Math.round(val);
                 }
             },
+            upgradeable: {
+                id: 'upgradeable',
+                iobType: 'boolean',
+                name: 'upgradeable',
+                valFromProperty: 'availablePkgUpdates',
+                readVal(val: number, adapter: ioBroker.Adapter, deviceOrClient: HwInfo, id: string): ioBroker.StateValue {
+                    return val > 0;
+                }
+            },
             version: {
                 iobType: 'string',
                 name: 'version',

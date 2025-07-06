@@ -48,7 +48,7 @@ class Openmediavault extends utils.Adapter {
 
 		await this.updateData(true);
 
-		// const tmp = tree.hwInfo.getStateIDs();
+		// const tmp = tree.fileSystem.getStateIDs();
 		// let list = []
 
 		// for (let id of tmp) {

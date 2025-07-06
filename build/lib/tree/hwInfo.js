@@ -147,6 +147,15 @@ var hwInfo;
           return Math.round(val);
         }
       },
+      upgradeable: {
+        id: "upgradeable",
+        iobType: "boolean",
+        name: "upgradeable",
+        valFromProperty: "availablePkgUpdates",
+        readVal(val, adapter, deviceOrClient, id) {
+          return val > 0;
+        }
+      },
       version: {
         iobType: "string",
         name: "version"
