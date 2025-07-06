@@ -96,6 +96,7 @@
 		"user": "",
 		"password": "",
 		"ignoreSSLCertificate": false,
+		"updateInterval": 60,
 		"hwInfoEnabled": true,
 		"hwInfoStatesIsWhiteList": true,
 		"hwInfoStatesBlackList": [
@@ -149,8 +150,8 @@
 		"fileSystemEnabled": true,
 		"fileSystemStatesIsWhiteList": false,
 		"fileSystemStatesBlackList": [],
-		"shareMgmtEnabled": true,
-		"shareMgmtStatesIsWhiteList": true,
+		"shareMgmtEnabled": false,
+		"shareMgmtStatesIsWhiteList": false,
 		"shareMgmtStatesBlackList": []
 	},
 	"objects": [],

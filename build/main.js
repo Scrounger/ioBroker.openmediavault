@@ -30,6 +30,7 @@ var myI18n = __toESM(require("./lib/i18n.js"));
 class Openmediavault extends utils.Adapter {
   omvApi = void 0;
   subscribedList = [];
+  updateTimeout = void 0;
   constructor(options = {}) {
     super({
       ...options,
@@ -56,6 +57,7 @@ class Openmediavault extends utils.Adapter {
   async onUnload(callback) {
     var _a;
     try {
+      if (this.updateTimeout) clearTimeout(this.updateTimeout);
       await ((_a = this.omvApi) == null ? void 0 : _a.logout());
       callback();
     } catch (e) {
@@ -123,27 +125,40 @@ class Openmediavault extends utils.Adapter {
   //#endregion
   //#region updateData
   async updateData(isAdapterStart = false) {
+    var _a;
     const logPrefix = "[updateData]:";
     try {
+      if (this.updateTimeout) {
+        this.clearTimeout(this.updateTimeout);
+        this.updateTimeout = void 0;
+      }
+      this.updateTimeout = this.setTimeout(() => {
+        this.updateData();
+      }, this.config.updateInterval * 1e3);
       if (this.omvApi) {
         if (!this.omvApi.isConnected) {
           await this.omvApi.login();
         }
-        for (const endpoint in import_omv_rpc.ApiEndpoints) {
-          if (import_omv_rpc.iobObjectDef[endpoint]) {
-            await this.updateDataGeneric(
-              endpoint,
-              tree[endpoint],
-              import_omv_rpc.iobObjectDef[endpoint].channelName,
-              import_omv_rpc.iobObjectDef[endpoint].deviceIdProperty,
-              import_omv_rpc.iobObjectDef[endpoint].deviceNameProperty,
-              isAdapterStart
-            );
-          } else {
-            if (this.log.level === "debug") {
-              this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+        if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
+          this.log.debug(`${logPrefix} start updating data...`);
+          for (const endpoint in import_omv_rpc.ApiEndpoints) {
+            if (import_omv_rpc.iobObjectDef[endpoint]) {
+              await this.updateDataGeneric(
+                endpoint,
+                tree[endpoint],
+                import_omv_rpc.iobObjectDef[endpoint].channelName,
+                import_omv_rpc.iobObjectDef[endpoint].deviceIdProperty,
+                import_omv_rpc.iobObjectDef[endpoint].deviceNameProperty,
+                isAdapterStart
+              );
+            } else {
+              if (this.log.level === "debug") {
+                this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+              }
             }
           }
+        } else {
+          this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
         }
       }
     } catch (error) {
@@ -161,7 +176,7 @@ class Openmediavault extends utils.Adapter {
    * @param isAdapterStart 
    */
   async updateDataGeneric(endpoint, treeType, channelName, propertyDeviceId, deviceName, isAdapterStart = false) {
-    var _a;
+    var _a, _b;
     const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
     try {
       if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
@@ -169,7 +184,7 @@ class Openmediavault extends utils.Adapter {
           if (isAdapterStart) {
             await this.createOrUpdateChannel(treeType.idChannel, channelName, void 0, true);
           }
-          const data = await this.omvApi.retrievData(endpoint);
+          const data = await ((_b = this.omvApi) == null ? void 0 : _b.retrievData(endpoint));
           if (data) {
             if (Array.isArray(data)) {
               for (let device of data) {
@@ -196,8 +211,6 @@ class Openmediavault extends utils.Adapter {
             this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
           }
         }
-      } else {
-        this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
       }
     } catch (error) {
       this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);

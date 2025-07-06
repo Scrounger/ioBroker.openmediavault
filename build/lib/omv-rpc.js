@@ -68,7 +68,8 @@ class OmvApi {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(this.getEndpointData("login" /* login */)),
-        agent: this.httpsAgent
+        agent: this.httpsAgent,
+        signal: AbortSignal.timeout(2e3)
       });
       if (response.ok) {
         const result = await response.json();
@@ -88,7 +89,11 @@ class OmvApi {
         this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
-      this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      if (error.name === "TimeoutError") {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      } else {
+        this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      }
     }
     await this.setConnectionStatus(false);
   }
@@ -99,7 +104,8 @@ class OmvApi {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.getEndpointData(endpoint)),
-        agent: this.httpsAgent
+        agent: this.httpsAgent,
+        signal: AbortSignal.timeout(2e3)
       });
       if (response.ok) {
         const result = await response.json();
@@ -122,7 +128,11 @@ class OmvApi {
         this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
-      this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      if (error.name && error.name === "TimeoutError") {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      } else {
+        this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      }
     }
     await this.setConnectionStatus(false);
     return void 0;
@@ -136,7 +146,8 @@ class OmvApi {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(this.getEndpointData("login" /* login */)),
-        agent: this.httpsAgent
+        agent: this.httpsAgent,
+        signal: AbortSignal.timeout(2e3)
       });
       if (response.ok) {
         this.log.info(`${logPrefix} login from OpenMediaVault successful`);
@@ -144,7 +155,11 @@ class OmvApi {
         this.log.info(JSON.stringify(result));
       }
     } catch (error) {
-      this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      if (error.name && error.name === "TimeoutError") {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      } else {
+        this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+      }
     }
     await this.setConnectionStatus(false);
   }
@@ -189,7 +204,8 @@ class OmvApi {
       case "fileSystem" /* fileSystem */:
         return {
           service: "FileSystemMgmt",
-          method: "enumerateMountedFilesystems"
+          method: "enumerateMountedFilesystems",
+          params: null
         };
       case "shareMgmt" /* shareMgmt */:
         return {
@@ -200,30 +216,50 @@ class OmvApi {
             limit: -1
           }
         };
+      case "smb" /* smb */:
+        return {
+          service: "SMB",
+          method: "getShareList",
+          params: {
+            start: 0,
+            limit: -1
+          }
+        };
+      case "fsTab" /* fsTab */:
+        return {
+          service: "FsTab",
+          method: "enumerateEntries",
+          params: null
+        };
       case "service" /* service */:
         return {
           service: "Services",
-          method: "getStatus"
+          method: "getStatus",
+          params: null
         };
       case "plugin" /* plugin */:
         return {
           service: "Plugin",
-          method: "enumeratePlugins"
+          method: "enumeratePlugins",
+          params: null
         };
       case "network" /* network */:
         return {
           service: "Network",
-          method: "enumerateDevices"
+          method: "enumerateDevices",
+          params: null
         };
       case "kvm" /* kvm */:
         return {
           service: "Kvm",
-          method: "getVmList"
+          method: "getVmList",
+          params: null
         };
       default:
         return {
           service: "System",
-          method: "getInformation"
+          method: "getInformation",
+          params: null
         };
     }
   }
@@ -248,6 +284,8 @@ var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
   ApiEndpoints2["smart"] = "smart";
   ApiEndpoints2["fileSystem"] = "fileSystem";
   ApiEndpoints2["shareMgmt"] = "shareMgmt";
+  ApiEndpoints2["smb"] = "smb";
+  ApiEndpoints2["fsTab"] = "fsTab";
   ApiEndpoints2["service"] = "service";
   ApiEndpoints2["plugin"] = "plugin";
   ApiEndpoints2["network"] = "network";
@@ -273,7 +311,7 @@ const iobObjectDef = {
   fileSystem: {
     channelName: "file system info",
     deviceIdProperty: "uuid",
-    deviceNameProperty: "comment"
+    deviceNameProperty: "label"
   },
   shareMgmt: {
     channelName: "shared folders",

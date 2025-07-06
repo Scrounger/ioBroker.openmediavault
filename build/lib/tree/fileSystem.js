@@ -38,14 +38,80 @@ var fileSystem;
   fileSystem2.idChannel = "fileSystem";
   function get() {
     return {
+      available: {
+        iobType: "number",
+        name: "available",
+        unit: "TB",
+        readVal(val, adapter, deviceOrClient, id) {
+          return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
+        }
+      },
+      comment: {
+        iobType: "string",
+        name: "comment"
+      },
+      devicefile: {
+        iobType: "string",
+        name: "device file"
+      },
+      description: {
+        iobType: "string",
+        name: "description"
+      },
       devicename: {
-        id: "devicename",
         iobType: "string",
         name: "device name"
       },
+      devicelinks: {
+        iobType: "string",
+        name: "hostname",
+        readVal(val, adapter, deviceOrClient, id) {
+          return JSON.stringify(val);
+        }
+      },
+      label: {
+        iobType: "string",
+        name: "device name"
+      },
+      mounted: {
+        iobType: "boolean",
+        name: "monted"
+      },
+      mountpoint: {
+        iobType: "string",
+        name: "mountpoint"
+      },
+      percentage: {
+        iobType: "number",
+        name: "percentage",
+        unit: "%",
+        readVal(val, adapter, deviceOrClient, id) {
+          return Math.round(val);
+        }
+      },
+      size: {
+        iobType: "number",
+        name: "size",
+        unit: "TB",
+        readVal(val, adapter, deviceOrClient, id) {
+          return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
+        }
+      },
       type: {
-        id: "type",
-        iobType: "string"
+        iobType: "string",
+        name: "type"
+      },
+      used: {
+        iobType: "number",
+        name: "used",
+        unit: "TB",
+        readVal(val, adapter, deviceOrClient, id) {
+          return Math.round((deviceOrClient.size - deviceOrClient.available) / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
+        }
+      },
+      uuid: {
+        iobType: "string",
+        name: "uuid"
       }
     };
   }

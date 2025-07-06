@@ -25,6 +25,14 @@
             "label": "ignoreSSLCertificate",
             "sm": 12,
             "md": 3
+        },
+        "updateInterval": {
+            "type": "number",
+            "label": "updateInterval",
+            "sm": 12,
+            "md": 3,
+            "min": 10,
+            "max": 86400
         }
     }
 }

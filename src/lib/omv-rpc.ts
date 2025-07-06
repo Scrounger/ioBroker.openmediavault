@@ -48,6 +48,7 @@ export class OmvApi {
                 },
                 body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
                 agent: this.httpsAgent,
+                signal: AbortSignal.timeout(2000),
             });
 
             if (response.ok) {
@@ -73,7 +74,11 @@ export class OmvApi {
             }
 
         } catch (error: any) {
-            this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            if (error.name === "TimeoutError") {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            } else {
+                this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            }
         }
 
         await this.setConnectionStatus(false);
@@ -88,6 +93,7 @@ export class OmvApi {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.getEndpointData(endpoint)),
                 agent: this.httpsAgent,
+                signal: AbortSignal.timeout(2000),
             });
 
             if (response.ok) {
@@ -115,7 +121,11 @@ export class OmvApi {
             }
 
         } catch (error: any) {
-            this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            if (error.name && error.name === "TimeoutError") {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            } else {
+                this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            }
         }
 
         await this.setConnectionStatus(false);
@@ -133,6 +143,7 @@ export class OmvApi {
                 },
                 body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
                 agent: this.httpsAgent,
+                signal: AbortSignal.timeout(2000),
             });
 
             if (response.ok) {
@@ -142,7 +153,11 @@ export class OmvApi {
                 this.log.info(JSON.stringify(result));
             }
         } catch (error: any) {
-            this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            if (error.name && error.name === "TimeoutError") {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            } else {
+                this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+            }
         }
 
         await this.setConnectionStatus(false);
@@ -183,13 +198,14 @@ export class OmvApi {
                     method: 'getList',
                     params: {
                         start: 0,
-                        limit: -1
+                        limit: -1,
                     }
                 }
             case ApiEndpoints.fileSystem:
                 return {
                     service: 'FileSystemMgmt',
                     method: 'enumerateMountedFilesystems',
+                    params: null,
                 }
             case ApiEndpoints.shareMgmt:
                 return {
@@ -197,33 +213,53 @@ export class OmvApi {
                     method: 'enumerateSharedFolders',
                     params: {
                         start: 0,
-                        limit: -1
+                        limit: -1,
                     }
+                }
+            case ApiEndpoints.smb:
+                return {
+                    service: 'SMB',
+                    method: 'getShareList',
+                    params: {
+                        start: 0,
+                        limit: -1,
+                    }
+                }
+            case ApiEndpoints.fsTab:
+                return {
+                    service: 'FsTab',
+                    method: 'enumerateEntries',
+                    params: null,
                 }
             case ApiEndpoints.service:
                 return {
                     service: 'Services',
                     method: 'getStatus',
+                    params: null,
                 }
             case ApiEndpoints.plugin:
                 return {
                     service: 'Plugin',
                     method: 'enumeratePlugins',
+                    params: null,
                 }
             case ApiEndpoints.network:
                 return {
                     service: 'Network',
                     method: 'enumerateDevices',
+                    params: null,
                 }
             case ApiEndpoints.kvm:
                 return {
                     service: 'Kvm',
                     method: 'getVmList',
+                    params: null,
                 }
             default:
                 return {
                     service: 'System',
                     method: 'getInformation',
+                    params: null,
                 }
         }
     }
@@ -253,6 +289,8 @@ export enum ApiEndpoints {
     smart = 'smart',
     fileSystem = 'fileSystem',
     shareMgmt = 'shareMgmt',
+    smb = 'smb',
+    fsTab = 'fsTab',
     service = 'service',
     plugin = 'plugin',
     network = 'network',
@@ -278,7 +316,7 @@ export const iobObjectDef: { [key: string]: IoBrokerObjectDefinitions; } = {
     fileSystem: {
         channelName: 'file system info',
         deviceIdProperty: 'uuid',
-        deviceNameProperty: 'comment',
+        deviceNameProperty: 'label',
     },
     shareMgmt: {
         channelName: 'shared folders',

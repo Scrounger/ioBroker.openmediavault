@@ -21,6 +21,8 @@ class Openmediavault extends utils.Adapter {
 
 	subscribedList: string[] = [];
 
+	updateTimeout: ioBroker.Timeout | undefined = undefined;
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -65,7 +67,7 @@ class Openmediavault extends utils.Adapter {
 	private async onUnload(callback: () => void): Promise<void> {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-			// clearTimeout(timeout1);
+			if (this.updateTimeout) clearTimeout(this.updateTimeout);
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
@@ -156,32 +158,40 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[updateData]:';
 
 		try {
+			if (this.updateTimeout) {
+				this.clearTimeout(this.updateTimeout);
+				this.updateTimeout = undefined;
+			}
+
+			this.updateTimeout = this.setTimeout(() => {
+				this.updateData()
+			}, this.config.updateInterval * 1000);
 
 			if (this.omvApi) {
 				if (!this.omvApi.isConnected) {
 					await this.omvApi.login();
 				}
 
-				// await this.updateDataGeneric(ApiEndpoints.hwInfo, tree.hwInfo, 'hardware info', undefined, undefined, this.config.hwInfoEnabled, isAdapterStart, this.config.hwInfoStatesIsWhiteList, this.config.hwInfoStatesBlackList);
-				// await this.updateDataGeneric(ApiEndpoints.disk, tree.disk, 'disk info', 'devicename', 'devicename', this.config.diskEnabled, isAdapterStart, this.config.diskStatesIsWhiteList, this.config.diskStatesBlackList);
-				// await this.updateDataGeneric(ApiEndpoints.smart, tree.smart, 'smart info', 'uuid', 'devicename', this.config.smartEnabled, isAdapterStart, this.config.smartStatesIsWhiteList, this.config.smartStatesBlackList);
-				// await this.updateDataGeneric(ApiEndpoints.fileSystem, tree.fileSystem, 'file system info', 'uuid', 'comment', this.config.fileSystemEnabled, isAdapterStart, this.config.fileSystemStatesIsWhiteList, this.config.fileSystemStatesBlackList);
+				if (this.connected && this.omvApi?.isConnected) {
+					this.log.debug(`${logPrefix} start updating data...`);
 
-				for (const endpoint in ApiEndpoints) {
-					if (iobObjectDef[endpoint]) {
+					for (const endpoint in ApiEndpoints) {
+						if (iobObjectDef[endpoint]) {
 
-						//@ts-ignore
-						await this.updateDataGeneric(endpoint, tree[endpoint],
-							iobObjectDef[endpoint].channelName, iobObjectDef[endpoint].deviceIdProperty, iobObjectDef[endpoint].deviceNameProperty, isAdapterStart);
+							//@ts-ignore
+							await this.updateDataGeneric(endpoint, tree[endpoint],
+								iobObjectDef[endpoint].channelName, iobObjectDef[endpoint].deviceIdProperty, iobObjectDef[endpoint].deviceNameProperty, isAdapterStart);
 
-					} else {
-						if (this.log.level === 'debug') {
-							this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+						} else {
+							if (this.log.level === 'debug') {
+								this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
+							}
 						}
 					}
+				} else {
+					this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
 				}
 			}
-
 		} catch (error: any) {
 			this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
 		}
@@ -203,14 +213,13 @@ class Openmediavault extends utils.Adapter {
 
 		try {
 			if (this.connected && this.omvApi?.isConnected) {
-
 				//@ts-ignore
 				if (this.config[`${endpoint}Enabled`]) {
 					if (isAdapterStart) {
 						await this.createOrUpdateChannel(treeType.idChannel, channelName, undefined, true);
 					}
 
-					const data: any = await this.omvApi.retrievData(endpoint);
+					const data: any = await this.omvApi?.retrievData(endpoint);
 
 					if (data) {
 						if (Array.isArray(data)) {
@@ -244,8 +253,6 @@ class Openmediavault extends utils.Adapter {
 						this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
 					}
 				}
-			} else {
-				this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
 			}
 		} catch (error: any) {
 			this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
