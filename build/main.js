@@ -152,8 +152,6 @@ class Openmediavault extends utils.Adapter {
               }
             }
           }
-        } else {
-          this.log.error(`${logPrefix} no connection to OpenMediaVault!`);
         }
       }
     } catch (error) {

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCache, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { Smb } from "../types-smb.js";
 
@@ -8,9 +8,49 @@ export namespace smb {
 
     export const idChannel = 'smb'
 
+    export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+        channelName: 'smb folders',
+        deviceIdProperty: 'uuid',
+        deviceNameProperty: 'sharedfoldername',
+    }
+
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
         return {
-
+            browseable: {
+                iobType: 'boolean',
+                name: 'browseable'
+            },
+            comment: {
+                iobType: 'string',
+                name: 'comment',
+            },
+            enable: {
+                iobType: 'boolean',
+                name: 'enable'
+            },
+            guest: {
+                iobType: 'boolean',
+                name: 'enable',
+                readVal(val: string, adapter: ioBroker.Adapter, deviceOrClient: Smb, id: string): ioBroker.StateValue {
+                    return val !== 'no'
+                }
+            },
+            hidedotfiles: {
+                iobType: 'boolean',
+                name: 'readonly'
+            },
+            readonly: {
+                iobType: 'boolean',
+                name: 'readonly'
+            },
+            recyclebin: {
+                iobType: 'boolean',
+                name: 'recyclebin'
+            },
+            sharedfoldername: {
+                iobType: 'string',
+                name: 'sharedfoldername',
+            },
         }
     }
 

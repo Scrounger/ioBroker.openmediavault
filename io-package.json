@@ -69,7 +69,36 @@
 		"dataSource": "poll",
 		"messagebox": true,
 		"localLinks": {
-			"_default": "%url%"
+			"_default": {
+				"link": "%url%",
+				"name": {
+					"en": "OpenMediaVault",
+					"de": "OpenMediAvault",
+					"ru": "OpenMediaVault",
+					"pt": "OpenMediavault",
+					"nl": "Openmediavault",
+					"fr": "OpenMediaVault",
+					"it": "OpenMediavault",
+					"es": "OpenMediavault",
+					"pl": "OpenMediavault",
+					"uk": "OpenMediavault",
+					"zh-cn": "OpenMediaVault"
+				},
+				"description": {
+					"en": "open your OpenMediaVault",
+					"de": "gehe zu OpenMediaVault",
+					"ru": "открой свой OpenMediaVault",
+					"pt": "abrir o seu OpenMediaVault",
+					"nl": "open uw OpenMediaVault",
+					"fr": "ouvrez votre OpenMediaVault",
+					"it": "apri il tuo Aprire la finestra",
+					"es": "abre tu OpenMediaVault",
+					"pl": "otwórz OpenMediaVault",
+					"uk": "відкрийте свій OpenMediaVault",
+					"zh-cn": "打开你的 打开媒体"
+				},
+				"color": "#5dacdf"
+			}
 		},
 		"adminUI": {
 			"config": "json"
@@ -152,7 +181,10 @@
 		"fileSystemStatesBlackList": [],
 		"shareMgmtEnabled": false,
 		"shareMgmtStatesIsWhiteList": false,
-		"shareMgmtStatesBlackList": []
+		"shareMgmtStatesBlackList": [],
+		"smbEnabled": false,
+		"smbStatesIsWhiteList": false,
+		"smbStatesBlackList": []
 	},
 	"objects": [],
 	"instanceObjects": [

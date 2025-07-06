@@ -68,7 +68,7 @@ class OmvApi {
         },
         body: JSON.stringify(this.getEndpointData("login" /* login */)),
         agent: this.httpsAgent,
-        signal: AbortSignal.timeout(2e3)
+        signal: AbortSignal.timeout(5e3)
       });
       if (response.ok) {
         const result = await response.json();
@@ -88,8 +88,8 @@ class OmvApi {
         this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
-      if (error.name === "TimeoutError") {
-        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      if (error instanceof import_node_fetch.AbortError) {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
       } else {
         this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
       }
@@ -104,7 +104,7 @@ class OmvApi {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.getEndpointData(endpoint)),
         agent: this.httpsAgent,
-        signal: AbortSignal.timeout(2e3)
+        signal: AbortSignal.timeout(5e3)
       });
       if (response.ok) {
         const result = await response.json();
@@ -127,8 +127,8 @@ class OmvApi {
         this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
       }
     } catch (error) {
-      if (error.name && error.name === "TimeoutError") {
-        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      if (error instanceof import_node_fetch.AbortError) {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
       } else {
         this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
       }
@@ -146,7 +146,7 @@ class OmvApi {
         },
         body: JSON.stringify(this.getEndpointData("login" /* login */)),
         agent: this.httpsAgent,
-        signal: AbortSignal.timeout(2e3)
+        signal: AbortSignal.timeout(5e3)
       });
       if (response.ok) {
         this.log.info(`${logPrefix} login from OpenMediaVault successful`);
@@ -154,8 +154,8 @@ class OmvApi {
         this.log.info(JSON.stringify(result));
       }
     } catch (error) {
-      if (error.name && error.name === "TimeoutError") {
-        this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+      if (error instanceof import_node_fetch.AbortError) {
+        this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
       } else {
         this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
       }

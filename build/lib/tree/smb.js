@@ -36,8 +36,49 @@ var smb;
 ((smb2) => {
   let keys = void 0;
   smb2.idChannel = "smb";
+  smb2.iobObjectDefintions = {
+    channelName: "smb folders",
+    deviceIdProperty: "uuid",
+    deviceNameProperty: "sharedfoldername"
+  };
   function get() {
-    return {};
+    return {
+      browseable: {
+        iobType: "boolean",
+        name: "browseable"
+      },
+      comment: {
+        iobType: "string",
+        name: "comment"
+      },
+      enable: {
+        iobType: "boolean",
+        name: "enable"
+      },
+      guest: {
+        iobType: "boolean",
+        name: "enable",
+        readVal(val, adapter, deviceOrClient, id) {
+          return val !== "no";
+        }
+      },
+      hidedotfiles: {
+        iobType: "boolean",
+        name: "readonly"
+      },
+      readonly: {
+        iobType: "boolean",
+        name: "readonly"
+      },
+      recyclebin: {
+        iobType: "boolean",
+        name: "recyclebin"
+      },
+      sharedfoldername: {
+        iobType: "string",
+        name: "sharedfoldername"
+      }
+    };
   }
   smb2.get = get;
   function getKeys() {

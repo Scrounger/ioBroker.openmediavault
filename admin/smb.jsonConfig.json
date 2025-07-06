@@ -1,0 +1,78 @@
+{
+    "label": "SMB Folders",
+    "items": {
+        "donation_link": {
+            "type": "staticLink",
+            "text": "You like the adapter? Then support me.",
+            "sm": 12,
+            "button": true,
+            "newLine": true,
+            "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VWAXSTS634G88&source=url",
+            "style": {
+                "justifyContent": "flex-start !important"
+            }
+        },
+        "smbDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "SMB Folders",
+            "size": 2
+        },
+        "smbEnabled": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "smbEnabled",
+            "sm": 12,
+            "md": 3
+        },
+        "smbBlackListStatesDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "Datapoints Blacklist / Whitelist",
+            "size": 2
+        },
+        "smbStatesIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.smbStatesIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.smbEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "smbStatesBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.smbEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.smbStatesIsWhiteList ? 'Choose which datapoint should be included' : 'Choose which datapoint should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "{\"instanceID\": \"${globalData.instanceID}\",\"adapter\": \"${globalData.adapter}\"}",
+                    "command": "smbStateList"
+                }
+            ]
+        }
+    }
+}

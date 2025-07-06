@@ -29,6 +29,10 @@ declare global {
 			shareMgmtEnabled: boolean;
 			shareMgmtStatesIsWhiteList: boolean;
 			shareMgmtStatesBlackList: { id: string }[];
+
+			smbEnabled: boolean;
+			smbStatesIsWhiteList: boolean;
+			smbStatesBlackList: { id: string }[];
 		}
 	}
 }

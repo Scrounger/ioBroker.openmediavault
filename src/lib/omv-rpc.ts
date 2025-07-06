@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import fetch, { AbortError } from 'node-fetch';
 import fetchCookie, { FetchCookieImpl } from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'https';
@@ -47,7 +47,7 @@ export class OmvApi {
                 },
                 body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
                 agent: this.httpsAgent,
-                signal: AbortSignal.timeout(2000),
+                signal: AbortSignal.timeout(5000),
             });
 
             if (response.ok) {
@@ -73,8 +73,8 @@ export class OmvApi {
             }
 
         } catch (error: any) {
-            if (error.name === "TimeoutError") {
-                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            if (error instanceof AbortError) {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
             } else {
                 this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
             }
@@ -92,7 +92,7 @@ export class OmvApi {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(this.getEndpointData(endpoint)),
                 agent: this.httpsAgent,
-                signal: AbortSignal.timeout(2000),
+                signal: AbortSignal.timeout(5000),
             });
 
             if (response.ok) {
@@ -120,8 +120,8 @@ export class OmvApi {
             }
 
         } catch (error: any) {
-            if (error.name && error.name === "TimeoutError") {
-                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            if (error instanceof AbortError) {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
             } else {
                 this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
             }
@@ -142,7 +142,7 @@ export class OmvApi {
                 },
                 body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
                 agent: this.httpsAgent,
-                signal: AbortSignal.timeout(2000),
+                signal: AbortSignal.timeout(5000),
             });
 
             if (response.ok) {
@@ -152,8 +152,8 @@ export class OmvApi {
                 this.log.info(JSON.stringify(result));
             }
         } catch (error: any) {
-            if (error.name && error.name === "TimeoutError") {
-                this.log.error(`${logPrefix} no connection to OpenMediaVault - timeout!`);
+            if (error instanceof AbortError) {
+                this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
             } else {
                 this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
             }

@@ -25,6 +25,10 @@
 		"tab_shareMgmt": {
 			"type": "panel",
 			"#include": "shareMgmt.jsonConfig.json"
+		},
+		"tab_smb": {
+			"type": "panel",
+			"#include": "smb.jsonConfig.json"
 		}
 	}
 }
