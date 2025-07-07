@@ -1,315 +1,302 @@
 {
-  "common": {
-    "name": "openmediavault",
-    "version": "1.0.0-beta.0",
-    "news": {
-      "1.0.0-beta.0": {
-        "en": "initial release",
-        "de": "erstausstrahlung",
-        "ru": "первоначальное освобождение",
-        "pt": "libertação inicial",
-        "nl": "eerste release",
-        "fr": "libération initiale",
-        "it": "rilascio iniziale",
-        "es": "liberación inicial",
-        "pl": "początkowe zwolnienie",
-        "uk": "початковий реліз",
-        "zh-cn": "初步释放"
-      },
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "uk": "Початкова версія",
-        "zh-cn": "首次出版"
-      }
-    },
-    "titleLang": {
-      "en": "OpenMediaVault",
-      "de": "OpenMediAvault",
-      "ru": "OpenMediaVault",
-      "pt": "OpenMediavault",
-      "nl": "Openmediavault",
-      "fr": "OpenMediaVault",
-      "it": "OpenMediavault",
-      "es": "OpenMediavault",
-      "pl": "OpenMediavault",
-      "uk": "OpenMediavault",
-      "zh-cn": "OpenMediaVault"
-    },
-    "desc": {
-      "en": "This adapter allows to read informations from your OpenMediaVault",
-      "de": "Dieser Adapter ermöglicht es, Informationen von Ihrem OpenMediaVault zu lesen",
-      "ru": "Этот адаптер позволяет считывать информацию из OpenMediaVault",
-      "pt": "Este adaptador permite ler informações do seu OpenMediaVault",
-      "nl": "Deze adapter laat toe om informatie te lezen van uw OpenMediaVault",
-      "fr": "Cet adaptateur permet de lire les informations de votre OpenMediaVault",
-      "it": "Questo adattatore permette di leggere le informazioni dal vostro OpenMediaVault",
-      "es": "Este adaptador permite leer información de su OpenMediaVault",
-      "pl": "Ten adapter pozwala na przeczytanie informacji z OpenMediaVault",
-      "uk": "Цей адаптер дозволяє читати інформацію від OpenMediaVault",
-      "zh-cn": "此适配器允许从您的 OpenMediaVault 读取信息"
-    },
-    "authors": [
-      "Scrounger <scrounger@gmx.net>"
-    ],
-    "keywords": [
-      "openmediavault",
-      "nas",
-      "api"
-    ],
-    "licenseInformation": {
-      "type": "free",
-      "license": "MIT"
-    },
-    "platform": "Javascript/Node.js",
-    "icon": "openmediavault.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/Scrounger/ioBroker.openmediavault/main/admin/openmediavault.png",
-    "readme": "https://github.com/Scrounger/ioBroker.openmediavault/blob/main/README.md",
-    "loglevel": "info",
-    "tier": 3,
-    "mode": "daemon",
-    "type": "infrastructure",
-    "compact": true,
-    "connectionType": "local",
-    "dataSource": "poll",
-    "messagebox": true,
-    "localLinks": {
-      "_default": {
-        "link": "%url%",
-        "name": {
-          "en": "OpenMediaVault",
-          "de": "OpenMediAvault",
-          "ru": "OpenMediaVault",
-          "pt": "OpenMediavault",
-          "nl": "Openmediavault",
-          "fr": "OpenMediaVault",
-          "it": "OpenMediavault",
-          "es": "OpenMediavault",
-          "pl": "OpenMediavault",
-          "uk": "OpenMediavault",
-          "zh-cn": "OpenMediaVault"
-        },
-        "description": {
-          "en": "open your OpenMediaVault",
-          "de": "gehe zu OpenMediaVault",
-          "ru": "открой свой OpenMediaVault",
-          "pt": "abrir o seu OpenMediaVault",
-          "nl": "open uw OpenMediaVault",
-          "fr": "ouvrez votre OpenMediaVault",
-          "it": "apri il tuo Aprire la finestra",
-          "es": "abre tu OpenMediaVault",
-          "pl": "otwórz OpenMediaVault",
-          "uk": "відкрийте свій OpenMediaVault",
-          "zh-cn": "打开你的 打开媒体"
-        },
-        "color": "#5dacdf"
-      }
-    },
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=6.0.11"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=7.0.23"
-      }
-    ]
-  },
-  "encryptedNative": [
-    "password"
-  ],
-  "protectedNative": [
-    "password"
-  ],
-  "native": {
-    "url": "",
-    "user": "",
-    "password": "",
-    "ignoreSSLCertificate": false,
-    "updateInterval": 60,
-    "hwInfoEnabled": true,
-    "hwInfoStatesIsWhiteList": false,
-    "hwInfoStatesBlackList": [
-      {
-        "id": "availablePkgUpdates"
-      },
-      {
-        "id": "cpuModelName"
-      },
-      {
-        "id": "cpuCores"
-      },
-      {
-        "id": "cpuMhz"
-      },
-      {
-        "id": "hostname"
-      },
-      {
-        "id": "kernel"
-      },
-      {
-        "id": "loadAverage"
-      },
-      {
-        "id": "memTotal"
-      },
-      {
-        "id": "memFree"
-      },
-      {
-        "id": "memUsed"
-      },
-      {
-        "id": "memAvailable"
-      },
-      {
-        "id": "version"
-      }
-    ],
-    "diskEnabled": false,
-    "diskStatesIsWhiteList": false,
-    "diskStatesBlackList": [
-      {
-        "id": "canonicaldevicefile"
-      },
-      {
-        "id": "description"
-      },
-      {
-        "id": "devicefile"
-      },
-      {
-        "id": "devicelinks"
-      },
-      {
-        "id": "devicename"
-      },
-      {
-        "id": "hotpluggable"
-      },
-      {
-        "id": "israid"
-      },
-      {
-        "id": "isreadonly"
-      },
-      {
-        "id": "isroot"
-      },
-      {
-        "id": "model"
-      },
-      {
-        "id": "powermode"
-      },
-      {
-        "id": "serialnumber"
-      },
-      {
-        "id": "vendor"
-      }
-    ],
-    "smartEnabled": true,
-    "smartStatesIsWhiteList": false,
-    "smartStatesBlackList": [
-      {
-        "id": "canonicaldevicefile"
-      },
-      {
-        "id": "description"
-      },
-      {
-        "id": "devicefile"
-      },
-      {
-        "id": "devicename"
-      },
-      {
-        "id": "firmwareversion"
-      },
-      {
-        "id": "model"
-      },
-      {
-        "id": "monitor"
-      },
-      {
-        "id": "rotationrate"
-      },
-      {
-        "id": "size"
-      },
-      {
-        "id": "uuid"
-      },
-      {
-        "id": "vendor"
-      }
-    ],
-    "fileSystemEnabled": true,
-    "fileSystemStatesIsWhiteList": false,
-    "fileSystemStatesBlackList": [
-      {
-        "id": "comment"
-      },
-      {
-        "id": "devicefile"
-      },
-      {
-        "id": "description"
-      },
-      {
-        "id": "devicename"
-      },
-      {
-        "id": "type"
-      },
-      {
-        "id": "uuid"
-      }
-    ],
-    "shareMgmtEnabled": false,
-    "shareMgmtStatesIsWhiteList": false,
-    "shareMgmtStatesBlackList": [],
-    "smbEnabled": false,
-    "smbStatesIsWhiteList": false,
-    "smbStatesBlackList": []
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info",
-      "type": "channel",
-      "common": {
-        "name": "Information"
-      },
-      "native": {}
-    },
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "role": "indicator.connected",
-        "name": "If master connected",
-        "type": "boolean",
-        "read": true,
-        "write": false,
-        "def": false
-      },
-      "native": {}
-    }
-  ]
+	"common": {
+		"name": "openmediavault",
+		"version": "0.0.1",
+		"news": {
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "OpenMediaVault",
+			"de": "OpenMediAvault",
+			"ru": "OpenMediaVault",
+			"pt": "OpenMediavault",
+			"nl": "Openmediavault",
+			"fr": "OpenMediaVault",
+			"it": "OpenMediavault",
+			"es": "OpenMediavault",
+			"pl": "OpenMediavault",
+			"uk": "OpenMediavault",
+			"zh-cn": "OpenMediaVault"
+		},
+		"desc": {
+			"en": "This adapter allows to read informations from your OpenMediaVault",
+			"de": "Dieser Adapter ermöglicht es, Informationen von Ihrem OpenMediaVault zu lesen",
+			"ru": "Этот адаптер позволяет считывать информацию из OpenMediaVault",
+			"pt": "Este adaptador permite ler informações do seu OpenMediaVault",
+			"nl": "Deze adapter laat toe om informatie te lezen van uw OpenMediaVault",
+			"fr": "Cet adaptateur permet de lire les informations de votre OpenMediaVault",
+			"it": "Questo adattatore permette di leggere le informazioni dal vostro OpenMediaVault",
+			"es": "Este adaptador permite leer información de su OpenMediaVault",
+			"pl": "Ten adapter pozwala na przeczytanie informacji z OpenMediaVault",
+			"uk": "Цей адаптер дозволяє читати інформацію від OpenMediaVault",
+			"zh-cn": "此适配器允许从您的 OpenMediaVault 读取信息"
+		},
+		"authors": [
+			"Scrounger <scrounger@gmx.net>"
+		],
+		"keywords": [
+			"openmediavault",
+			"nas",
+			"api"
+		],
+		"licenseInformation": {
+			"type": "free",
+			"license": "MIT"
+		},
+		"platform": "Javascript/Node.js",
+		"icon": "openmediavault.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/Scrounger/ioBroker.openmediavault/main/admin/openmediavault.png",
+		"readme": "https://github.com/Scrounger/ioBroker.openmediavault/blob/main/README.md",
+		"loglevel": "info",
+		"tier": 3,
+		"mode": "daemon",
+		"type": "infrastructure",
+		"compact": true,
+		"connectionType": "local",
+		"dataSource": "poll",
+		"messagebox": true,
+		"localLinks": {
+			"_default": {
+				"link": "%url%",
+				"name": {
+					"en": "OpenMediaVault",
+					"de": "OpenMediAvault",
+					"ru": "OpenMediaVault",
+					"pt": "OpenMediavault",
+					"nl": "Openmediavault",
+					"fr": "OpenMediaVault",
+					"it": "OpenMediavault",
+					"es": "OpenMediavault",
+					"pl": "OpenMediavault",
+					"uk": "OpenMediavault",
+					"zh-cn": "OpenMediaVault"
+				},
+				"description": {
+					"en": "open your OpenMediaVault",
+					"de": "gehe zu OpenMediaVault",
+					"ru": "открой свой OpenMediaVault",
+					"pt": "abrir o seu OpenMediaVault",
+					"nl": "open uw OpenMediaVault",
+					"fr": "ouvrez votre OpenMediaVault",
+					"it": "apri il tuo Aprire la finestra",
+					"es": "abre tu OpenMediaVault",
+					"pl": "otwórz OpenMediaVault",
+					"uk": "відкрийте свій OpenMediaVault",
+					"zh-cn": "打开你的 打开媒体"
+				},
+				"color": "#5dacdf"
+			}
+		},
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=6.0.11"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=7.0.23"
+			}
+		]
+	},
+	"encryptedNative": [
+		"password"
+	],
+	"protectedNative": [
+		"password"
+	],
+	"native": {
+		"url": "",
+		"user": "",
+		"password": "",
+		"ignoreSSLCertificate": false,
+		"updateInterval": 60,
+		"hwInfoEnabled": true,
+		"hwInfoStatesIsWhiteList": false,
+		"hwInfoStatesBlackList": [
+			{
+				"id": "availablePkgUpdates"
+			},
+			{
+				"id": "cpuModelName"
+			},
+			{
+				"id": "cpuCores"
+			},
+			{
+				"id": "cpuMhz"
+			},
+			{
+				"id": "hostname"
+			},
+			{
+				"id": "kernel"
+			},
+			{
+				"id": "loadAverage"
+			},
+			{
+				"id": "memTotal"
+			},
+			{
+				"id": "memFree"
+			},
+			{
+				"id": "memUsed"
+			},
+			{
+				"id": "memAvailable"
+			},
+			{
+				"id": "version"
+			}
+		],
+		"diskEnabled": false,
+		"diskStatesIsWhiteList": false,
+		"diskStatesBlackList": [
+			{
+				"id": "canonicaldevicefile"
+			},
+			{
+				"id": "description"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "devicelinks"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "hotpluggable"
+			},
+			{
+				"id": "israid"
+			},
+			{
+				"id": "isreadonly"
+			},
+			{
+				"id": "isroot"
+			},
+			{
+				"id": "model"
+			},
+			{
+				"id": "powermode"
+			},
+			{
+				"id": "serialnumber"
+			},
+			{
+				"id": "vendor"
+			}
+		],
+		"smartEnabled": true,
+		"smartStatesIsWhiteList": false,
+		"smartStatesBlackList": [
+			{
+				"id": "canonicaldevicefile"
+			},
+			{
+				"id": "description"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "firmwareversion"
+			},
+			{
+				"id": "model"
+			},
+			{
+				"id": "monitor"
+			},
+			{
+				"id": "rotationrate"
+			},
+			{
+				"id": "size"
+			},
+			{
+				"id": "uuid"
+			},
+			{
+				"id": "vendor"
+			}
+		],
+		"fileSystemEnabled": true,
+		"fileSystemStatesIsWhiteList": false,
+		"fileSystemStatesBlackList": [
+			{
+				"id": "comment"
+			},
+			{
+				"id": "devicefile"
+			},
+			{
+				"id": "description"
+			},
+			{
+				"id": "devicename"
+			},
+			{
+				"id": "type"
+			},
+			{
+				"id": "uuid"
+			}
+		],
+		"shareMgmtEnabled": false,
+		"shareMgmtStatesIsWhiteList": false,
+		"shareMgmtStatesBlackList": [],
+		"smbEnabled": false,
+		"smbStatesIsWhiteList": false,
+		"smbStatesBlackList": []
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info",
+			"type": "channel",
+			"common": {
+				"name": "Information"
+			},
+			"native": {}
+		},
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"role": "indicator.connected",
+				"name": "If master connected",
+				"type": "boolean",
+				"read": true,
+				"write": false,
+				"def": false
+			},
+			"native": {}
+		}
+	]
 }
