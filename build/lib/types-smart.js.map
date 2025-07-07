@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-smart.ts"],
-  "sourcesContent": ["export interface Smart {\n    devicename: string\n    canonicaldevicefile: string\n    devicefile: string\n    devicelinks: string[]\n    model: string\n    size: string\n    temperature: number\n    description: string\n    vendor: string\n    serialnumber: string\n    wwn: string\n    overallstatus: string\n    uuid: string\n    monitor: boolean\n}"],
+  "sourcesContent": ["export interface Smart {\n    devicename: string\n    canonicaldevicefile: string\n    devicefile: string\n    devicelinks: string[]\n    model: string\n    size: string\n    temperature: number\n    description: string\n    vendor: string\n    serialnumber: string\n    wwn: string\n    overallstatus: string\n    uuid: string\n    monitor: boolean\n\n    // additional types from endpoint smartInfo\n    devicemodel: string\n    firmwareversion: string\n    usercapacity: string\n    modelfamily: string\n    luwwndeviceid: string\n    sectorsizes: string\n    rotationrate: string\n    formfactor: string\n    deviceis: string\n    ataversionis: string\n    sataversionis: string\n    localtimeis: string\n    smartsupportis: string\n    powercycles: number\n    poweronhours: number\n}"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

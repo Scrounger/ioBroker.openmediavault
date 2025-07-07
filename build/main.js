@@ -140,10 +140,10 @@ class Openmediavault extends utils.Adapter {
           await this.omvApi.login();
         }
         if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
-          this.log.debug(`${logPrefix} start updating data...`);
           for (const endpoint in import_omv_rpc.ApiEndpoints) {
             if (tree[endpoint]) {
               if (Object.hasOwn(tree[endpoint], "iobObjectDefintions")) {
+                this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
                 await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
               } else {
                 if (this.log.level === "debug") {
@@ -166,7 +166,7 @@ class Openmediavault extends utils.Adapter {
    * @param isAdapterStart 
    */
   async updateDataGeneric(endpoint, treeType, iobObjectDefintions, isAdapterStart = false) {
-    var _a, _b;
+    var _a, _b, _c;
     const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
     try {
       if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
@@ -180,6 +180,21 @@ class Openmediavault extends utils.Adapter {
               for (let device of data) {
                 if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
                   const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
+                  if (Object.hasOwn(iobObjectDefintions, "additionalRequest")) {
+                    if (iobObjectDefintions.additionalRequest) {
+                      if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
+                        const addtionalData = await ((_c = this.omvApi) == null ? void 0 : _c.retrievData(
+                          iobObjectDefintions.additionalRequest.endpoint,
+                          {
+                            [iobObjectDefintions.additionalRequest.paramsProperty]: device[iobObjectDefintions.additionalRequest.paramsProperty]
+                          }
+                        ));
+                        device = { ...addtionalData, ...device };
+                      } else {
+                        this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${iobObjectDefintions.additionalRequest.conditionProperty}' is '${device[iobObjectDefintions.additionalRequest.conditionProperty]}'`);
+                      }
+                    }
+                  }
                   await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : "unknown", void 0, void 0, void 0, isAdapterStart, true);
                   await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
                   this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);

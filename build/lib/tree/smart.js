@@ -32,6 +32,7 @@ __export(smart_exports, {
 });
 module.exports = __toCommonJS(smart_exports);
 var myHelper = __toESM(require("../helper.js"));
+var import_omv_rpc = require("../omv-rpc.js");
 var smart;
 ((smart2) => {
   let keys = void 0;
@@ -39,7 +40,12 @@ var smart;
   smart2.iobObjectDefintions = {
     channelName: "S.M.A.R.T info",
     deviceIdProperty: "uuid",
-    deviceNameProperty: "devicename"
+    deviceNameProperty: "devicename",
+    additionalRequest: {
+      endpoint: import_omv_rpc.ApiEndpoints.smartInfo,
+      conditionProperty: "monitor",
+      paramsProperty: "devicefile"
+    }
   };
   function get() {
     return {
@@ -62,10 +68,24 @@ var smart;
           return JSON.stringify(val);
         }
       },
+      devicemodel: {
+        iobType: "string",
+        name: "devicemodel",
+        conditionToCreateState(objDevice, adapter) {
+          return objDevice.devicemodel !== void 0 && objDevice.devicemodel !== "";
+        }
+      },
       devicename: {
         id: "devicename",
         iobType: "string",
         name: "device name"
+      },
+      firmwareversion: {
+        iobType: "string",
+        name: "firmwareversion",
+        conditionToCreateState(objDevice, adapter) {
+          return objDevice.firmwareversion !== void 0 && objDevice.firmwareversion !== "";
+        }
       },
       model: {
         iobType: "string",
@@ -75,9 +95,33 @@ var smart;
         iobType: "boolean",
         name: "is monitored"
       },
+      modelfamily: {
+        iobType: "string",
+        name: "modelfamily",
+        conditionToCreateState(objDevice, adapter) {
+          return objDevice.modelfamily !== void 0 && objDevice.modelfamily !== "";
+        }
+      },
       overallstatus: {
         iobType: "string",
         name: "overall status"
+      },
+      powercycles: {
+        iobType: "number",
+        name: "powercycles"
+      },
+      poweronhours: {
+        iobType: "number",
+        name: "poweronhours",
+        unit: "h"
+      },
+      rotationrate: {
+        iobType: "number",
+        name: "rotationrate",
+        unit: "rpm",
+        readVal(val, adapter, deviceOrClient, id) {
+          return parseInt(val.replace(" rpm", ""));
+        }
       },
       serialnumber: {
         iobType: "string",

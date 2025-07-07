@@ -225,13 +225,16 @@
 				"id": "devicename"
 			},
 			{
+				"id": "firmwareversion"
+			},
+			{
 				"id": "model"
 			},
 			{
 				"id": "monitor"
 			},
 			{
-				"id": "serialnumber"
+				"id": "rotationrate"
 			},
 			{
 				"id": "size"

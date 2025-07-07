@@ -96,20 +96,24 @@ class OmvApi {
     }
     await this.setConnectionStatus(false);
   }
-  async retrievData(endpoint) {
+  async retrievData(endpoint, params = void 0) {
     const logPrefix = `[${this.logPrefix}.retrievData]:`;
     try {
+      let endpointData = this.getEndpointData(endpoint);
+      if (params) {
+        endpointData.params = params;
+      }
       const response = await this.fetchWithCookies(this.url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(this.getEndpointData(endpoint)),
+        body: JSON.stringify(endpointData),
         agent: this.httpsAgent,
         signal: AbortSignal.timeout(5e3)
       });
       if (response.ok) {
         const result = await response.json();
         if (result && result.response) {
-          this.log.debug(`${logPrefix} reponse data for endpoint '${endpoint}': ${JSON.stringify(result)}`);
+          this.log.debug(`${logPrefix} reponse data for endpoint '${endpoint}'${params ? ` (params: ${JSON.stringify(params)})` : ""}: ${JSON.stringify(result)}`);
           if (result.response.data) {
             return result.response.data;
           } else {
@@ -200,6 +204,12 @@ class OmvApi {
             limit: -1
           }
         };
+      case "smartInfo" /* smartInfo */:
+        return {
+          service: "Smart",
+          method: "getInformation",
+          params: null
+        };
       case "fileSystem" /* fileSystem */:
         return {
           service: "FileSystemMgmt",
@@ -281,6 +291,7 @@ var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
   ApiEndpoints2["hwInfo"] = "hwInfo";
   ApiEndpoints2["disk"] = "disk";
   ApiEndpoints2["smart"] = "smart";
+  ApiEndpoints2["smartInfo"] = "smartInfo";
   ApiEndpoints2["fileSystem"] = "fileSystem";
   ApiEndpoints2["shareMgmt"] = "shareMgmt";
   ApiEndpoints2["smb"] = "smb";

@@ -83,14 +83,20 @@ export class OmvApi {
         await this.setConnectionStatus(false);
     }
 
-    public async retrievData(endpoint: ApiEndpoints) {
+    public async retrievData(endpoint: ApiEndpoints, params: { [key: string]: any } | undefined = undefined) {
         const logPrefix = `[${this.logPrefix}.retrievData]:`;
 
         try {
+            let endpointData = this.getEndpointData(endpoint);
+
+            if (params) {
+                endpointData.params = params
+            }
+
             const response = await this.fetchWithCookies(this.url, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(this.getEndpointData(endpoint)),
+                body: JSON.stringify(endpointData),
                 agent: this.httpsAgent,
                 signal: AbortSignal.timeout(5000),
             });
@@ -99,7 +105,7 @@ export class OmvApi {
                 const result = await response.json();
 
                 if (result && result.response) {
-                    this.log.debug(`${logPrefix} reponse data for endpoint '${endpoint}': ${JSON.stringify(result)}`);
+                    this.log.debug(`${logPrefix} reponse data for endpoint '${endpoint}'${params ? ` (params: ${JSON.stringify(params)})` : ''}: ${JSON.stringify(result)}`);
 
                     if (result.response.data) {
                         return result.response.data;
@@ -200,6 +206,12 @@ export class OmvApi {
                         limit: -1,
                     }
                 }
+            case ApiEndpoints.smartInfo:
+                return {
+                    service: 'Smart',
+                    method: 'getInformation',
+                    params: null
+                }
             case ApiEndpoints.fileSystem:
                 return {
                     service: 'FileSystemMgmt',
@@ -286,6 +298,7 @@ export enum ApiEndpoints {
     hwInfo = 'hwInfo',
     disk = 'disk',
     smart = 'smart',
+    smartInfo = 'smartInfo',
     fileSystem = 'fileSystem',
     shareMgmt = 'shareMgmt',
     smb = 'smb',

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import { Smart } from "../types-smart.js";
+import { ApiEndpoints } from '../omv-rpc.js';
 
 export namespace smart {
     let keys: string[] | undefined = undefined;
@@ -12,6 +13,11 @@ export namespace smart {
         channelName: 'S.M.A.R.T info',
         deviceIdProperty: 'uuid',
         deviceNameProperty: 'devicename',
+        additionalRequest: {
+            endpoint: ApiEndpoints.smartInfo,
+            conditionProperty: 'monitor',
+            paramsProperty: 'devicefile'
+        }
     }
 
     export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
@@ -35,10 +41,24 @@ export namespace smart {
                     return JSON.stringify(val);
                 }
             },
+            devicemodel: {
+                iobType: 'string',
+                name: 'devicemodel',
+                conditionToCreateState(objDevice: Smart, adapter: ioBroker.Adapter): boolean {
+                    return objDevice.devicemodel !== undefined && objDevice.devicemodel !== "";
+                },
+            },
             devicename: {
                 id: 'devicename',
                 iobType: 'string',
                 name: 'device name',
+            },
+            firmwareversion: {
+                iobType: 'string',
+                name: 'firmwareversion',
+                conditionToCreateState(objDevice: Smart, adapter: ioBroker.Adapter): boolean {
+                    return objDevice.firmwareversion !== undefined && objDevice.firmwareversion !== "";
+                },
             },
             model: {
                 iobType: 'string',
@@ -48,9 +68,33 @@ export namespace smart {
                 iobType: 'boolean',
                 name: 'is monitored'
             },
+            modelfamily: {
+                iobType: 'string',
+                name: 'modelfamily',
+                conditionToCreateState(objDevice: Smart, adapter: ioBroker.Adapter): boolean {
+                    return objDevice.modelfamily !== undefined && objDevice.modelfamily !== "";
+                },
+            },
             overallstatus: {
                 iobType: 'string',
                 name: 'overall status',
+            },
+            powercycles: {
+                iobType: 'number',
+                name: 'powercycles',
+            },
+            poweronhours: {
+                iobType: 'number',
+                name: 'poweronhours',
+                unit: 'h',
+            },
+            rotationrate: {
+                iobType: 'number',
+                name: 'rotationrate',
+                unit: 'rpm',
+                readVal(val: string, adapter: ioBroker.Adapter, deviceOrClient: Smart, id: string): ioBroker.StateValue {
+                    return parseInt(val.replace(' rpm', ''));
+                }
             },
             serialnumber: {
                 iobType: 'string',

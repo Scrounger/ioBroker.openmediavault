@@ -48,7 +48,7 @@ class Openmediavault extends utils.Adapter {
 
 		await this.updateData(true);
 
-		// const tmp = tree.fileSystem.getStateIDs();
+		// const tmp = tree.smart.getStateIDs();
 		// let list = []
 
 		// for (let id of tmp) {
@@ -171,13 +171,12 @@ class Openmediavault extends utils.Adapter {
 				}
 
 				if (this.connected && this.omvApi?.isConnected) {
-					this.log.debug(`${logPrefix} start updating data...`);
-
 					for (const endpoint in ApiEndpoints) {
 						//@ts-ignore
 						if (tree[endpoint]) {
 							//@ts-ignore
 							if (Object.hasOwn(tree[endpoint], "iobObjectDefintions")) {
+								this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
 
 								//@ts-ignore
 								await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
@@ -220,6 +219,21 @@ class Openmediavault extends utils.Adapter {
 							for (let device of data) {
 								if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
 									const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
+
+									if (Object.hasOwn(iobObjectDefintions, "additionalRequest")) {
+										if (iobObjectDefintions.additionalRequest) {
+											if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
+												const addtionalData = await this.omvApi?.retrievData(iobObjectDefintions.additionalRequest.endpoint,
+													{
+														[iobObjectDefintions.additionalRequest.paramsProperty]: device[iobObjectDefintions.additionalRequest.paramsProperty]
+													});
+
+												device = { ...addtionalData, ...device }
+											} else {
+												this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${iobObjectDefintions.additionalRequest.conditionProperty}' is '${device[iobObjectDefintions.additionalRequest.conditionProperty]}'`);
+											}
+										}
+									}
 
 									await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
 									//@ts-ignore
