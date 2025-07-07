@@ -57,6 +57,8 @@ module.exports = {
 		'no-var': 'error',
 		'prefer-const': 'error',
 		'no-trailing-spaces': 'error',
+		'@typescript-eslint/no-namespace': 'off',
+		'@typescript-eslint/ban-ts-comment': 'off',
 	},
 	overrides: [
 		{

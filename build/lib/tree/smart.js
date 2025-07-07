@@ -64,14 +64,14 @@ var smart;
       devicelinks: {
         iobType: "string",
         name: "hostname",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return JSON.stringify(val);
         }
       },
       devicemodel: {
         iobType: "string",
         name: "devicemodel",
-        conditionToCreateState(objDevice, adapter) {
+        conditionToCreateState(objDevice, _adapter) {
           return objDevice.devicemodel !== void 0 && objDevice.devicemodel !== "";
         }
       },
@@ -83,7 +83,7 @@ var smart;
       firmwareversion: {
         iobType: "string",
         name: "firmwareversion",
-        conditionToCreateState(objDevice, adapter) {
+        conditionToCreateState(objDevice, _adapter) {
           return objDevice.firmwareversion !== void 0 && objDevice.firmwareversion !== "";
         }
       },
@@ -98,7 +98,7 @@ var smart;
       modelfamily: {
         iobType: "string",
         name: "modelfamily",
-        conditionToCreateState(objDevice, adapter) {
+        conditionToCreateState(objDevice, _adapter) {
           return objDevice.modelfamily !== void 0 && objDevice.modelfamily !== "";
         }
       },
@@ -119,7 +119,7 @@ var smart;
         iobType: "number",
         name: "rotationrate",
         unit: "rpm",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return parseInt(val.replace(" rpm", ""));
         }
       },
@@ -131,7 +131,7 @@ var smart;
         iobType: "number",
         name: "size",
         unit: "TB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -139,10 +139,10 @@ var smart;
         iobType: "number",
         name: "temperature",
         unit: "\xB0C",
-        conditionToCreateState(objDevice, adapter) {
+        conditionToCreateState(objDevice, _adapter) {
           return objDevice.temperature > 0;
         },
-        readVal: function(val, adapter, deviceOrClient, id) {
+        readVal: function(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val * 10) / 10;
         }
       },

@@ -13,7 +13,7 @@
 
 ## openmediavault adapter for ioBroker
 
-Describe your project here
+This adapter allows to read informations from your OpenMediaVault using the rpc interface.
 
 ## Changelog
 

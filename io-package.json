@@ -31,17 +31,17 @@
 			"zh-cn": "OpenMediaVault"
 		},
 		"desc": {
-			"en": "openmediavault",
-			"de": "OpenMediAvault",
-			"ru": "OpenMediaVault",
-			"pt": "OpenMediavault",
-			"nl": "Openmediavault",
-			"fr": "OpenMediaVault",
-			"it": "OpenMediavault",
-			"es": "OpenMediavault",
-			"pl": "OpenMediavault",
-			"uk": "OpenMediavault",
-			"zh-cn": "OpenMediaVault"
+			"en": "This adapter allows to read informations from your OpenMediaVault",
+			"de": "Dieser Adapter ermöglicht es, Informationen von Ihrem OpenMediaVault zu lesen",
+			"ru": "Этот адаптер позволяет считывать информацию из OpenMediaVault",
+			"pt": "Este adaptador permite ler informações do seu OpenMediaVault",
+			"nl": "Deze adapter laat toe om informatie te lezen van uw OpenMediaVault",
+			"fr": "Cet adaptateur permet de lire les informations de votre OpenMediaVault",
+			"it": "Questo adattatore permette di leggere le informazioni dal vostro OpenMediaVault",
+			"es": "Este adaptador permite leer información de su OpenMediaVault",
+			"pl": "Ten adapter pozwala na przeczytanie informacji z OpenMediaVault",
+			"uk": "Цей адаптер дозволяє читати інформацію від OpenMediaVault",
+			"zh-cn": "此适配器允许从您的 OpenMediaVault 读取信息"
 		},
 		"authors": [
 			"Scrounger <scrounger@gmx.net>"

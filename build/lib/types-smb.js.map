@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-smb.ts"],
-  "sourcesContent": ["export interface Smb {\r\n    uuid: string\r\n    enable: boolean\r\n    sharedfolderref: string\r\n    comment: string\r\n    guest: string\r\n    readonly: boolean\r\n    browseable: boolean\r\n    recyclebin: boolean\r\n    recyclemaxsize: number\r\n    recyclemaxage: number\r\n    hidedotfiles: boolean\r\n    inheritacls: boolean\r\n    inheritpermissions: boolean\r\n    easupport: boolean\r\n    storedosattributes: boolean\r\n    hostsallow: string\r\n    hostsdeny: string\r\n    audit: boolean\r\n    timemachine: boolean\r\n    transportencryption: boolean\r\n    followsymlinks: boolean\r\n    widelinks: boolean\r\n    extraoptions: string\r\n    sharedfoldername: string\r\n}\r\n"],
+  "sourcesContent": ["export interface Smb {\r\n\tuuid: string\r\n\tenable: boolean\r\n\tsharedfolderref: string\r\n\tcomment: string\r\n\tguest: string\r\n\treadonly: boolean\r\n\tbrowseable: boolean\r\n\trecyclebin: boolean\r\n\trecyclemaxsize: number\r\n\trecyclemaxage: number\r\n\thidedotfiles: boolean\r\n\tinheritacls: boolean\r\n\tinheritpermissions: boolean\r\n\teasupport: boolean\r\n\tstoredosattributes: boolean\r\n\thostsallow: string\r\n\thostsdeny: string\r\n\taudit: boolean\r\n\ttimemachine: boolean\r\n\ttransportencryption: boolean\r\n\tfollowsymlinks: boolean\r\n\twidelinks: boolean\r\n\textraoptions: string\r\n\tsharedfoldername: string\r\n}\r\n"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

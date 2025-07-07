@@ -108,7 +108,7 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
-	 * Using this method requires "common.messagebox" property to be set to true in io-package.json
+	 * Using this method requires 'common.messagebox' property to be set to true in io-package.json
 	 */
 	private async onMessage(obj: ioBroker.Message): Promise<void> {
 		const logPrefix = '[onMessage]:';
@@ -116,7 +116,7 @@ class Openmediavault extends utils.Adapter {
 		try {
 			if (typeof obj === 'object') {
 				if (obj.command.endsWith('StateList')) {
-					//@ts-ignore
+					//@ts-expect-error
 					const states = tree[obj.command.replace('StateList', '')].getStateIDs();
 					let list = [];
 
@@ -152,7 +152,7 @@ class Openmediavault extends utils.Adapter {
 
 	//#region updateData
 
-	private async updateData(isAdapterStart: boolean = false) {
+	private async updateData(isAdapterStart: boolean = false): Promise<void> {
 		const logPrefix = '[updateData]:';
 
 		try {
@@ -172,13 +172,13 @@ class Openmediavault extends utils.Adapter {
 
 				if (this.connected && this.omvApi?.isConnected) {
 					for (const endpoint in ApiEndpoints) {
-						//@ts-ignore
+						//@ts-expect-error
 						if (tree[endpoint]) {
-							//@ts-ignore
-							if (Object.hasOwn(tree[endpoint], "iobObjectDefintions")) {
+							//@ts-expect-error
+							if (Object.hasOwn(tree[endpoint], 'iobObjectDefintions')) {
 								this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
 
-								//@ts-ignore
+								//@ts-expect-error
 								await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
 							} else {
 								if (this.log.level === 'debug') {
@@ -196,17 +196,17 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * update data gerneric
-	 * @param endpoint 
-	 * @param treeType 
-	 * @param iobObjectDefintions 
-	 * @param isAdapterStart 
+	 * @param endpoint
+	 * @param treeType
+	 * @param iobObjectDefintions
+	 * @param isAdapterStart
 	 */
-	private async updateDataGeneric(endpoint: ApiEndpoints, treeType: any, iobObjectDefintions: IoBrokerObjectDefinitions, isAdapterStart: boolean = false) {
+	private async updateDataGeneric(endpoint: ApiEndpoints, treeType: any, iobObjectDefintions: IoBrokerObjectDefinitions, isAdapterStart: boolean = false): Promise<void> {
 		const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
 
 		try {
 			if (this.connected && this.omvApi?.isConnected) {
-				//@ts-ignore
+				//@ts-expect-error
 				if (this.config[`${endpoint}Enabled`]) {
 					if (isAdapterStart) {
 						await this.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, undefined, true);
@@ -220,7 +220,7 @@ class Openmediavault extends utils.Adapter {
 								if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
 									const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
 
-									if (Object.hasOwn(iobObjectDefintions, "additionalRequest")) {
+									if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
 										if (iobObjectDefintions.additionalRequest) {
 											if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
 												const addtionalData = await this.omvApi?.retrievData(iobObjectDefintions.additionalRequest.endpoint,
@@ -236,7 +236,7 @@ class Openmediavault extends utils.Adapter {
 									}
 
 									await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
-									//@ts-ignore
+									//@ts-expect-error
 									await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
 
 									this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
@@ -245,7 +245,7 @@ class Openmediavault extends utils.Adapter {
 								}
 							}
 						} else {
-							//@ts-ignore
+							//@ts-expect-error
 							await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], data, data, isAdapterStart);
 
 							this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
@@ -269,10 +269,10 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * create or update a channel object, update will only be done on adapter start
-	 * @param id 
-	 * @param name 
-	 * @param onlineId 
-	 * @param icon 
+	 * @param id
+	 * @param name
+	 * @param onlineId
+	 * @param icon
 	 * @param isAdapterStart
 	 */
 	private async createOrUpdateChannel(id: string, name: string, icon: string | undefined = undefined, isAdapterStart: boolean = false): Promise<void> {
@@ -281,7 +281,7 @@ class Openmediavault extends utils.Adapter {
 		try {
 			const i18n = name ? myI18n.getTranslatedObject(name) : name;
 
-			let common = {
+			const common = {
 				name: name && Object.keys(i18n).length > 1 ? i18n : name,
 				icon: icon
 			};
@@ -301,7 +301,7 @@ class Openmediavault extends utils.Adapter {
 						if (!myHelper.isChannelCommonEqual(obj.common as ioBroker.ChannelCommon, common)) {
 							await this.extendObject(id, { common: common });
 
-							let diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
+							const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
 							if (diff && diff.icon) diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
 
 							this.log.debug(`${logPrefix} channel updated '${id}' (updated properties: ${JSON.stringify(diff)})`);
@@ -316,10 +316,10 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	* create or update a device object, update will only be done on adapter start
-	* @param id 
-	* @param name 
-	* @param onlineId 
-	* @param icon 
+	* @param id
+	* @param name
+	* @param onlineId
+	* @param icon
 	* @param isAdapterStart
 	*/
 	private async createOrUpdateDevice(id: string, name: string | undefined, onlineId: string | undefined, errorId: string | undefined = undefined, icon: string | undefined = undefined, isAdapterStart: boolean = false, logChanges: boolean = true): Promise<void> {
@@ -328,7 +328,7 @@ class Openmediavault extends utils.Adapter {
 		try {
 			const i18n: any = name ? myI18n.getTranslatedObject(name) : name;
 
-			let common: any = {
+			const common: any = {
 				name: name && Object.keys(i18n).length > 1 ? i18n : name,
 				icon: icon
 			};
@@ -358,7 +358,7 @@ class Openmediavault extends utils.Adapter {
 						if (!myHelper.isDeviceCommonEqual(obj.common as ioBroker.ChannelCommon, common)) {
 							await this.extendObject(id, { common: common });
 
-							let diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
+							const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
 							if (diff && diff.icon) diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
 
 							this.log.debug(`${logPrefix} device updated '${id}' ${logChanges ? `(updated properties: ${JSON.stringify(diff)})` : ''}`);
@@ -371,7 +371,7 @@ class Openmediavault extends utils.Adapter {
 		}
 	}
 
-	async createOrUpdateGenericState(channel: string, treeDefinition: any, objValues: any, blacklistFilter: { id: string }[], isWhiteList: boolean, objDevices: any, objChannel: any, isAdapterStart: boolean = false, filterId = '', isChannelOnWhitelist: boolean = false) {
+	async createOrUpdateGenericState(channel: string, treeDefinition: any, objValues: any, blacklistFilter: { id: string }[], isWhiteList: boolean, objDevices: any, objChannel: any, isAdapterStart: boolean = false, filterId = '', isChannelOnWhitelist: boolean = false): Promise<void> {
 		const logPrefix = '[createOrUpdateGenericState]:';
 
 		try {
@@ -379,7 +379,7 @@ class Openmediavault extends utils.Adapter {
 				for (const key in treeDefinition) {
 					let logMsgState = `${channel}.${key}`.split('.')?.slice(1)?.join('.');
 
-					let logDetails = `${(objDevices as any)?.mac ? `mac: ${(objDevices as any)?.mac}` : (objDevices as any)?.ip ? `ip: ${(objDevices as any)?.ip}` : (objDevices as any)?._id ? `id: ${(objDevices as any)?._id}` : ''}`
+					const logDetails = `${(objDevices as any)?.mac ? `mac: ${(objDevices as any)?.mac}` : (objDevices as any)?.ip ? `ip: ${(objDevices as any)?.ip}` : (objDevices as any)?._id ? `id: ${(objDevices as any)?._id}` : ''}`
 
 					try {
 						// if we have an own defined state which takes val from other property
@@ -504,7 +504,7 @@ class Openmediavault extends utils.Adapter {
 										const arrayNumberAdd = Object.hasOwn(treeDefinition[key], 'arrayStartNumber') ? treeDefinition[key].arrayStartNumber : 0
 
 										for (let i = 0; i <= objValues[key].length - 1; i++) {
-											let nr = i + arrayNumberAdd;
+											const nr = i + arrayNumberAdd;
 
 											if (objValues[key][i] !== null && objValues[key][i] !== undefined) {
 												let idChannelArray: string | undefined = myHelper.zeroPad(nr, treeDefinition[key].arrayChannelIdZeroPad || 0);
@@ -541,7 +541,7 @@ class Openmediavault extends utils.Adapter {
 		}
 	}
 
-	async getCommonGenericState(id: string, treeDefinition: { [key: string]: myCommonState }, objDevices: any, logMsgState: string) {
+	async getCommonGenericState(id: string, treeDefinition: { [key: string]: myCommonState }, objDevices: any, logMsgState: string): Promise<any> {
 		const logPrefix = '[getCommonGenericState]:';
 
 		try {

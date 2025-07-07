@@ -58,7 +58,7 @@ var disk;
       devicelinks: {
         iobType: "string",
         name: "hostname",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return JSON.stringify(val);
         }
       },
@@ -98,7 +98,7 @@ var disk;
         iobType: "number",
         name: "size",
         unit: "TB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -106,10 +106,10 @@ var disk;
         iobType: "number",
         name: "temperature",
         unit: "\xB0C",
-        conditionToCreateState(objDevice, adapter) {
+        conditionToCreateState(objDevice, _adapter) {
           return objDevice.temperature > 0;
         },
-        readVal: function(val, adapter, deviceOrClient, id) {
+        readVal: function(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val * 10) / 10;
         }
       },

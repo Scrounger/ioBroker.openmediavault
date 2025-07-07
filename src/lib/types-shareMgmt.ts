@@ -1,31 +1,31 @@
 export interface ShareMgmt {
-    uuid: string
-    name: string
-    comment: string
-    mntentref: string
-    reldirpath: string
-    privileges: Privileges
-    _used: boolean
-    device: string
-    description: string
-    mntent: Mntent
-    snapshots: boolean
+	uuid: string
+	name: string
+	comment: string
+	mntentref: string
+	reldirpath: string
+	privileges: Privileges
+	_used: boolean
+	device: string
+	description: string
+	mntent: Mntent
+	snapshots: boolean
 }
 
 export interface Privileges {
-    privilege: Privilege[]
+	privilege: Privilege[]
 }
 
 export interface Privilege {
-    type: string
-    name: string
-    perms: number
+	type: string
+	name: string
+	perms: number
 }
 
 export interface Mntent {
-    devicefile: string
-    fsname: string
-    dir: string
-    type: string
-    posixacl: boolean
+	devicefile: string
+	fsname: string
+	dir: string
+	type: string
+	posixacl: boolean
 }

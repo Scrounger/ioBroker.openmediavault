@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-disk.ts"],
-  "sourcesContent": ["export interface Disk {\n    devicename: string\n    canonicaldevicefile: string\n    devicefile: string\n    devicelinks: string[]\n    model: string\n    size: string\n    description: string\n    vendor: string\n    serialnumber: string\n    wwn: string\n    israid: boolean\n    isroot: boolean\n    isreadonly: boolean\n    powermode: string\n    temperature: number\n    hotpluggable: boolean\n}\n"],
+  "sourcesContent": ["export interface Disk {\n\tdevicename: string\n\tcanonicaldevicefile: string\n\tdevicefile: string\n\tdevicelinks: string[]\n\tmodel: string\n\tsize: string\n\tdescription: string\n\tvendor: string\n\tserialnumber: string\n\twwn: string\n\tisraid: boolean\n\tisroot: boolean\n\tisreadonly: boolean\n\tpowermode: string\n\ttemperature: number\n\thotpluggable: boolean\n}\n"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

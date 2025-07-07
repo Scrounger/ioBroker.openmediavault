@@ -77,7 +77,7 @@ function getIdWithoutLastPart(id) {
   return id.substring(0, lastIndex);
 }
 function getIdLastPart(id) {
-  let result = id.split(".").pop();
+  const result = id.split(".").pop();
   return result ? result : "";
 }
 const deepDiffBetweenObjects = (object, base, adapter, allowedKeys = void 0, prefix = "") => {

@@ -60,7 +60,7 @@ var shareMgmt;
         name: "device of folder"
       },
       mntent: {
-        channelName(objDevice, objChannel, adapter) {
+        channelName(_objDevice, _objChannel, _adapter) {
           return "mntent";
         },
         object: {

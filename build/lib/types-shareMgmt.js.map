@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-shareMgmt.ts"],
-  "sourcesContent": ["export interface ShareMgmt {\r\n    uuid: string\r\n    name: string\r\n    comment: string\r\n    mntentref: string\r\n    reldirpath: string\r\n    privileges: Privileges\r\n    _used: boolean\r\n    device: string\r\n    description: string\r\n    mntent: Mntent\r\n    snapshots: boolean\r\n}\r\n\r\nexport interface Privileges {\r\n    privilege: Privilege[]\r\n}\r\n\r\nexport interface Privilege {\r\n    type: string\r\n    name: string\r\n    perms: number\r\n}\r\n\r\nexport interface Mntent {\r\n    devicefile: string\r\n    fsname: string\r\n    dir: string\r\n    type: string\r\n    posixacl: boolean\r\n}"],
+  "sourcesContent": ["export interface ShareMgmt {\r\n\tuuid: string\r\n\tname: string\r\n\tcomment: string\r\n\tmntentref: string\r\n\treldirpath: string\r\n\tprivileges: Privileges\r\n\t_used: boolean\r\n\tdevice: string\r\n\tdescription: string\r\n\tmntent: Mntent\r\n\tsnapshots: boolean\r\n}\r\n\r\nexport interface Privileges {\r\n\tprivilege: Privilege[]\r\n}\r\n\r\nexport interface Privilege {\r\n\ttype: string\r\n\tname: string\r\n\tperms: number\r\n}\r\n\r\nexport interface Mntent {\r\n\tdevicefile: string\r\n\tfsname: string\r\n\tdir: string\r\n\ttype: string\r\n\tposixacl: boolean\r\n}"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

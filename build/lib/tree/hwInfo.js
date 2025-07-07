@@ -55,7 +55,7 @@ var hwInfo;
         iobType: "number",
         name: "cpu utilization",
         unit: "%",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val);
         }
       },
@@ -77,7 +77,7 @@ var hwInfo;
       },
       loadAverage: {
         idChannel: "loadAverage",
-        channelName(objDevice, objChannel, adapter) {
+        channelName(_objDevice, _objChannel, _adapter) {
           return "load average";
         },
         object: {
@@ -99,7 +99,7 @@ var hwInfo;
         iobType: "number",
         name: "memory total",
         unit: "GB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -107,7 +107,7 @@ var hwInfo;
         iobType: "number",
         name: "memory free",
         unit: "GB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -115,7 +115,7 @@ var hwInfo;
         iobType: "number",
         name: "memory used",
         unit: "GB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -123,7 +123,7 @@ var hwInfo;
         iobType: "number",
         name: "memory available",
         unit: "GB",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val / 1024 / 1024 / 1024 * 1e3) / 1e3;
         }
       },
@@ -131,7 +131,7 @@ var hwInfo;
         iobType: "number",
         name: "memory utilization",
         unit: "%",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val * 100);
         }
       },
@@ -143,7 +143,7 @@ var hwInfo;
         iobType: "number",
         name: "uptime",
         unit: "s",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return Math.round(val);
         }
       },
@@ -152,7 +152,7 @@ var hwInfo;
         iobType: "boolean",
         name: "upgradeable",
         valFromProperty: "availablePkgUpdates",
-        readVal(val, adapter, deviceOrClient, id) {
+        readVal(val, _adapter, _deviceOrClient, _id) {
           return val > 0;
         }
       },

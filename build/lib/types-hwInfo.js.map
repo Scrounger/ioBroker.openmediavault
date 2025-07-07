@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-hwInfo.ts"],
-  "sourcesContent": ["export interface HwInfo {\n    ts: number\n    time: string\n    hostname: string\n    version: string\n    cpuModelName: string\n    cpuUtilization: number\n    cpuCores: string\n    cpuMhz: string\n    memTotal: string\n    memFree: string\n    memUsed: string\n    memAvailable: string\n    memUtilization: string\n    kernel: string\n    uptime: number\n    loadAverage: LoadAverage\n    configDirty: boolean\n    dirtyModules: any[]\n    rebootRequired: boolean\n    availablePkgUpdates: number\n    displayWelcomeMessage: boolean\n}\n\ninterface LoadAverage {\n    \"1min\": number\n    \"5min\": number\n    \"15min\": number\n}"],
+  "sourcesContent": ["export interface HwInfo {\n\tts: number\n\ttime: string\n\thostname: string\n\tversion: string\n\tcpuModelName: string\n\tcpuUtilization: number\n\tcpuCores: string\n\tcpuMhz: string\n\tmemTotal: string\n\tmemFree: string\n\tmemUsed: string\n\tmemAvailable: string\n\tmemUtilization: string\n\tkernel: string\n\tuptime: number\n\tloadAverage: LoadAverage\n\tconfigDirty: boolean\n\tdirtyModules: any[]\n\trebootRequired: boolean\n\tavailablePkgUpdates: number\n\tdisplayWelcomeMessage: boolean\n}\n\ninterface LoadAverage {\n\t'1min': number\n\t'5min': number\n\t'15min': number\n}"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

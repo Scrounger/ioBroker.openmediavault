@@ -37,6 +37,23 @@ var import_fetch_cookie = __toESM(require("fetch-cookie"));
 var import_tough_cookie = require("tough-cookie");
 var import_https = __toESM(require("https"));
 var url = __toESM(require("url"));
+var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
+  ApiEndpoints2["login"] = "login";
+  ApiEndpoints2["logout"] = "logout";
+  ApiEndpoints2["hwInfo"] = "hwInfo";
+  ApiEndpoints2["disk"] = "disk";
+  ApiEndpoints2["smart"] = "smart";
+  ApiEndpoints2["smartInfo"] = "smartInfo";
+  ApiEndpoints2["fileSystem"] = "fileSystem";
+  ApiEndpoints2["shareMgmt"] = "shareMgmt";
+  ApiEndpoints2["smb"] = "smb";
+  ApiEndpoints2["fsTab"] = "fsTab";
+  ApiEndpoints2["service"] = "service";
+  ApiEndpoints2["plugin"] = "plugin";
+  ApiEndpoints2["network"] = "network";
+  ApiEndpoints2["kvm"] = "kvm";
+  return ApiEndpoints2;
+})(ApiEndpoints || {});
 class OmvApi {
   logPrefix = "OmvApi";
   isConnected = false;
@@ -99,7 +116,7 @@ class OmvApi {
   async retrievData(endpoint, params = void 0) {
     const logPrefix = `[${this.logPrefix}.retrievData]:`;
     try {
-      let endpointData = this.getEndpointData(endpoint);
+      const endpointData = this.getEndpointData(endpoint);
       if (params) {
         endpointData.params = params;
       }
@@ -285,23 +302,6 @@ class OmvApi {
     }
   }
 }
-var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
-  ApiEndpoints2["login"] = "login";
-  ApiEndpoints2["logout"] = "logout";
-  ApiEndpoints2["hwInfo"] = "hwInfo";
-  ApiEndpoints2["disk"] = "disk";
-  ApiEndpoints2["smart"] = "smart";
-  ApiEndpoints2["smartInfo"] = "smartInfo";
-  ApiEndpoints2["fileSystem"] = "fileSystem";
-  ApiEndpoints2["shareMgmt"] = "shareMgmt";
-  ApiEndpoints2["smb"] = "smb";
-  ApiEndpoints2["fsTab"] = "fsTab";
-  ApiEndpoints2["service"] = "service";
-  ApiEndpoints2["plugin"] = "plugin";
-  ApiEndpoints2["network"] = "network";
-  ApiEndpoints2["kvm"] = "kvm";
-  return ApiEndpoints2;
-})(ApiEndpoints || {});
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   ApiEndpoints,
