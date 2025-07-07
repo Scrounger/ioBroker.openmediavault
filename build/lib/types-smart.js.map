@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/lib/types-smart.ts"],
-  "sourcesContent": ["export interface Smart {\n\tdevicename: string\n\tcanonicaldevicefile: string\n\tdevicefile: string\n\tdevicelinks: string[]\n\tmodel: string\n\tsize: string\n\ttemperature: number\n\tdescription: string\n\tvendor: string\n\tserialnumber: string\n\twwn: string\n\toverallstatus: string\n\tuuid: string\n\tmonitor: boolean\n\n\t// additional types from endpoint smartInfo\n\tdevicemodel: string\n\tfirmwareversion: string\n\tusercapacity: string\n\tmodelfamily: string\n\tluwwndeviceid: string\n\tsectorsizes: string\n\trotationrate: string\n\tformfactor: string\n\tdeviceis: string\n\tataversionis: string\n\tsataversionis: string\n\tlocaltimeis: string\n\tsmartsupportis: string\n\tpowercycles: number\n\tpoweronhours: number\n}"],
+  "sourcesContent": ["export interface Smart {\n\tdevicename: string\n\tcanonicaldevicefile: string\n\tdevicefile: string\n\tdevicelinks: string[]\n\tmodel: string\n\tsize: string\n\ttemperature: number\n\tdescription: string\n\tvendor: string\n\tserialnumber: string\n\twwn: string\n\toverallstatus: string\n\tuuid: string\n\tmonitor: boolean\n\n\t// additional types from endpoint smartInfo\n\tdevicemodel: string\n\tfirmwareversion: string\n\tusercapacity: string\n\tmodelfamily: string\n\tluwwndeviceid: string\n\tsectorsizes: string\n\trotationrate: string\n\tformfactor: string\n\tdeviceis: string\n\tataversionis: string\n\tsataversionis: string\n\tlocaltimeis: string\n\tsmartsupportis: string\n\tpowercycles: string\n\tpoweronhours: string\n}"],
   "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
   "names": []
 }

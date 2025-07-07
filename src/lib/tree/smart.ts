@@ -81,11 +81,17 @@ export namespace smart {
 			powercycles: {
 				iobType: 'number',
 				name: 'powercycles',
+				readVal(val: string, _adapter: ioBroker.Adapter, _deviceOrClient: Smart, _id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			poweronhours: {
 				iobType: 'number',
 				name: 'poweronhours',
 				unit: 'h',
+				readVal(val: string, _adapter: ioBroker.Adapter, _deviceOrClient: Smart, _id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			rotationrate: {
 				iobType: 'number',

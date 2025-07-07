@@ -108,12 +108,18 @@ var smart;
       },
       powercycles: {
         iobType: "number",
-        name: "powercycles"
+        name: "powercycles",
+        readVal(val, _adapter, _deviceOrClient, _id) {
+          return parseInt(val);
+        }
       },
       poweronhours: {
         iobType: "number",
         name: "poweronhours",
-        unit: "h"
+        unit: "h",
+        readVal(val, _adapter, _deviceOrClient, _id) {
+          return parseInt(val);
+        }
       },
       rotationrate: {
         iobType: "number",

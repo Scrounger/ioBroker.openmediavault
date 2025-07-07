@@ -28,6 +28,6 @@ export interface Smart {
 	sataversionis: string
 	localtimeis: string
 	smartsupportis: string
-	powercycles: number
-	poweronhours: number
+	powercycles: string
+	poweronhours: string
 }
