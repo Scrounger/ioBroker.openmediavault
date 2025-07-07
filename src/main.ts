@@ -40,13 +40,18 @@ class Openmediavault extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	private async onReady(): Promise<void> {
+		const logPrefix = '[onReady]:';
 
 		// ohne worte....
 		await myI18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
 
-		this.omvApi = new OmvApi(this);
+		if (this.config.url && this.config.user && this.config.password) {
+			this.omvApi = new OmvApi(this);
 
-		await this.updateData(true);
+			await this.updateData(true);
+		} else {
+			this.log.warn(`${logPrefix} url and / or login data missing!`);
+		}
 
 		// const tmp = tree.smart.getStateIDs();
 		// let list = []
@@ -56,7 +61,6 @@ class Openmediavault extends utils.Adapter {
 		// }
 
 		// this.log.warn(JSON.stringify(list));
-
 	}
 
 	/**

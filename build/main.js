@@ -47,9 +47,14 @@ class Openmediavault extends utils.Adapter {
    * Is called when databases are connected and adapter received configuration.
    */
   async onReady() {
+    const logPrefix = "[onReady]:";
     await myI18n.init(`${utils.getAbsoluteDefaultDataDir().replace("iobroker-data/", "")}node_modules/iobroker.${this.name}/admin`, this);
-    this.omvApi = new import_omv_rpc.OmvApi(this);
-    await this.updateData(true);
+    if (this.config.url && this.config.user && this.config.password) {
+      this.omvApi = new import_omv_rpc.OmvApi(this);
+      await this.updateData(true);
+    } else {
+      this.log.warn(`${logPrefix} url and / or login data missing!`);
+    }
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
