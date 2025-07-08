@@ -11,7 +11,8 @@
   "keywords": [
     "openmediavault",
     "nas",
-    "api"
+    "api",
+    "ioBroker"
   ],
   "repository": {
     "type": "git",
