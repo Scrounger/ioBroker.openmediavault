@@ -25,10 +25,61 @@
             "sm": 12,
             "md": 3
         },
+        "smartBlackListDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "S.M.A.R.T Blacklist / Whitelist",
+            "hidden": "!data.smartEnabled",
+            "size": 2
+        },
+        "smartIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.smartIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.smartEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "smartBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.smartEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.smartIsWhiteList ? 'Choose which S.M.A.R.T should be included' : 'Choose which S.M.A.R.T should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "${instanceObj}",
+                    "command": "smartBlackList"
+                }
+            ]
+        },
         "smartBlackListStatesDivider": {
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.smartEnabled",
             "size": 2
         },
         "smartStatesIsWhiteList": {

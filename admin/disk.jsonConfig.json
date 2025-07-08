@@ -25,10 +25,61 @@
             "sm": 12,
             "md": 3
         },
+        "diskBlackListDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "Disk Blacklist / Whitelist",
+            "hidden": "!data.diskEnabled",
+            "size": 2
+        },
+        "diskIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.diskIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.diskEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "diskBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.diskEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.diskIsWhiteList ? 'Choose which disk should be included' : 'Choose which disk should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "${instanceObj}",
+                    "command": "diskBlackList"
+                }
+            ]
+        },
         "diskBlackListStatesDivider": {
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.diskEnabled",
             "size": 2
         },
         "diskStatesIsWhiteList": {

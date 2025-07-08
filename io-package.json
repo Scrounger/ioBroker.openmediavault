@@ -32,15 +32,15 @@
     },
     "titleLang": {
       "en": "OpenMediaVault",
-      "de": "OpenMediAvault",
+      "de": "OpenMediaVault",
       "ru": "OpenMediaVault",
-      "pt": "OpenMediavault",
-      "nl": "Openmediavault",
+      "pt": "OpenMediaVault",
+      "nl": "OpenMediaVault",
       "fr": "OpenMediaVault",
-      "it": "OpenMediavault",
-      "es": "OpenMediavault",
-      "pl": "OpenMediavault",
-      "uk": "OpenMediavault",
+      "it": "OpenMediaVault",
+      "es": "OpenMediaVault",
+      "pl": "OpenMediaVault",
+      "uk": "OpenMediaVault",
       "zh-cn": "OpenMediaVault"
     },
     "desc": {
@@ -86,7 +86,7 @@
         "link": "%url%",
         "name": {
           "en": "OpenMediaVault",
-          "de": "OpenMediAvault",
+          "de": "OpenMediaVault",
           "ru": "OpenMediaVault",
           "pt": "OpenMediavault",
           "nl": "Openmediavault",
@@ -180,6 +180,8 @@
       }
     ],
     "diskEnabled": false,
+    "diskIsWhiteList": false,
+    "diskBlackList": [],
     "diskStatesIsWhiteList": false,
     "diskStatesBlackList": [
       {
@@ -223,6 +225,8 @@
       }
     ],
     "smartEnabled": true,
+    "smartIsWhiteList": false,
+    "smartBlackList": [],
     "smartStatesIsWhiteList": false,
     "smartStatesBlackList": [
       {
@@ -260,6 +264,8 @@
       }
     ],
     "fileSystemEnabled": true,
+    "fileSystemIsWhiteList": false,
+    "fileSystemBlackList": [],
     "fileSystemStatesIsWhiteList": false,
     "fileSystemStatesBlackList": [
       {
@@ -282,9 +288,13 @@
       }
     ],
     "shareMgmtEnabled": false,
+    "shareMgmtIsWhiteList": false,
+    "shareMgmtBlackList": [],
     "shareMgmtStatesIsWhiteList": false,
     "shareMgmtStatesBlackList": [],
     "smbEnabled": false,
+    "smbIsWhiteList": false,
+    "smbBlackList": [],
     "smbStatesIsWhiteList": false,
     "smbStatesBlackList": []
   },

@@ -25,10 +25,61 @@
             "sm": 12,
             "md": 3
         },
+        "smbBlackListDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "SMB Folders Blacklist / Whitelist",
+            "hidden": "!data.smbEnabled",
+            "size": 2
+        },
+        "smbIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.smbIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.smbEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "smbBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.smbEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.smbIsWhiteList ? 'Choose which SMB Folders should be included' : 'Choose which SMB Folders should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "${instanceObj}",
+                    "command": "smbBlackList"
+                }
+            ]
+        },
         "smbBlackListStatesDivider": {
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.smbEnabled",
             "size": 2
         },
         "smbStatesIsWhiteList": {

@@ -21,6 +21,8 @@ class Openmediavault extends utils.Adapter {
 
 	updateTimeout: ioBroker.Timeout | undefined = undefined;
 
+	configDevicesCache: { [key: string]: { label: string, value: string }[] } = {};
+
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
 			...options,
@@ -144,6 +146,17 @@ class Openmediavault extends utils.Adapter {
 					list = _.orderBy(list, ['value'], ['asc']);
 
 					if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+				} else if (obj.command.endsWith('BlackList')) {
+					if (this.connected && this.omvApi?.isConnected) {
+						let list: { label: string, value: string }[] = [];
+
+						if (this.configDevicesCache[obj.command.replace('BlackList', '')]) {
+							list = this.configDevicesCache[obj.command.replace('BlackList', '')]
+							list = _.orderBy(list, ['label'], ['asc']);
+
+							if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+						}
+					}
 				}
 			}
 
@@ -220,30 +233,50 @@ class Openmediavault extends utils.Adapter {
 
 					if (data) {
 						if (Array.isArray(data)) {
+							this.configDevicesCache[endpoint] = []
+
 							for (let device of data) {
 								if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
 									const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
 
-									if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
-										if (iobObjectDefintions.additionalRequest) {
-											if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
-												const addtionalData = await this.omvApi?.retrievData(iobObjectDefintions.additionalRequest.endpoint,
-													{
-														[iobObjectDefintions.additionalRequest.paramsProperty]: device[iobObjectDefintions.additionalRequest.paramsProperty]
-													});
+									//@ts-expect-error
+									if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] }))) {
 
-												device = { ...addtionalData, ...device }
-											} else {
-												this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${iobObjectDefintions.additionalRequest.conditionProperty}' is '${device[iobObjectDefintions.additionalRequest.conditionProperty]}'`);
+										if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
+											if (iobObjectDefintions.additionalRequest) {
+												if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
+													const addtionalData = await this.omvApi?.retrievData(iobObjectDefintions.additionalRequest.endpoint,
+														{
+															[iobObjectDefintions.additionalRequest.paramsProperty]: device[iobObjectDefintions.additionalRequest.paramsProperty]
+														});
+
+													device = { ...addtionalData, ...device }
+												} else {
+													this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${iobObjectDefintions.additionalRequest.conditionProperty}' is '${device[iobObjectDefintions.additionalRequest.conditionProperty]}'`);
+												}
+											}
+										}
+
+										this.configDevicesCache[endpoint].push({
+											//@ts-expect-error
+											label: `${device[iobObjectDefintions.deviceNameProperty]} (${device[iobObjectDefintions.deviceIdProperty]})`,
+											value: device[iobObjectDefintions.deviceIdProperty],
+										});
+
+										await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
+										//@ts-expect-error
+										await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
+
+										this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
+									} else {
+										if (isAdapterStart) {
+											if (await this.objectExists(idDevice)) {
+												await this.delObjectAsync(idDevice, { recursive: true });
+												//@ts-expect-error
+												this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${device[iobObjectDefintions.deviceIdProperty]}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 											}
 										}
 									}
-
-									await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
-									//@ts-expect-error
-									await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
-
-									this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
 								} else {
 									this.log.error(`${logPrefix} deviceName property '${iobObjectDefintions.deviceIdProperty}' not exists in device`);
 								}

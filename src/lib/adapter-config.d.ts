@@ -15,22 +15,32 @@ declare global {
 			hwInfoStatesBlackList: { id: string }[];
 
 			diskEnabled: boolean;
+			diskIsWhiteList: boolean;
+			diskBlackList: { id: string }[];
 			diskStatesIsWhiteList: boolean;
 			diskStatesBlackList: { id: string }[];
 
 			smartEnabled: boolean;
+			smartIsWhiteList: boolean;
+			smartBlackList: { id: string }[];
 			smartStatesIsWhiteList: boolean;
 			smartStatesBlackList: { id: string }[];
 
 			fileSystemEnabled: boolean;
+			fileSystemIsWhiteList: boolean;
+			fileSystemBlackList: { id: string }[];
 			fileSystemStatesIsWhiteList: boolean;
 			fileSystemStatesBlackList: { id: string }[];
 
 			shareMgmtEnabled: boolean;
+			shareMgmtIsWhiteList: boolean;
+			shareMgmtBlackList: { id: string }[];
 			shareMgmtStatesIsWhiteList: boolean;
 			shareMgmtStatesBlackList: { id: string }[];
 
 			smbEnabled: boolean;
+			smbIsWhiteList: boolean;
+			smbBlackList: { id: string }[];
 			smbStatesIsWhiteList: boolean;
 			smbStatesBlackList: { id: string }[];
 		}

@@ -25,10 +25,61 @@
             "sm": 12,
             "md": 3
         },
+        "fileSystemBlackListDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "File System Information Blacklist / Whitelist",
+            "hidden": "!data.fileSystemEnabled",
+            "size": 2
+        },
+        "fileSystemIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.fileSystemIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.fileSystemEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "fileSystemBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.fileSystemEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.fileSystemIsWhiteList ? 'Choose which File System Information should be included' : 'Choose which File System Information should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "${instanceObj}",
+                    "command": "fileSystemBlackList"
+                }
+            ]
+        },
         "fileSystemBlackListStatesDivider": {
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.fileSystemEnabled",
             "size": 2
         },
         "fileSystemStatesIsWhiteList": {

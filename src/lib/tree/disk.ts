@@ -10,7 +10,7 @@ export namespace disk {
 	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
 		channelName: 'disk info',
 		deviceIdProperty: 'devicename',
-		deviceNameProperty: 'devicename',
+		deviceNameProperty: 'devicename'
 	}
 
 	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {

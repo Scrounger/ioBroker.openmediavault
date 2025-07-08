@@ -29,6 +29,7 @@
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.hwInfoEnabled",
             "size": 2
         },
         "hwInfoStatesIsWhiteList": {

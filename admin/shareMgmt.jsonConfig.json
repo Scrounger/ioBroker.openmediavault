@@ -25,10 +25,61 @@
             "sm": 12,
             "md": 3
         },
+        "shareMgmtBlackListDivider": {
+            "newLine": true,
+            "type": "header",
+            "text": "Shared Folders Blacklist / Whitelist",
+            "hidden": "!data.shareMgmtEnabled",
+            "size": 2
+        },
+        "shareMgmtIsWhiteList": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.shareMgmtIsWhiteList ? 'use as whitelist' : 'use as blacklist'}",
+            "hidden": "!data.shareMgmtEnabled",
+            "xl": 2,
+            "lg": 2,
+            "md": 2,
+            "sm": 12,
+            "xs": 12
+        },
+        "shareMgmtBlackList": {
+            "type": "table",
+            "xl": 6,
+            "lg": 6,
+            "md": 6,
+            "sm": 12,
+            "xs": 12,
+            "hidden": "!data.shareMgmtEnabled",
+            "uniqueColumns": [
+                "id"
+            ],
+            "confirm": {
+                "condition": "!_alive",
+                "title": "Attention!",
+                "text": "This selection is only possible with a running instance!",
+                "ok": "Got it!",
+                "cancel": "cancel",
+                "type": "warning"
+            },
+            "items": [
+                {
+                    "type": "autocompleteSendTo",
+                    "title": "${data.shareMgmtIsWhiteList ? 'Choose which Shared Folders should be included' : 'Choose which Shared Folders should be excluded'}",
+                    "attr": "id",
+                    "filter": true,
+                    "sort": true,
+                    "noMultiEdit": true,
+                    "jsonData": "${instanceObj}",
+                    "command": "shareMgmtBlackList"
+                }
+            ]
+        },
         "shareMgmtBlackListStatesDivider": {
             "newLine": true,
             "type": "header",
             "text": "Datapoints Blacklist / Whitelist",
+            "hidden": "!data.shareMgmtEnabled",
             "size": 2
         },
         "shareMgmtStatesIsWhiteList": {
