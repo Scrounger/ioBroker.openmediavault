@@ -21,8 +21,7 @@ This adapter allows to read informations from your OpenMediaVault using the rpc 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.0.0-beta.1 (2025-07-08)
 
 - (Scrounger) devices blacklist / whitelist added
 - (Scrounger) bug fixes

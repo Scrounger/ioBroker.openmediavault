@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.0-beta.0",
+    "version": "1.0.0-beta.1",
     "news": {
+      "1.0.0-beta.1": {
+        "en": "devices blacklist / whitelist added\nbug fixes",
+        "de": "geräte blacklist / whitelist hinzugefügt\nfehlerbehebungen",
+        "ru": "добавлены устройства blacklist / whitelist\nисправление ошибок",
+        "pt": "dispositivos lista negra / lista branca adicionada\ncorreções de erros",
+        "nl": "apparaten zwarte lijst / whitelist toegevoegd\nfoutherstel",
+        "fr": "périphériques liste noire / liste blanche ajouté\ncorrections des bogues",
+        "it": "dispositivi blacklist / whitelist aggiunto\ncorrezioni di bug",
+        "es": "dispositivos blacklist / whitelist añadido\nbug fixes",
+        "pl": "urządzenia czarna lista / biały dodany\npoprawki błędów",
+        "uk": "пристрої чорний список / білий список\nвиправлення помилок",
+        "zh-cn": "添加设备黑名单/ 白名单\n错误修正"
+      },
       "1.0.0-beta.0": {
         "en": "initial release",
         "de": "erstausstrahlung",
