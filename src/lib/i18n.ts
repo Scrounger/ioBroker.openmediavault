@@ -22,7 +22,7 @@ export async function init(rootDir: string, languageOrAdapter: ioBroker.Adapter 
 			language = systemConfig?.common.language;
 		}
 	} else {
-		language = languageOrAdapter as ioBroker.Languages;
+		language = languageOrAdapter;
 	}
 
 	let files: string[];

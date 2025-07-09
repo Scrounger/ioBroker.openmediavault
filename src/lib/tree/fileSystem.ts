@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { FileSystem } from '../types-fileSystem.js';
+import type { FileSystem } from '../types-fileSystem.js';
 
 export namespace fileSystem {
 	let keys: string[] | undefined = undefined;

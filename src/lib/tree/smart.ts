@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { Smart } from '../types-smart.js';
+import type { Smart } from '../types-smart.js';
 import { ApiEndpoints } from '../omv-rpc.js';
 
 export namespace smart {

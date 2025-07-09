@@ -35,8 +35,8 @@ module.exports = __toCommonJS(omv_rpc_exports);
 var import_node_fetch = __toESM(require("node-fetch"));
 var import_fetch_cookie = __toESM(require("fetch-cookie"));
 var import_tough_cookie = require("tough-cookie");
-var import_https = __toESM(require("https"));
-var url = __toESM(require("url"));
+var import_node_https = __toESM(require("node:https"));
+var url = __toESM(require("node:url"));
 var ApiEndpoints = /* @__PURE__ */ ((ApiEndpoints2) => {
   ApiEndpoints2["login"] = "login";
   ApiEndpoints2["logout"] = "logout";
@@ -68,7 +68,7 @@ class OmvApi {
     this.log = adapter.log;
     this.url = new url.URL(`${this.adapter.config.url}/rpc.php`);
     if (this.adapter.config.ignoreSSLCertificate && this.url.protocol === "https:") {
-      this.httpsAgent = new import_https.default.Agent({
+      this.httpsAgent = new import_node_https.default.Agent({
         rejectUnauthorized: false
       });
     }
@@ -289,9 +289,11 @@ class OmvApi {
         };
     }
   }
-  /** Set adapter info.connection state and internal var
-  * @param {boolean} isConnected
-  */
+  /**
+   * Set adapter info.connection state and internal var
+   * 
+   * @param isConnected
+   */
   async setConnectionStatus(isConnected) {
     const logPrefix = `[${this.logPrefix}.setConnectionStatus]:`;
     try {

@@ -1,5 +1,5 @@
-import { ApiEndpoints } from './omv-rpc.js';
-import { HwInfo } from './types-hwInfo.js';
+import type { ApiEndpoints } from './omv-rpc.js';
+import type { HwInfo } from './types-hwInfo.js';
 
 export interface EndpointData {
 	service: string;

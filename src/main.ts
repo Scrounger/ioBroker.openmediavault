@@ -12,7 +12,7 @@ import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js'
 import * as myHelper from './lib/helper.js';
 import * as myI18n from './lib/i18n.js';
-import { IoBrokerObjectDefinitions, myCommonState } from './lib/myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonState } from './lib/myTypes.js';
 
 class Openmediavault extends utils.Adapter {
 	omvApi: OmvApi | undefined = undefined;
@@ -67,11 +67,15 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
+	 * 
+	 * @param callback 
 	 */
 	private async onUnload(callback: () => void): Promise<void> {
 		try {
 			// Here you must clear all timeouts or intervals that may still be active
-			if (this.updateTimeout) clearTimeout(this.updateTimeout);
+			if (this.updateTimeout) {
+				clearTimeout(this.updateTimeout);
+			}
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
@@ -101,6 +105,9 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * Is called if a subscribed state changes
+	 * 
+	 * @param id
+	 * @param state
 	 */
 	private onStateChange(id: string, state: ioBroker.State | null | undefined): void {
 		if (state) {
@@ -115,8 +122,10 @@ class Openmediavault extends utils.Adapter {
 	/**
 	 * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
 	 * Using this method requires 'common.messagebox' property to be set to true in io-package.json
+	 * 
+	 * @param obj
 	 */
-	private async onMessage(obj: ioBroker.Message): Promise<void> {
+	private onMessage(obj: ioBroker.Message): void {
 		const logPrefix = '[onMessage]:';
 
 		try {
@@ -145,7 +154,9 @@ class Openmediavault extends utils.Adapter {
 
 					list = _.orderBy(list, ['value'], ['asc']);
 
-					if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+					if (obj.callback) {
+						this.sendTo(obj.from, obj.command, list, obj.callback);
+					}
 				} else if (obj.command.endsWith('BlackList')) {
 					if (this.connected && this.omvApi?.isConnected) {
 						let list: { label: string, value: string }[] = [];
@@ -154,7 +165,9 @@ class Openmediavault extends utils.Adapter {
 							list = this.configDevicesCache[obj.command.replace('BlackList', '')]
 							list = _.orderBy(list, ['label'], ['asc']);
 
-							if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+							if (obj.callback) {
+								this.sendTo(obj.from, obj.command, list, obj.callback);
+							}
 						}
 					}
 				}
@@ -178,8 +191,8 @@ class Openmediavault extends utils.Adapter {
 				this.updateTimeout = undefined;
 			}
 
-			this.updateTimeout = this.setTimeout(() => {
-				this.updateData()
+			this.updateTimeout = this.setTimeout(async () => {
+				await this.updateData()
 			}, this.config.updateInterval * 1000);
 
 			if (this.omvApi) {
@@ -213,6 +226,7 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * update data gerneric
+	 * 
 	 * @param endpoint
 	 * @param treeType
 	 * @param iobObjectDefintions
@@ -306,11 +320,11 @@ class Openmediavault extends utils.Adapter {
 
 	/**
 	 * create or update a channel object, update will only be done on adapter start
-	 * @param id
-	 * @param name
-	 * @param onlineId
-	 * @param icon
-	 * @param isAdapterStart
+	 * 
+	 * @param id 
+	 * @param name 
+	 * @param icon 
+	 * @param isAdapterStart 
 	 */
 	private async createOrUpdateChannel(id: string, name: string, icon: string | undefined = undefined, isAdapterStart: boolean = false): Promise<void> {
 		const logPrefix = '[createOrUpdateChannel]:';
@@ -339,7 +353,9 @@ class Openmediavault extends utils.Adapter {
 							await this.extendObject(id, { common: common });
 
 							const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
-							if (diff && diff.icon) diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
+							if (diff && diff.icon) {
+								diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
+							}
 
 							this.log.debug(`${logPrefix} channel updated '${id}' (updated properties: ${JSON.stringify(diff)})`);
 						}
@@ -352,13 +368,16 @@ class Openmediavault extends utils.Adapter {
 	}
 
 	/**
-	* create or update a device object, update will only be done on adapter start
-	* @param id
-	* @param name
-	* @param onlineId
-	* @param icon
-	* @param isAdapterStart
-	*/
+	 * create or update a device object, update will only be done on adapter start
+	 * 
+	 * @param id
+	 * @param name
+	 * @param onlineId
+	 * @param errorId
+	 * @param icon
+	 * @param isAdapterStart
+	 * @param logChanges
+	 */
 	private async createOrUpdateDevice(id: string, name: string | undefined, onlineId: string | undefined, errorId: string | undefined = undefined, icon: string | undefined = undefined, isAdapterStart: boolean = false, logChanges: boolean = true): Promise<void> {
 		const logPrefix = '[createOrUpdateDevice]:';
 
@@ -371,13 +390,13 @@ class Openmediavault extends utils.Adapter {
 			};
 
 			if (onlineId) {
-				common['statusStates'] = {
+				common.statusStates = {
 					onlineId: onlineId
 				}
 			}
 
 			if (errorId) {
-				common['statusStates']['errorId'] = errorId;
+				common.statusStates.errorId = errorId;
 			}
 
 			if (!await this.objectExists(id)) {
@@ -396,7 +415,9 @@ class Openmediavault extends utils.Adapter {
 							await this.extendObject(id, { common: common });
 
 							const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
-							if (diff && diff.icon) diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
+							if (diff && diff.icon) {
+								diff.icon = _.truncate(diff.icon);	// reduce base64 image string for logging
+							}
 
 							this.log.debug(`${logPrefix} device updated '${id}' ${logChanges ? `(updated properties: ${JSON.stringify(diff)})` : ''}`);
 						}
@@ -416,7 +437,7 @@ class Openmediavault extends utils.Adapter {
 				for (const key in treeDefinition) {
 					let logMsgState = `${channel}.${key}`.split('.')?.slice(1)?.join('.');
 
-					const logDetails = `${(objDevices as any)?.mac ? `mac: ${(objDevices as any)?.mac}` : (objDevices as any)?.ip ? `ip: ${(objDevices as any)?.ip}` : (objDevices as any)?._id ? `id: ${(objDevices as any)?._id}` : ''}`
+					const logDetails = `${(objDevices)?.mac ? `mac: ${(objDevices)?.mac}` : (objDevices)?.ip ? `ip: ${(objDevices)?.ip}` : (objDevices)?._id ? `id: ${(objDevices)?._id}` : ''}`
 
 					try {
 						// if we have an own defined state which takes val from other property
@@ -578,7 +599,7 @@ class Openmediavault extends utils.Adapter {
 		}
 	}
 
-	async getCommonGenericState(id: string, treeDefinition: { [key: string]: myCommonState }, objDevices: any, logMsgState: string): Promise<any> {
+	getCommonGenericState(id: string, treeDefinition: { [key: string]: myCommonState }, objDevices: any, logMsgState: string): any {
 		const logPrefix = '[getCommonGenericState]:';
 
 		try {
@@ -594,17 +615,29 @@ class Openmediavault extends utils.Adapter {
 				role: treeDefinition[id].role ? treeDefinition[id].role : 'state',
 			};
 
-			if (treeDefinition[id].unit) common.unit = treeDefinition[id].unit;
+			if (treeDefinition[id].unit) {
+				common.unit = treeDefinition[id].unit;
+			}
 
-			if (treeDefinition[id].min || treeDefinition[id].min === 0) common.min = treeDefinition[id].min;
+			if (treeDefinition[id].min || treeDefinition[id].min === 0) {
+				common.min = treeDefinition[id].min;
+			}
 
-			if (treeDefinition[id].max || treeDefinition[id].max === 0) common.max = treeDefinition[id].max;
+			if (treeDefinition[id].max || treeDefinition[id].max === 0) {
+				common.max = treeDefinition[id].max;
+			}
 
-			if (treeDefinition[id].step) common.step = treeDefinition[id].step;
+			if (treeDefinition[id].step) {
+				common.step = treeDefinition[id].step;
+			}
 
-			if (treeDefinition[id].expert) common.expert = treeDefinition[id].expert;
+			if (treeDefinition[id].expert) {
+				common.expert = treeDefinition[id].expert;
+			}
 
-			if (treeDefinition[id].def || treeDefinition[id].def === 0 || treeDefinition[id].def === false) common.def = treeDefinition[id].def;
+			if (treeDefinition[id].def || treeDefinition[id].def === 0 || treeDefinition[id].def === false) {
+				common.def = treeDefinition[id].def;
+			}
 
 			if (treeDefinition[id].states) {
 				common.states = treeDefinition[id].states;
@@ -615,7 +648,9 @@ class Openmediavault extends utils.Adapter {
 				this.log.debug(`${logPrefix} ${objDevices?.name} - set allowed common.states for '${logMsgState}' (from: ${treeDefinition[id].statesFromProperty})`);
 			}
 
-			if (treeDefinition[id].desc) common.desc = treeDefinition[id].desc;
+			if (treeDefinition[id].desc) {
+				common.desc = treeDefinition[id].desc;
+			}
 
 			return common;
 		} catch (error: any) {

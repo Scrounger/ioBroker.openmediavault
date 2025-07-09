@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { Smb } from '../types-smb.js';
+import type { Smb } from '../types-smb.js';
 
 export namespace smb {
 	let keys: string[] | undefined = undefined;

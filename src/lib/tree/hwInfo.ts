@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { HwInfo } from '../types-hwInfo.js';
+import type { HwInfo } from '../types-hwInfo.js';
 
 export namespace hwInfo {
 	let keys: string[] | undefined = undefined;

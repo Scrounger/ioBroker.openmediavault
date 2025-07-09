@@ -59,11 +59,15 @@ class Openmediavault extends utils.Adapter {
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
+   * 
+   * @param callback 
    */
   async onUnload(callback) {
     var _a;
     try {
-      if (this.updateTimeout) clearTimeout(this.updateTimeout);
+      if (this.updateTimeout) {
+        clearTimeout(this.updateTimeout);
+      }
       await ((_a = this.omvApi) == null ? void 0 : _a.logout());
       callback();
     } catch (e) {
@@ -86,6 +90,9 @@ class Openmediavault extends utils.Adapter {
   // }
   /**
    * Is called if a subscribed state changes
+   * 
+   * @param id
+   * @param state
    */
   onStateChange(id, state) {
     if (state) {
@@ -97,8 +104,10 @@ class Openmediavault extends utils.Adapter {
   /**
    * Some message was sent to this instance over message box. Used by email, pushover, text2speech, ...
    * Using this method requires 'common.messagebox' property to be set to true in io-package.json
+   * 
+   * @param obj
    */
-  async onMessage(obj) {
+  onMessage(obj) {
     var _a;
     const logPrefix = "[onMessage]:";
     try {
@@ -122,14 +131,18 @@ class Openmediavault extends utils.Adapter {
             }
           }
           list = import_lodash.default.orderBy(list, ["value"], ["asc"]);
-          if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+          if (obj.callback) {
+            this.sendTo(obj.from, obj.command, list, obj.callback);
+          }
         } else if (obj.command.endsWith("BlackList")) {
           if (this.connected && ((_a = this.omvApi) == null ? void 0 : _a.isConnected)) {
             let list = [];
             if (this.configDevicesCache[obj.command.replace("BlackList", "")]) {
               list = this.configDevicesCache[obj.command.replace("BlackList", "")];
               list = import_lodash.default.orderBy(list, ["label"], ["asc"]);
-              if (obj.callback) this.sendTo(obj.from, obj.command, list, obj.callback);
+              if (obj.callback) {
+                this.sendTo(obj.from, obj.command, list, obj.callback);
+              }
             }
           }
         }
@@ -148,8 +161,8 @@ class Openmediavault extends utils.Adapter {
         this.clearTimeout(this.updateTimeout);
         this.updateTimeout = void 0;
       }
-      this.updateTimeout = this.setTimeout(() => {
-        this.updateData();
+      this.updateTimeout = this.setTimeout(async () => {
+        await this.updateData();
       }, this.config.updateInterval * 1e3);
       if (this.omvApi) {
         if (!this.omvApi.isConnected) {
@@ -176,6 +189,7 @@ class Openmediavault extends utils.Adapter {
   }
   /**
    * update data gerneric
+   * 
    * @param endpoint
    * @param treeType
    * @param iobObjectDefintions
@@ -254,11 +268,11 @@ class Openmediavault extends utils.Adapter {
   }
   /**
    * create or update a channel object, update will only be done on adapter start
-   * @param id
-   * @param name
-   * @param onlineId
-   * @param icon
-   * @param isAdapterStart
+   * 
+   * @param id 
+   * @param name 
+   * @param icon 
+   * @param isAdapterStart 
    */
   async createOrUpdateChannel(id, name, icon = void 0, isAdapterStart = false) {
     const logPrefix = "[createOrUpdateChannel]:";
@@ -282,7 +296,9 @@ class Openmediavault extends utils.Adapter {
             if (!myHelper.isChannelCommonEqual(obj.common, common)) {
               await this.extendObject(id, { common });
               const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
-              if (diff && diff.icon) diff.icon = import_lodash.default.truncate(diff.icon);
+              if (diff && diff.icon) {
+                diff.icon = import_lodash.default.truncate(diff.icon);
+              }
               this.log.debug(`${logPrefix} channel updated '${id}' (updated properties: ${JSON.stringify(diff)})`);
             }
           }
@@ -293,13 +309,16 @@ class Openmediavault extends utils.Adapter {
     }
   }
   /**
-  * create or update a device object, update will only be done on adapter start
-  * @param id
-  * @param name
-  * @param onlineId
-  * @param icon
-  * @param isAdapterStart
-  */
+   * create or update a device object, update will only be done on adapter start
+   * 
+   * @param id
+   * @param name
+   * @param onlineId
+   * @param errorId
+   * @param icon
+   * @param isAdapterStart
+   * @param logChanges
+   */
   async createOrUpdateDevice(id, name, onlineId, errorId = void 0, icon = void 0, isAdapterStart = false, logChanges = true) {
     const logPrefix = "[createOrUpdateDevice]:";
     try {
@@ -309,12 +328,12 @@ class Openmediavault extends utils.Adapter {
         icon
       };
       if (onlineId) {
-        common["statusStates"] = {
+        common.statusStates = {
           onlineId
         };
       }
       if (errorId) {
-        common["statusStates"]["errorId"] = errorId;
+        common.statusStates.errorId = errorId;
       }
       if (!await this.objectExists(id)) {
         this.log.debug(`${logPrefix} creating device '${id}'`);
@@ -330,7 +349,9 @@ class Openmediavault extends utils.Adapter {
             if (!myHelper.isDeviceCommonEqual(obj.common, common)) {
               await this.extendObject(id, { common });
               const diff = myHelper.deepDiffBetweenObjects(common, obj.common, this);
-              if (diff && diff.icon) diff.icon = import_lodash.default.truncate(diff.icon);
+              if (diff && diff.icon) {
+                diff.icon = import_lodash.default.truncate(diff.icon);
+              }
               this.log.debug(`${logPrefix} device updated '${id}' ${logChanges ? `(updated properties: ${JSON.stringify(diff)})` : ""}`);
             }
           }
@@ -461,7 +482,7 @@ class Openmediavault extends utils.Adapter {
       this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
     }
   }
-  async getCommonGenericState(id, treeDefinition, objDevices, logMsgState) {
+  getCommonGenericState(id, treeDefinition, objDevices, logMsgState) {
     const logPrefix = "[getCommonGenericState]:";
     try {
       const i18n = myI18n.getTranslatedObject(treeDefinition[id].name || id);
@@ -473,12 +494,24 @@ class Openmediavault extends utils.Adapter {
         write: treeDefinition[id].write !== void 0 ? treeDefinition[id].write : false,
         role: treeDefinition[id].role ? treeDefinition[id].role : "state"
       };
-      if (treeDefinition[id].unit) common.unit = treeDefinition[id].unit;
-      if (treeDefinition[id].min || treeDefinition[id].min === 0) common.min = treeDefinition[id].min;
-      if (treeDefinition[id].max || treeDefinition[id].max === 0) common.max = treeDefinition[id].max;
-      if (treeDefinition[id].step) common.step = treeDefinition[id].step;
-      if (treeDefinition[id].expert) common.expert = treeDefinition[id].expert;
-      if (treeDefinition[id].def || treeDefinition[id].def === 0 || treeDefinition[id].def === false) common.def = treeDefinition[id].def;
+      if (treeDefinition[id].unit) {
+        common.unit = treeDefinition[id].unit;
+      }
+      if (treeDefinition[id].min || treeDefinition[id].min === 0) {
+        common.min = treeDefinition[id].min;
+      }
+      if (treeDefinition[id].max || treeDefinition[id].max === 0) {
+        common.max = treeDefinition[id].max;
+      }
+      if (treeDefinition[id].step) {
+        common.step = treeDefinition[id].step;
+      }
+      if (treeDefinition[id].expert) {
+        common.expert = treeDefinition[id].expert;
+      }
+      if (treeDefinition[id].def || treeDefinition[id].def === 0 || treeDefinition[id].def === false) {
+        common.def = treeDefinition[id].def;
+      }
       if (treeDefinition[id].states) {
         common.states = treeDefinition[id].states;
       } else if (Object.hasOwn(treeDefinition[id], "statesFromProperty")) {
@@ -486,7 +519,9 @@ class Openmediavault extends utils.Adapter {
         common.states = statesFromProp;
         this.log.debug(`${logPrefix} ${objDevices == null ? void 0 : objDevices.name} - set allowed common.states for '${logMsgState}' (from: ${treeDefinition[id].statesFromProperty})`);
       }
-      if (treeDefinition[id].desc) common.desc = treeDefinition[id].desc;
+      if (treeDefinition[id].desc) {
+        common.desc = treeDefinition[id].desc;
+      }
       return common;
     } catch (error) {
       this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);

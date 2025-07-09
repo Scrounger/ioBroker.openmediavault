@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { Disk } from '../types-disk.js';
+import type { Disk } from '../types-disk.js';
 
 export namespace disk {
 	let keys: string[] | undefined = undefined;

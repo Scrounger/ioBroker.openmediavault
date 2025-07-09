@@ -38,8 +38,6 @@ __export(helper_exports, {
   isChannelCommonEqual: () => isChannelCommonEqual,
   isDeviceCommonEqual: () => isDeviceCommonEqual,
   isStateCommonEqual: () => isStateCommonEqual,
-  radioToFrequency: () => radioToFrequency,
-  radio_nameToFrequency: () => radio_nameToFrequency,
   zeroPad: () => zeroPad
 });
 module.exports = __toCommonJS(helper_exports);
@@ -105,7 +103,6 @@ const deepDiffBetweenObjects = (object, base, adapter, allowedKeys = void 0, pre
                   result[key] = tmp;
                 }
               } else {
-                adapter.log.warn(`${key.toString()}: pure Array (base: ${base2[key]}, val: ${value})`);
                 if (!import_lodash.default.isEqual(value, base2[key])) {
                   result[key] = value;
                 }
@@ -175,26 +172,6 @@ function getAllIdsOfTreeDefinition(treefDefintion) {
   recurse(treefDefintion);
   return import_lodash.default.uniq(keys);
 }
-function radioToFrequency(radioVal, adapter) {
-  if (radioVal === "ng") {
-    return "2.4 GHz";
-  } else if (radioVal === "na") {
-    return "5 GHz";
-  } else {
-    adapter.log.warn(`radio ${radioVal} interpreter not implemented! Please create an issue on github.`);
-    return radioVal;
-  }
-}
-function radio_nameToFrequency(radio_nameVal, adapter) {
-  if (radio_nameVal === "wifi0" || radio_nameVal === "ra0") {
-    return "2.4 GHz";
-  } else if (radio_nameVal === "wifi1" || radio_nameVal === "rai0") {
-    return "5 GHz";
-  } else {
-    adapter.log.warn(`radio ${radio_nameVal} interpreter not implemented! Please create an issue on github.`);
-    return "n/a";
-  }
-}
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   deepDiffBetweenObjects,
@@ -207,8 +184,6 @@ function radio_nameToFrequency(radio_nameVal, adapter) {
   isChannelCommonEqual,
   isDeviceCommonEqual,
   isStateCommonEqual,
-  radioToFrequency,
-  radio_nameToFrequency,
   zeroPad
 });
 //# sourceMappingURL=helper.js.map

@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { myCommonState, myCommoneChannelObject, myCommonChannelArray } from './myTypes.js';
+import type { myCommonState, myCommoneChannelObject, myCommonChannelArray } from './myTypes.js';
 
 export function isDeviceCommonEqual(objCommon: ioBroker.DeviceCommon, myCommon: ioBroker.DeviceCommon): boolean {
 	return (!myCommon.name || _.isEqual(objCommon.name, myCommon.name)) &&
@@ -36,11 +36,14 @@ export function getAllowedCommonStates(path: any, obj: any, separator = '.'): an
 	return undefined;
 }
 
-/** Compare common properties of State
+/**
+ * Compare common properties of State
+ * 
  * @param {ioBroker.StateCommon} objCommon
  * @param {ioBroker.StateCommon} myCommon
  * @returns {boolean}
  */
+
 export function isStateCommonEqual(objCommon: ioBroker.StateCommon, myCommon: ioBroker.StateCommon): boolean {
 	return _.isEqual(objCommon.name, myCommon.name) &&
 		_.isEqual(objCommon.type, myCommon.type) &&
@@ -63,6 +66,7 @@ export function zeroPad(source: any, places: number): string {
 
 /**
  * Id without last part
+ * 
  * @param id
  * @returns
  */
@@ -73,6 +77,7 @@ export function getIdWithoutLastPart(id: string): string {
 
 /**
  * last part of id
+ * 
  * @param id
  * @returns
  */
@@ -125,7 +130,6 @@ export const deepDiffBetweenObjects = (object: any, base: any, adapter: ioBroker
 								}
 							} else {
 								// is pure array
-								adapter.log.warn(`${key.toString()}: pure Array (base: ${base[key]}, val: ${value})`);
 								if (!_.isEqual(value, base[key])) {
 									result[key] = value
 								}
@@ -226,26 +230,4 @@ export function getAllIdsOfTreeDefinition(treefDefintion: { [key: string]: myCom
 	recurse(treefDefintion);
 
 	return _.uniq(keys);
-}
-
-export function radioToFrequency(radioVal: string, adapter: ioBroker.Adapter): string {
-	if (radioVal === 'ng') {
-		return '2.4 GHz'
-	} else if (radioVal === 'na') {
-		return '5 GHz'
-	} else {
-		adapter.log.warn(`radio ${radioVal} interpreter not implemented! Please create an issue on github.`);
-		return radioVal
-	}
-}
-
-export function radio_nameToFrequency(radio_nameVal: string, adapter: ioBroker.Adapter): string {
-	if (radio_nameVal === 'wifi0' || radio_nameVal === 'ra0') {
-		return '2.4 GHz'
-	} else if (radio_nameVal === 'wifi1' || radio_nameVal === 'rai0') {
-		return '5 GHz'
-	} else {
-		adapter.log.warn(`radio ${radio_nameVal} interpreter not implemented! Please create an issue on github.`);
-		return 'n/a'
-	}
 }

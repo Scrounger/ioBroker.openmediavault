@@ -1,6 +1,6 @@
-import { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import { ShareMgmt } from '../types-shareMgmt.js';
+import type { ShareMgmt } from '../types-shareMgmt.js';
 
 export namespace shareMgmt {
 	let keys: string[] | undefined = undefined;

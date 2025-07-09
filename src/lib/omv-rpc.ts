@@ -1,10 +1,10 @@
 import fetch, { AbortError } from 'node-fetch';
-import fetchCookie, { FetchCookieImpl } from 'fetch-cookie';
+import fetchCookie, { type FetchCookieImpl } from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
-import https from 'https';
-import * as url from 'url';
+import https from 'node:https';
+import * as url from 'node:url';
 
-import * as myTypes from './myTypes.js'
+import type * as myTypes from './myTypes.js'
 
 export enum ApiEndpoints {
 	login = 'login',
@@ -294,9 +294,11 @@ export class OmvApi {
 		}
 	}
 
-	/** Set adapter info.connection state and internal var
-	* @param {boolean} isConnected
-	*/
+	/**
+	 * Set adapter info.connection state and internal var
+	 * 
+	 * @param isConnected
+	 */
 	private async setConnectionStatus(isConnected: boolean): Promise<void> {
 		const logPrefix = `[${this.logPrefix}.setConnectionStatus]:`;
 
