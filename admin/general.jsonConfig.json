@@ -1,38 +1,76 @@
 {
     "label": "General",
     "items": {
+        "donation_link": {
+            "type": "staticLink",
+            "text": "You like the adapter? Then support me.",
+            "button": true,
+            "newLine": true,
+            "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VWAXSTS634G88&source=url",
+            "style": {
+                "justifyContent": "flex-start !important"
+            },
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
+        },
+        "dividerCredentials": {
+            "newLine": true,
+            "type": "header",
+            "text": "login data",
+            "size": 2
+        },
         "url": {
             "type": "text",
             "label": "url",
+            "validator": "!!data.url.startsWith('http://') || !!data.url.startsWith('https://')",
+            "validatorErrorText": "url must start with http:// or https://",
+            "xs": 12,
             "sm": 12,
-            "md": 2,
-            "validator": "!!data.url.startsWith('http://') || !!data.url.startsWith('https://')"
+            "md": 6,
+            "lg": 4,
+            "xl": 4
         },
         "user": {
             "type": "text",
             "label": "user",
+            "xs": 12,
             "sm": 12,
-            "md": 2
+            "md": 6,
+            "lg": 4,
+            "xl": 4
         },
         "password": {
             "type": "password",
             "label": "password",
+            "xs": 12,
             "sm": 12,
-            "md": 3
+            "md": 6,
+            "lg": 4,
+            "xl": 4
         },
         "ignoreSSLCertificate": {
             "type": "checkbox",
             "label": "ignoreSSLCertificate",
+            "xs": 12,
             "sm": 12,
-            "md": 3
+            "md": 6,
+            "lg": 4,
+            "xl": 4
         },
         "updateInterval": {
+            "newLine": true,
             "type": "number",
             "label": "updateInterval",
-            "sm": 12,
-            "md": 3,
             "min": 10,
-            "max": 86400
+            "max": 86400,
+            "xs": 12,
+            "sm": 12,
+            "md": 6,
+            "lg": 4,
+            "xl": 4
         }
     }
 }
