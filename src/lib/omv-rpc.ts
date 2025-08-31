@@ -38,59 +38,69 @@ export class OmvApi {
 	private jar: CookieJar;
 	private fetchWithCookies: FetchCookieImpl<fetch.RequestInfo, fetch.RequestInit, fetch.Response>;
 
-
 	public constructor(adapter: ioBroker.Adapter) {
+		const logPrefix = `[${this.logPrefix}.constructor]:`;
+
 		this.adapter = adapter;
 		this.log = adapter.log;
 
-		this.url = new url.URL(`${this.adapter.config.url}/rpc.php`)
+		try {
+			this.url = new url.URL(`${this.adapter.config.url}/rpc.php`)
 
-		if (this.adapter.config.ignoreSSLCertificate && this.url.protocol === 'https:') {
-			this.httpsAgent = new https.Agent({
-				rejectUnauthorized: false,
-			});
+			if (this.adapter.config.ignoreSSLCertificate && this.url.protocol === 'https:') {
+				this.httpsAgent = new https.Agent({
+					rejectUnauthorized: false,
+				});
+			}
+
+			this.jar = new CookieJar();
+			this.fetchWithCookies = fetchCookie(fetch, this.jar);
+
+		} catch (error: any) {
+			this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+			this.url = undefined;
 		}
-
-		this.jar = new CookieJar();
-		this.fetchWithCookies = fetchCookie(fetch, this.jar);
 	}
 
 	public async login(): Promise<void> {
 		const logPrefix = `[${this.logPrefix}.login]:`;
 
 		try {
-			const response = await this.fetchWithCookies(this.url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
-				agent: this.httpsAgent,
-				signal: AbortSignal.timeout(5000),
-			});
+			if (this.url) {
+				const response = await this.fetchWithCookies(this.url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
+					agent: this.httpsAgent,
+					signal: AbortSignal.timeout(5000),
+				});
 
-			if (response.ok) {
-				const result = await response.json();
+				if (response.ok) {
+					const result = await response.json();
 
-				if (result && response) {
-					if (result.response.authenticated) {
-						this.log.debug(`${logPrefix} result: ${JSON.stringify(result)}`);
+					if (result && response) {
+						if (result.response.authenticated) {
+							this.log.debug(`${logPrefix} result: ${JSON.stringify(result)}`);
 
-						this.log.info(`${logPrefix} login to OpenMediaVault successful`);
+							this.log.info(`${logPrefix} login to OpenMediaVault successful`);
 
-						await this.setConnectionStatus(true)
+							await this.setConnectionStatus(true)
 
-						return;
+							return;
+						} else {
+							this.log.error(`${logPrefix} OpenMediaVault authenticated failed`);
+						}
 					} else {
-						this.log.error(`${logPrefix} OpenMediaVault authenticated failed`);
+						this.log.error(`${logPrefix} OpenMediaVault no data in repsonse`);
 					}
 				} else {
-					this.log.error(`${logPrefix} OpenMediaVault no data in repsonse`);
+					this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
 				}
 			} else {
-				this.log.error(`${logPrefix} HTTP error! Status: ${response.status} - ${response.statusText}`);
+				this.log.error(`${logPrefix} url '${this.url}' is not valid. Check the adapter settings!`);
 			}
-
 		} catch (error: any) {
 			if (error instanceof AbortError) {
 				this.log.error(`${logPrefix} no connection to OpenMediaVault -> Timeout !`);
@@ -160,21 +170,25 @@ export class OmvApi {
 		const logPrefix = `[${this.logPrefix}.logout]:`;
 
 		try {
-			const response = await this.fetchWithCookies(this.url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
-				agent: this.httpsAgent,
-				signal: AbortSignal.timeout(5000),
-			});
+			if (this.isConnected) {
+				const response = await this.fetchWithCookies(this.url, {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(this.getEndpointData(ApiEndpoints.logout)),
+					agent: this.httpsAgent,
+					signal: AbortSignal.timeout(5000),
+				});
 
-			if (response.ok) {
-				this.log.info(`${logPrefix} login from OpenMediaVault successful`);
+				if (response.ok) {
+					this.log.info(`${logPrefix} logout from OpenMediaVault successful`);
 
-				const result = await response.json();
-				this.log.info(JSON.stringify(result));
+					const result = await response.json();
+					this.log.info(JSON.stringify(result));
+				}
+			} else {
+				this.log.info(`${logPrefix} we are not logged in, so no logout is needed`);
 			}
 		} catch (error: any) {
 			if (error instanceof AbortError) {

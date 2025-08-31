@@ -6,6 +6,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
+import url from 'node:url';
 
 // Load your modules here, e.g.:
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
@@ -131,7 +132,6 @@ class Openmediavault extends utils.Adapter {
 		try {
 			if (typeof obj === 'object') {
 				if (obj.command.endsWith('StateList')) {
-					//@ts-expect-error
 					const states = tree[obj.command.replace('StateList', '')].getStateIDs();
 					let list = [];
 
@@ -202,13 +202,11 @@ class Openmediavault extends utils.Adapter {
 
 				if (this.connected && this.omvApi?.isConnected) {
 					for (const endpoint in ApiEndpoints) {
-						//@ts-expect-error
 						if (tree[endpoint]) {
-							//@ts-expect-error
 							if (Object.hasOwn(tree[endpoint], 'iobObjectDefintions')) {
 								this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
 
-								//@ts-expect-error
+								//@ts-ignore
 								await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
 							} else {
 								if (this.log.level === 'debug') {
@@ -237,7 +235,6 @@ class Openmediavault extends utils.Adapter {
 
 		try {
 			if (this.connected && this.omvApi?.isConnected) {
-				//@ts-expect-error
 				if (this.config[`${endpoint}Enabled`]) {
 					if (isAdapterStart) {
 						await this.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, undefined, true);
@@ -253,7 +250,6 @@ class Openmediavault extends utils.Adapter {
 								if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
 									const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
 
-									//@ts-expect-error
 									if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] }))) {
 
 										if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
@@ -272,13 +268,11 @@ class Openmediavault extends utils.Adapter {
 										}
 
 										this.configDevicesCache[endpoint].push({
-											//@ts-expect-error
 											label: `${device[iobObjectDefintions.deviceNameProperty]} (${device[iobObjectDefintions.deviceIdProperty]})`,
 											value: device[iobObjectDefintions.deviceIdProperty],
 										});
 
 										await this.createOrUpdateDevice(idDevice, iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown', undefined, undefined, undefined, isAdapterStart, true);
-										//@ts-expect-error
 										await this.createOrUpdateGenericState(idDevice, treeType.get(), device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], device, device, isAdapterStart);
 
 										this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
@@ -286,7 +280,6 @@ class Openmediavault extends utils.Adapter {
 										if (isAdapterStart) {
 											if (await this.objectExists(idDevice)) {
 												await this.delObjectAsync(idDevice, { recursive: true });
-												//@ts-expect-error
 												this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${device[iobObjectDefintions.deviceIdProperty]}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 											}
 										}
@@ -296,7 +289,6 @@ class Openmediavault extends utils.Adapter {
 								}
 							}
 						} else {
-							//@ts-expect-error
 							await this.createOrUpdateGenericState(treeType.idChannel, treeType.get(), data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], data, data, isAdapterStart);
 
 							this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
@@ -663,10 +655,15 @@ class Openmediavault extends utils.Adapter {
 	//#endregion
 }
 
-if (require.main !== module) {
-	// Export the constructor in compact mode
-	module.exports = (options: Partial<utils.AdapterOptions> | undefined) => new Openmediavault(options);
-} else {
-	// otherwise start the instance directly
-	(() => new Openmediavault())();
+// replace only needed for dev system
+const modulePath = url.fileURLToPath(import.meta.url).replace('/development/', '/node_modules/');
+
+if (process.argv[1] === modulePath) {
+	// start the instance directly
+	new Openmediavault();
+}
+
+export default function startAdapter(options: Partial<utils.AdapterOptions> | undefined): Openmediavault {
+	// compact mode
+	return new Openmediavault(options);
 }

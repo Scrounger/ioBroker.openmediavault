@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/lib/types-disk.ts"],
-  "sourcesContent": ["export interface Disk {\n\tdevicename: string\n\tcanonicaldevicefile: string\n\tdevicefile: string\n\tdevicelinks: string[]\n\tmodel: string\n\tsize: string\n\tdescription: string\n\tvendor: string\n\tserialnumber: string\n\twwn: string\n\tisraid: boolean\n\tisroot: boolean\n\tisreadonly: boolean\n\tpowermode: string\n\ttemperature: number\n\thotpluggable: boolean\n}\n"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}

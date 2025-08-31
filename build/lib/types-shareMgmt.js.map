@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/lib/types-shareMgmt.ts"],
-  "sourcesContent": ["export interface ShareMgmt {\r\n\tuuid: string\r\n\tname: string\r\n\tcomment: string\r\n\tmntentref: string\r\n\treldirpath: string\r\n\tprivileges: Privileges\r\n\t_used: boolean\r\n\tdevice: string\r\n\tdescription: string\r\n\tmntent: Mntent\r\n\tsnapshots: boolean\r\n}\r\n\r\nexport interface Privileges {\r\n\tprivilege: Privilege[]\r\n}\r\n\r\nexport interface Privilege {\r\n\ttype: string\r\n\tname: string\r\n\tperms: number\r\n}\r\n\r\nexport interface Mntent {\r\n\tdevicefile: string\r\n\tfsname: string\r\n\tdir: string\r\n\ttype: string\r\n\tposixacl: boolean\r\n}"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}

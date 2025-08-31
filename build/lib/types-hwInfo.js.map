@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../src/lib/types-hwInfo.ts"],
-  "sourcesContent": ["export interface HwInfo {\n\tts: number\n\ttime: string\n\thostname: string\n\tversion: string\n\tcpuModelName: string\n\tcpuUtilization: number\n\tcpuCores: string\n\tcpuMhz: string\n\tmemTotal: string\n\tmemFree: string\n\tmemUsed: string\n\tmemAvailable: string\n\tmemUtilization: string\n\tkernel: string\n\tuptime: number\n\tloadAverage: LoadAverage\n\tconfigDirty: boolean\n\tdirtyModules: any[]\n\trebootRequired: boolean\n\tavailablePkgUpdates: number\n\tdisplayWelcomeMessage: boolean\n}\n\ninterface LoadAverage {\n\t'1min': number\n\t'5min': number\n\t'15min': number\n}"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;",
-  "names": []
-}

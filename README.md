@@ -25,6 +25,8 @@ This adapter allows to read informations from your OpenMediaVault using the rpc 
 ### **WORK IN PROGRESS**
 
 - (Scrounger) adapter config layout bug fixes
+- (Scrounger) converted to esm project
+- (Scrounger) bug fixes
 
 ### 1.0.0-beta.1 (2025-07-08)
 
