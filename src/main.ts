@@ -12,7 +12,6 @@ import url from 'node:url';
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js'
 import * as myHelper from './lib/helper.js';
-import * as myI18n from './lib/i18n.js';
 import type { IoBrokerObjectDefinitions, myCommonState } from './lib/myTypes.js';
 
 class Openmediavault extends utils.Adapter {
@@ -46,7 +45,7 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[onReady]:';
 
 		// ohne worte....
-		await myI18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
+		await utils.I18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
 
 		if (this.config.url && this.config.user && this.config.password) {
 			this.omvApi = new OmvApi(this);
@@ -322,7 +321,7 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[createOrUpdateChannel]:';
 
 		try {
-			const i18n = name ? myI18n.getTranslatedObject(name) : name;
+			const i18n = name ? utils.I18n.getTranslatedObject(name) : name;
 
 			const common = {
 				name: name && Object.keys(i18n).length > 1 ? i18n : name,
@@ -374,7 +373,7 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[createOrUpdateDevice]:';
 
 		try {
-			const i18n: any = name ? myI18n.getTranslatedObject(name) : name;
+			const i18n: any = name ? utils.I18n.getTranslatedObject(name) : name;
 
 			const common: any = {
 				name: name && Object.keys(i18n).length > 1 ? i18n : name,
@@ -596,7 +595,7 @@ class Openmediavault extends utils.Adapter {
 
 		try {
 			// i18x translation if exists
-			const i18n = myI18n.getTranslatedObject(treeDefinition[id].name || id);
+			const i18n = utils.I18n.getTranslatedObject(treeDefinition[id].name || id);
 			const name = Object.keys(i18n).length > 1 ? i18n : (treeDefinition[id].name || id);
 
 			const common: any = {

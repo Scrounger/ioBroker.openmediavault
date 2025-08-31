@@ -10,7 +10,6 @@ import url from 'node:url';
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js';
 import * as myHelper from './lib/helper.js';
-import * as myI18n from './lib/i18n.js';
 class Openmediavault extends utils.Adapter {
     omvApi = undefined;
     subscribedList = [];
@@ -35,7 +34,7 @@ class Openmediavault extends utils.Adapter {
     async onReady() {
         const logPrefix = '[onReady]:';
         // ohne worte....
-        await myI18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
+        await utils.I18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
         if (this.config.url && this.config.user && this.config.password) {
             this.omvApi = new OmvApi(this);
             await this.updateData(true);
@@ -282,7 +281,7 @@ class Openmediavault extends utils.Adapter {
     async createOrUpdateChannel(id, name, icon = undefined, isAdapterStart = false) {
         const logPrefix = '[createOrUpdateChannel]:';
         try {
-            const i18n = name ? myI18n.getTranslatedObject(name) : name;
+            const i18n = name ? utils.I18n.getTranslatedObject(name) : name;
             const common = {
                 name: name && Object.keys(i18n).length > 1 ? i18n : name,
                 icon: icon
@@ -329,7 +328,7 @@ class Openmediavault extends utils.Adapter {
     async createOrUpdateDevice(id, name, onlineId, errorId = undefined, icon = undefined, isAdapterStart = false, logChanges = true) {
         const logPrefix = '[createOrUpdateDevice]:';
         try {
-            const i18n = name ? myI18n.getTranslatedObject(name) : name;
+            const i18n = name ? utils.I18n.getTranslatedObject(name) : name;
             const common = {
                 name: name && Object.keys(i18n).length > 1 ? i18n : name,
                 icon: icon
@@ -525,7 +524,7 @@ class Openmediavault extends utils.Adapter {
         const logPrefix = '[getCommonGenericState]:';
         try {
             // i18x translation if exists
-            const i18n = myI18n.getTranslatedObject(treeDefinition[id].name || id);
+            const i18n = utils.I18n.getTranslatedObject(treeDefinition[id].name || id);
             const name = Object.keys(i18n).length > 1 ? i18n : (treeDefinition[id].name || id);
             const common = {
                 name: name,
