@@ -33,21 +33,25 @@ class Openmediavault extends utils.Adapter {
      */
     async onReady() {
         const logPrefix = '[onReady]:';
-        // ohne worte....
-        await utils.I18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
-        if (this.config.url && this.config.user && this.config.password) {
-            this.omvApi = new OmvApi(this);
-            await this.updateData(true);
+        try {
+            await utils.I18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
+            if (this.config.url && this.config.user && this.config.password) {
+                this.omvApi = new OmvApi(this);
+                await this.updateData(true);
+            }
+            else {
+                this.log.warn(`${logPrefix} url and / or login data missing!`);
+            }
+            // const tmp = tree.smart.getStateIDs();
+            // let list = []
+            // for (let id of tmp) {
+            // 	list.push({ id: id });
+            // }
+            // this.log.warn(JSON.stringify(list));
         }
-        else {
-            this.log.warn(`${logPrefix} url and / or login data missing!`);
+        catch (error) {
+            this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
         }
-        // const tmp = tree.smart.getStateIDs();
-        // let list = []
-        // for (let id of tmp) {
-        // 	list.push({ id: id });
-        // }
-        // this.log.warn(JSON.stringify(list));
     }
     /**
      * Is called when adapter shuts down - callback has to be called under any circumstances!
