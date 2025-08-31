@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.0-beta.1",
+    "version": "1.0.0-beta.2",
     "news": {
+      "1.0.0-beta.2": {
+        "en": "adapter config layout bug fixes\nconverted to esm project\nbug fixes",
+        "de": "adapter config layout bugfixes\numgebaut in esm projekt\nfehlerbehebungen",
+        "ru": "адаптер конфигурирует макет ошибки исправления\nпреобразуется в проект эсм\nисправление ошибок",
+        "pt": "correcções de erros de layout de configuração do adaptador\nconvertido para projeto esm\ncorreções de erros",
+        "nl": "adapter configuratie bug fixes\nomgezet in esm project\nfoutherstel",
+        "fr": "correction des bogues de configuration d'adaptateur\nconverti en projet esm\ncorrections des bogues",
+        "it": "adattatore config layout bug fix\nconvertito in progetto esm\ncorrezioni di bug",
+        "es": "adaptador configuración bug fixes\nconvertido al proyecto esm\nbug fixes",
+        "pl": "błąd konfiguracji adaptera\nprzeliczane na projekt esm\npoprawki błędów",
+        "uk": "виправлення помилок адаптера\nперетворено на проект esm\nвиправлення помилок",
+        "zh-cn": "适配器配置布局错误修正\n转换为 esm 工程\n错误修正"
+      },
       "1.0.0-beta.1": {
         "en": "devices blacklist / whitelist added\nbug fixes",
         "de": "geräte blacklist / whitelist hinzugefügt\nfehlerbehebungen",
