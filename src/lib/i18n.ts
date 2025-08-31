@@ -66,9 +66,7 @@ export async function init(rootDir: string, languageOrAdapter: ioBroker.Adapter 
 				}
 				const lang: ioBroker.Languages = file as ioBroker.Languages;
 				if (existsSync(join(rootDir, 'i18n', lang, 'translations.json'))) {
-					const wordsForLanguage = JSON.parse(
-						readFileSync(join(rootDir, 'i18n', lang, 'translations.json')).toString('utf8'),
-					);
+					const wordsForLanguage = JSON.parse(readFileSync(join(rootDir, 'i18n', lang, 'translations.json')).toString('utf8'));
 					Object.keys(wordsForLanguage).forEach((key: string) => {
 						if (words) {
 							if (!words[key]) {
@@ -122,10 +120,7 @@ export function getTranslatedObject(key: string, ...args: (string | number | boo
 			const result: Partial<ioBroker.Translated> = {};
 			Object.keys(word).forEach((lang: string) => {
 				for (const arg of args) {
-					(result as Record<string, string>)[lang] = (word as Record<string, string>)[lang].replace(
-						'%s',
-						arg === null ? 'null' : arg.toString(),
-					);
+					(result as Record<string, string>)[lang] = (word as Record<string, string>)[lang].replace('%s', arg === null ? 'null' : arg.toString());
 				}
 			});
 			return result as ioBroker.Translated;
