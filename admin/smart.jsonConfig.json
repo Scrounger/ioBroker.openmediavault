@@ -25,7 +25,7 @@
         "smartEnabled": {
             "newLine": true,
             "type": "checkbox",
-            "label": "smartEnabled",
+            "label": "enabled",
             "xs": 12,
             "sm": 12,
             "md": 6,

@@ -25,7 +25,7 @@
         "shareMgmtEnabled": {
             "newLine": true,
             "type": "checkbox",
-            "label": "shareMgmtEnabled",
+            "label": "enabled",
             "xs": 12,
             "sm": 12,
             "md": 6,

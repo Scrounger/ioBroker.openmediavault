@@ -49,3 +49,15 @@ export declare function getAllKeysOfTreeDefinition(treefDefintion: {
 export declare function getAllIdsOfTreeDefinition(treefDefintion: {
     [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray;
 }): string[];
+export declare function getTreeNameOrKey(obj: {
+    [key: string]: any;
+}, path?: string[]): Record<string, string>;
+/**
+ * generate a list with all defined names, that can be used for translation
+ *
+ * @param tree
+ * @param adapter
+ */
+export declare function tree2Translation(tree: {
+    [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray;
+}, adapter: ioBroker.Adapter, i18n: typeof import("@iobroker/adapter-core/build/esm/i18n.js")): Record<string, string>;

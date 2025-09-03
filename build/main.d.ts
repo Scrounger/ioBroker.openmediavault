@@ -73,6 +73,7 @@ declare class Openmediavault extends utils.Adapter {
     getCommonGenericState(id: string, treeDefinition: {
         [key: string]: myCommonState;
     }, objDevices: any, logMsgState: string): any;
+    private findMissingTranslation;
 }
 export default function startAdapter(options: Partial<utils.AdapterOptions> | undefined): Openmediavault;
 export {};

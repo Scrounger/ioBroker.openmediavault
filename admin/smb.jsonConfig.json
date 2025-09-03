@@ -25,7 +25,7 @@
         "smbEnabled": {
             "newLine": true,
             "type": "checkbox",
-            "label": "smbEnabled",
+            "label": "enabled",
             "xs": 12,
             "sm": 12,
             "md": 6,

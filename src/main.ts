@@ -55,6 +55,8 @@ class Openmediavault extends utils.Adapter {
 				this.log.warn(`${logPrefix} url and / or login data missing!`);
 			}
 
+			this.findMissingTranslation();
+
 			// const tmp = tree.smart.getStateIDs();
 			// let list = []
 
@@ -653,6 +655,26 @@ class Openmediavault extends utils.Adapter {
 		}
 
 		return undefined;
+	}
+
+	private findMissingTranslation() {
+		const logPrefix = '[findMissingTranslation]:';
+
+		try {
+			if (this.log.level === 'debug') {
+				for (const key in tree) {
+					if (_.isObject(tree[key]) && !key.includes('events')) {
+						const result = myHelper.tree2Translation(tree[key].get(), this, utils.I18n);
+
+						if (result) {
+							this.log.debug(`${logPrefix} ${key} - missiing translation ${JSON.stringify(result)}`);
+						}
+					}
+				}
+			}
+		} catch (error) {
+			this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+		}
 	}
 
 	//#endregion
