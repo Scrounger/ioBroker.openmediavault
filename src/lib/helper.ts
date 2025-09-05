@@ -233,7 +233,7 @@ export function getAllIdsOfTreeDefinition(treefDefintion: { [key: string]: myCom
 }
 
 export function getTreeNameOrKey(obj: { [key: string]: any }, path: string[] = []): Record<string, string> {
-	let result: Record<string, string> = {};
+	const result: Record<string, string> = {};
 
 	if (obj && typeof obj === "object") {
 		if ("iobType" in obj) {
@@ -255,9 +255,10 @@ export function getTreeNameOrKey(obj: { [key: string]: any }, path: string[] = [
  * generate a list with all defined names, that can be used for translation
  * 
  * @param tree 
- * @param adapter 
+ * @param adapter
+ * @param i18n  
  */
-export function tree2Translation(tree: { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray }, adapter: ioBroker.Adapter, i18n: typeof import("@iobroker/adapter-core/build/esm/i18n.js")): Record<string, string> {
+export function tree2Translation(tree: { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray }, adapter: ioBroker.Adapter, i18n: any): Record<string, string> {
 	const result = getTreeNameOrKey(tree);
 
 	for (const key of Object.keys(result)) {

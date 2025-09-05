@@ -657,7 +657,7 @@ class Openmediavault extends utils.Adapter {
 		return undefined;
 	}
 
-	private findMissingTranslation() {
+	private findMissingTranslation(): void {
 		const logPrefix = '[findMissingTranslation]:';
 
 		try {

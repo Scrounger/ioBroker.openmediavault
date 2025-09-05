@@ -204,7 +204,7 @@ export function getAllIdsOfTreeDefinition(treefDefintion) {
     return _.uniq(keys);
 }
 export function getTreeNameOrKey(obj, path = []) {
-    let result = {};
+    const result = {};
     if (obj && typeof obj === "object") {
         if ("iobType" in obj) {
             const lastKey = path[path.length - 1];
@@ -223,6 +223,7 @@ export function getTreeNameOrKey(obj, path = []) {
  *
  * @param tree
  * @param adapter
+ * @param i18n
  */
 export function tree2Translation(tree, adapter, i18n) {
     const result = getTreeNameOrKey(tree);

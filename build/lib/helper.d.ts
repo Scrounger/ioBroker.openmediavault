@@ -57,7 +57,8 @@ export declare function getTreeNameOrKey(obj: {
  *
  * @param tree
  * @param adapter
+ * @param i18n
  */
 export declare function tree2Translation(tree: {
     [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray;
-}, adapter: ioBroker.Adapter, i18n: typeof import("@iobroker/adapter-core/build/esm/i18n.js")): Record<string, string>;
+}, adapter: ioBroker.Adapter, i18n: any): Record<string, string>;
