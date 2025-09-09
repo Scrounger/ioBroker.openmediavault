@@ -31,14 +31,14 @@ export var smart;
             devicelinks: {
                 iobType: 'string',
                 name: 'hostname',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return JSON.stringify(val);
                 }
             },
             devicemodel: {
                 iobType: 'string',
                 name: 'devicemodel',
-                conditionToCreateState(objDevice, _adapter) {
+                conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.devicemodel !== undefined && objDevice.devicemodel !== '';
                 },
             },
@@ -50,7 +50,7 @@ export var smart;
             firmwareversion: {
                 iobType: 'string',
                 name: 'firmwareversion',
-                conditionToCreateState(objDevice, _adapter) {
+                conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.firmwareversion !== undefined && objDevice.firmwareversion !== '';
                 },
             },
@@ -65,7 +65,7 @@ export var smart;
             modelfamily: {
                 iobType: 'string',
                 name: 'modelfamily',
-                conditionToCreateState(objDevice, _adapter) {
+                conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.modelfamily !== undefined && objDevice.modelfamily !== '';
                 },
             },
@@ -76,7 +76,7 @@ export var smart;
             powercycles: {
                 iobType: 'number',
                 name: 'powercycles',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return parseInt(val);
                 },
             },
@@ -84,7 +84,7 @@ export var smart;
                 iobType: 'number',
                 name: 'poweronhours',
                 unit: 'h',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return parseInt(val);
                 },
             },
@@ -92,7 +92,7 @@ export var smart;
                 iobType: 'number',
                 name: 'rotationrate',
                 unit: 'rpm',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return parseInt(val.replace(' rpm', ''));
                 }
             },
@@ -104,7 +104,7 @@ export var smart;
                 iobType: 'number',
                 name: 'size',
                 unit: 'TB',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
@@ -112,10 +112,10 @@ export var smart;
                 iobType: 'number',
                 name: 'temperature',
                 unit: '°C',
-                conditionToCreateState(objDevice, _adapter) {
+                conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.temperature > 0;
                 },
-                readVal: function (val, _adapter, _deviceOrClient, _id) {
+                readVal: function (val, adapter, device) {
                     return Math.round(val * 10) / 10;
                 },
             },

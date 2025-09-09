@@ -1,9 +1,9 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 export declare namespace fileSystem {
     const idChannel = "fileSystem";
     const iobObjectDefintions: IoBrokerObjectDefinitions;
     function get(): {
-        [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray;
+        [key: string]: myTreeDefinition;
     };
     function getKeys(): string[];
     function getStateIDs(): string[];

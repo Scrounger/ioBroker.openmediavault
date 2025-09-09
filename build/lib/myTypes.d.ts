@@ -1,13 +1,16 @@
 import type { ApiEndpoints } from './omv-rpc.js';
-import type { HwInfo } from './types-hwInfo.js';
-export interface EndpointData {
-    service: string;
-    method: string;
-    params?: {
-        [key: string]: any;
-    } | null;
-}
-export interface myCommonState {
+import { Disk } from './types-disk.js';
+import { HwInfo } from './types-hwInfo.js';
+import type { FileSystem } from './types-fileSystem.js';
+import { ShareMgmt } from './types-shareMgmt.js';
+import { Smart } from './types-smart.js';
+import { Smb } from './types-smb.js';
+export type myTreeData = Disk | FileSystem | HwInfo | ShareMgmt | Smart | Smb;
+type ReadValFunction = (val: any, adapter: ioBroker.Adapter | ioBroker.myAdapter, device: myTreeData) => ioBroker.StateValue | Promise<ioBroker.StateValue>;
+export type WriteValFunction = (val: ioBroker.StateValue, id?: string, device?: myTreeData, adapter?: ioBroker.Adapter | ioBroker.myAdapter) => any | Promise<any>;
+type ConditionToCreateStateFunction = (objDevice: myTreeData, objChannel: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => boolean;
+export type myTreeDefinition = myTreeState | myTreeObject | myTreeArray;
+export interface myTreeState {
     id?: string;
     iobType: ioBroker.CommonType;
     name?: string;
@@ -18,49 +21,48 @@ export interface myCommonState {
     min?: number;
     max?: number;
     step?: number;
-    states?: {
-        [key: string]: string;
-    } | {
-        [key: number]: string;
-    };
+    states?: Record<string, string> | string[] | string;
     expert?: true;
     icon?: string;
     def?: ioBroker.StateValue;
     desc?: string;
-    readVal?(val: ioBroker.StateValue, adapter: ioBroker.Adapter, deviceOrClient: any, id: string): ioBroker.StateValue | Promise<ioBroker.StateValue>;
-    writeVal?(val: ioBroker.StateValue, adapter: ioBroker.Adapter): ioBroker.StateValue | Promise<ioBroker.StateValue>;
+    readVal?: ReadValFunction;
+    writeVal?: WriteValFunction;
     valFromProperty?: string;
-    statesFromProperty?: string;
-    conditionToCreateState?(objDevice: any, adapter: ioBroker.Adapter): boolean;
+    statesFromProperty?(objDevice: myTreeData, objChannel: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter): Record<string, string> | string[] | string;
+    conditionToCreateState?: ConditionToCreateStateFunction;
     subscribeMe?: true;
     required?: true;
 }
-export interface myCommoneChannelObject {
+export interface myTreeObject {
     idChannel?: string;
-    channelName?(objDevice: any, objChannel: any, adapter: ioBroker.Adapter): string;
+    name?: string;
     icon?: string;
     object: {
-        [key: string]: myCommonState | myCommoneChannelObject;
+        [key: string]: myTreeDefinition;
     };
+    conditionToCreateState?: ConditionToCreateStateFunction;
 }
-export interface myCommonChannelArray {
+export interface myTreeArray {
     idChannel?: string;
-    channelName?(objDevice: any, objChannel: any, adapter: ioBroker.Adapter): string;
+    name?: string;
     icon?: string;
     arrayChannelIdPrefix?: string;
     arrayChannelIdZeroPad?: number;
-    arrayChannelIdFromProperty?(objDevice: any, i: number, adapter: ioBroker.Adapter): string;
+    arrayChannelIdFromProperty?(objDevice: myTreeData, objChannel: myTreeData, i: number, adapter: ioBroker.Adapter | ioBroker.myAdapter): string;
     arrayChannelNamePrefix?: string;
-    arrayChannelNameFromProperty?(objDevice: any, adapter: ioBroker.Adapter): string;
+    arrayChannelNameFromProperty?(objDevice: myTreeData, objChannel: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter): string;
     arrayStartNumber?: number;
     array: {
-        [key: string]: myCommonState;
+        [key: string]: myTreeDefinition;
     };
 }
-export interface myCache {
-    hwInfo: {
-        [key: string]: HwInfo;
-    };
+export interface EndpointData {
+    service: string;
+    method: string;
+    params?: {
+        [key: string]: any;
+    } | null;
 }
 export interface IoBrokerObjectDefinitions {
     channelName: string;
@@ -72,3 +74,4 @@ export interface IoBrokerObjectDefinitions {
         paramsProperty: string;
     };
 }
+export {};

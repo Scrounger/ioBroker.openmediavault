@@ -25,7 +25,7 @@ export var smb;
             guest: {
                 iobType: 'boolean',
                 name: 'enable',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return val !== 'no';
                 }
             },

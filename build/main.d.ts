@@ -1,9 +1,11 @@
 import * as utils from '@iobroker/adapter-core';
 import { OmvApi } from './lib/omv-rpc.js';
-import type { myCommonState } from './lib/myTypes.js';
+import { myIob } from './lib/myIob.js';
 declare class Openmediavault extends utils.Adapter {
     omvApi: OmvApi | undefined;
+    myIob: myIob;
     subscribedList: string[];
+    statesUsingValAsLastChanged: any[];
     updateTimeout: ioBroker.Timeout | undefined;
     configDevicesCache: {
         [key: string]: {
@@ -46,34 +48,6 @@ declare class Openmediavault extends utils.Adapter {
      * @param isAdapterStart
      */
     private updateDataGeneric;
-    /**
-     * create or update a channel object, update will only be done on adapter start
-     *
-     * @param id
-     * @param name
-     * @param icon
-     * @param isAdapterStart
-     */
-    private createOrUpdateChannel;
-    /**
-     * create or update a device object, update will only be done on adapter start
-     *
-     * @param id
-     * @param name
-     * @param onlineId
-     * @param errorId
-     * @param icon
-     * @param isAdapterStart
-     * @param logChanges
-     */
-    private createOrUpdateDevice;
-    createOrUpdateGenericState(channel: string, treeDefinition: any, objValues: any, blacklistFilter: {
-        id: string;
-    }[], isWhiteList: boolean, objDevices: any, objChannel: any, isAdapterStart?: boolean, filterId?: string, isChannelOnWhitelist?: boolean): Promise<void>;
-    getCommonGenericState(id: string, treeDefinition: {
-        [key: string]: myCommonState;
-    }, objDevices: any, logMsgState: string): any;
-    private findMissingTranslation;
 }
 export default function startAdapter(options: Partial<utils.AdapterOptions> | undefined): Openmediavault;
 export {};

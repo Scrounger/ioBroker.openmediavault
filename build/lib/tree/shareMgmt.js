@@ -27,9 +27,7 @@ export var shareMgmt;
                 name: 'device of folder',
             },
             mntent: {
-                channelName(_objDevice, _objChannel, _adapter) {
-                    return 'mntent';
-                },
+                name: 'mntent',
                 object: {
                     devicefile: {
                         iobType: 'string',

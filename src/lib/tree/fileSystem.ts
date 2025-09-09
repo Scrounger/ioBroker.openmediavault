@@ -1,4 +1,4 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { FileSystem } from '../types-fileSystem.js';
 
@@ -13,13 +13,13 @@ export namespace fileSystem {
 		deviceNameProperty: 'label',
 	}
 
-	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
+	export function get(): { [key: string]: myTreeDefinition } {
 		return {
 			available: {
 				iobType: 'number',
 				name: 'available',
 				unit: 'TB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: FileSystem, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: FileSystem): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -55,7 +55,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'percentage',
 				unit: '%',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: FileSystem, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: FileSystem): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -63,7 +63,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'size',
 				unit: 'TB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: FileSystem, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: FileSystem): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -75,8 +75,8 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'used',
 				unit: 'TB',
-				readVal(val: number, _adapter: ioBroker.Adapter, deviceOrClient: FileSystem, _id: string): ioBroker.StateValue {
-					return Math.round((deviceOrClient.size - deviceOrClient.available) / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+				readVal(val: any, adapter: ioBroker.Adapter, device: FileSystem): ioBroker.StateValue {
+					return Math.round((device.size - device.available) / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
 			uuid: {

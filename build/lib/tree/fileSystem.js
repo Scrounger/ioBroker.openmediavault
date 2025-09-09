@@ -14,7 +14,7 @@ export var fileSystem;
                 iobType: 'number',
                 name: 'available',
                 unit: 'TB',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
@@ -50,7 +50,7 @@ export var fileSystem;
                 iobType: 'number',
                 name: 'percentage',
                 unit: '%',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return Math.round(val);
                 }
             },
@@ -58,7 +58,7 @@ export var fileSystem;
                 iobType: 'number',
                 name: 'size',
                 unit: 'TB',
-                readVal(val, _adapter, _deviceOrClient, _id) {
+                readVal(val, adapter, device) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
@@ -70,8 +70,8 @@ export var fileSystem;
                 iobType: 'number',
                 name: 'used',
                 unit: 'TB',
-                readVal(val, _adapter, deviceOrClient, _id) {
-                    return Math.round((deviceOrClient.size - deviceOrClient.available) / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+                readVal(val, adapter, device) {
+                    return Math.round((device.size - device.available) / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
             uuid: {

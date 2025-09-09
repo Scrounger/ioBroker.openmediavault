@@ -1,4 +1,4 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { ShareMgmt } from '../types-shareMgmt.js';
 
@@ -13,7 +13,7 @@ export namespace shareMgmt {
 		deviceNameProperty: 'name',
 	}
 
-	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
+	export function get(): { [key: string]: myTreeDefinition } {
 		return {
 			name: {
 				iobType: 'string',
@@ -32,9 +32,7 @@ export namespace shareMgmt {
 				name: 'device of folder',
 			},
 			mntent: {
-				channelName(_objDevice: ShareMgmt, _objChannel: any, _adapter: ioBroker.Adapter): string {
-					return 'mntent'
-				},
+				name: 'mntent',
 				object: {
 					devicefile: {
 						iobType: 'string',

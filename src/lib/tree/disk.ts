@@ -1,4 +1,4 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { Disk } from '../types-disk.js';
 
@@ -13,7 +13,7 @@ export namespace disk {
 		deviceNameProperty: 'devicename'
 	}
 
-	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
+	export function get(): { [key: string]: myTreeDefinition } {
 		return {
 			canonicaldevicefile: {
 				iobType: 'string',
@@ -30,7 +30,7 @@ export namespace disk {
 			devicelinks: {
 				iobType: 'string',
 				name: 'hostname',
-				readVal(val: string, _adapter: ioBroker.Adapter, _deviceOrClient: Disk, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: Disk): ioBroker.StateValue {
 					return JSON.stringify(val);
 				}
 			},
@@ -70,7 +70,7 @@ export namespace disk {
 				iobType: 'number',
 				name: 'size',
 				unit: 'TB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: Disk, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: Disk): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -78,10 +78,10 @@ export namespace disk {
 				iobType: 'number',
 				name: 'temperature',
 				unit: '°C',
-				conditionToCreateState(objDevice: Disk, _adapter: ioBroker.Adapter): boolean {
+				conditionToCreateState(objDevice: Disk, objChannel: Disk, adapter: ioBroker.Adapter): boolean {
 					return objDevice.temperature > 0;
 				},
-				readVal: function (val: number, _adapter: ioBroker.Adapter, _deviceOrClient: Disk, _id: string): ioBroker.StateValue {
+				readVal: function (val: any, adapter: ioBroker.Adapter, device: Disk): ioBroker.StateValue {
 					return Math.round(val * 10) / 10;
 				},
 			},

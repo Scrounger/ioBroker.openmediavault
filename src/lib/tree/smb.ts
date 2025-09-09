@@ -1,4 +1,4 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { Smb } from '../types-smb.js';
 
@@ -13,7 +13,7 @@ export namespace smb {
 		deviceNameProperty: 'sharedfoldername',
 	}
 
-	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
+	export function get(): { [key: string]: myTreeDefinition } {
 		return {
 			browseable: {
 				iobType: 'boolean',
@@ -30,7 +30,7 @@ export namespace smb {
 			guest: {
 				iobType: 'boolean',
 				name: 'enable',
-				readVal(val: string, _adapter: ioBroker.Adapter, _deviceOrClient: Smb, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: Smb): ioBroker.StateValue {
 					return val !== 'no'
 				}
 			},

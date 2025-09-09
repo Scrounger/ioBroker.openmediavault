@@ -1,4 +1,4 @@
-import type { IoBrokerObjectDefinitions, myCommonChannelArray, myCommonState, myCommoneChannelObject } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { HwInfo } from '../types-hwInfo.js';
 
@@ -13,7 +13,7 @@ export namespace hwInfo {
 		deviceNameProperty: undefined,
 	}
 
-	export function get(): { [key: string]: myCommonState | myCommoneChannelObject | myCommonChannelArray } {
+	export function get(): { [key: string]: myTreeDefinition } {
 		return {
 			availablePkgUpdates: {
 				iobType: 'number',
@@ -27,7 +27,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'cpu utilization',
 				unit: '%',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -49,9 +49,7 @@ export namespace hwInfo {
 			},
 			loadAverage: {
 				idChannel: 'loadAverage',
-				channelName(_objDevice: HwInfo, _objChannel: any, _adapter: ioBroker.Adapter): string {
-					return 'load average'
-				},
+				name: 'load average',
 				object: {
 					'1min': {
 						iobType: 'number',
@@ -71,7 +69,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory total',
 				unit: 'GB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -79,7 +77,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory free',
 				unit: 'GB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -87,7 +85,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory used',
 				unit: 'GB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -95,7 +93,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory available',
 				unit: 'GB',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -103,7 +101,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory utilization',
 				unit: '%',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val * 100);
 				}
 			},
@@ -115,7 +113,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'uptime',
 				unit: 's',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -124,7 +122,7 @@ export namespace hwInfo {
 				iobType: 'boolean',
 				name: 'upgradeable',
 				valFromProperty: 'availablePkgUpdates',
-				readVal(val: number, _adapter: ioBroker.Adapter, _deviceOrClient: HwInfo, _id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
 					return val > 0;
 				}
 			},
