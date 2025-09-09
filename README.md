@@ -15,6 +15,11 @@
 
 This adapter allows to read informations from your OpenMediaVault using the rpc interface.
 
+## Configuration
+
+You need the url of your OpenMediavault server and the password of your admin account.
+**Note**: using admin account is neccessary because rpc interface is only avaiable for admin
+
 ## Changelog
 
 <!--
@@ -24,6 +29,7 @@ This adapter allows to read informations from your OpenMediaVault using the rpc 
 
 ### **WORK IN PROGRESS**
 
+- (scrounger) automatic role assignment implemented
 - (Scrounger) translation added
 
 ### 1.0.0-beta.2 (2025-08-31)
