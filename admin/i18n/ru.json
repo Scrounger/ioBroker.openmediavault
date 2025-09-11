@@ -94,5 +94,7 @@
     "user": "пользователь",
     "password": "пароль",
     "login data": "Вход данных",
-    "update interval": "Интервал обновления"
+    "update interval": "Интервал обновления",
+    "load average": "Среднее значение нагрузки",
+    "mntent": "Mntent"
 }

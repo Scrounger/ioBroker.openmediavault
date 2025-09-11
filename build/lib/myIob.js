@@ -286,6 +286,9 @@ export class myIob {
                     }
                 }
             }
+            else {
+                this.log.warn(`${logPrefix} adapter has no connection!`);
+            }
         }
         catch (error) {
             this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);

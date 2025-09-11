@@ -37,6 +37,7 @@ class Openmediavault extends utils.Adapter {
     async onReady() {
         const logPrefix = '[onReady]:';
         try {
+            this.connected = false;
             await utils.I18n.init(`${utils.getAbsoluteDefaultDataDir().replace('iobroker-data/', '')}node_modules/iobroker.${this.name}/admin`, this);
             this.myIob = new myIob(this, utils, this.statesUsingValAsLastChanged);
             if (this.config.url && this.config.user && this.config.password) {

@@ -317,6 +317,7 @@ export class OmvApi {
 		const logPrefix = `[${this.logPrefix}.setConnectionStatus]:`;
 
 		try {
+			this.adapter.connected = isConnected
 			this.isConnected = isConnected;
 			await this.adapter.setState('info.connection', isConnected, true);
 		} catch (error: any) {

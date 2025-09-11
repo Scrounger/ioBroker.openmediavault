@@ -94,5 +94,7 @@
     "user": "gebruiker",
     "password": "wachtwoord",
     "login data": "inloggegevens",
-    "update interval": "Update interval"
+    "update interval": "Update interval",
+    "load average": "Laadgemiddelde",
+    "mntent": "mntent"
 }

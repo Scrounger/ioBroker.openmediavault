@@ -92,5 +92,7 @@
 	"enable": "enable",
 	"readonly": "readonly",
 	"recyclebin": "recycle bin",
-	"sharedfoldername": "shared folder name"
+	"sharedfoldername": "shared folder name",
+	"load average": "load average",
+	"mntent": "mntent"
 }

@@ -94,5 +94,7 @@
     "user": "usuário",
     "password": "senha",
     "login data": "Dados de login",
-    "update interval": "intervalo de atualização"
+    "update interval": "intervalo de atualização",
+    "load average": "Carga média",
+    "mntent": "MNTENT"
 }

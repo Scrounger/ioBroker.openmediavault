@@ -94,5 +94,7 @@
     "user": "utilisateur",
     "password": "mot de passe",
     "login data": "données de connexion",
-    "update interval": "mettre à jour l'intervalle"
+    "update interval": "mettre à jour l'intervalle",
+    "load average": "moyenne de chargement",
+    "mntent": "mntent"
 }

@@ -94,5 +94,7 @@
     "user": "Benutzer",
     "password": "Passwort",
     "login data": "Anmeldedaten",
-    "update interval": "Aktualisierungsintervall"
+    "update interval": "Aktualisierungsintervall",
+    "load average": "Lastdurchschnitt",
+    "mntent": "Mntent"
 }

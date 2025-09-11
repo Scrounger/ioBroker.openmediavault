@@ -94,5 +94,7 @@
     "user": "用户",
     "password": "密码",
     "login data": "登录数据",
-    "update interval": "更新间隔"
+    "update interval": "更新间隔",
+    "load average": "负载平均值",
+    "mntent": "mntent"
 }

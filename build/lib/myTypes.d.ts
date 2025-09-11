@@ -1,10 +1,10 @@
 import type { ApiEndpoints } from './omv-rpc.js';
-import { Disk } from './types-disk.js';
-import { HwInfo } from './types-hwInfo.js';
+import type { Disk } from './types-disk.js';
+import type { HwInfo } from './types-hwInfo.js';
 import type { FileSystem } from './types-fileSystem.js';
-import { ShareMgmt } from './types-shareMgmt.js';
-import { Smart } from './types-smart.js';
-import { Smb } from './types-smb.js';
+import type { ShareMgmt } from './types-shareMgmt.js';
+import type { Smart } from './types-smart.js';
+import type { Smb } from './types-smb.js';
 export type myTreeData = Disk | FileSystem | HwInfo | ShareMgmt | Smart | Smb;
 type ReadValFunction = (val: any, adapter: ioBroker.Adapter | ioBroker.myAdapter, device: myTreeData) => ioBroker.StateValue | Promise<ioBroker.StateValue>;
 export type WriteValFunction = (val: ioBroker.StateValue, id?: string, device?: myTreeData, adapter?: ioBroker.Adapter | ioBroker.myAdapter) => any | Promise<any>;

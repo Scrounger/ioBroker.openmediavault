@@ -327,6 +327,8 @@ export class myIob {
                         this.log.error(`${logPrefix} [id: ${key}, ${logDetails ? `${logDetails}, ` : ''}key: ${key}] error: ${error}, stack: ${error.stack}, data: ${JSON.stringify(treeData[key])}`);
                     }
                 }
+            } else {
+                this.log.warn(`${logPrefix} adapter has no connection!`);
             }
         } catch (error) {
             this.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);

@@ -94,5 +94,7 @@
     "user": "користувач",
     "password": "пароль",
     "login data": "Дані входу",
-    "update interval": "Інтервал оновлення"
+    "update interval": "Інтервал оновлення",
+    "load average": "Середня навантаження",
+    "mntent": "мнент"
 }
