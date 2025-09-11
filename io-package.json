@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.0-beta.2",
+    "version": "1.0.0",
     "news": {
+      "1.0.0": {
+        "en": "automatic role assignment implemented\ntranslation added",
+        "de": "Automatische Rollenzuweisung implementiert\nÜbersetzung hinzugefügt",
+        "ru": "Реализовано автоматическое назначение ролей\nперевод добавлен",
+        "pt": "Implementada atribuição automática de papel.\nTradução adicionada",
+        "nl": "Automatische roltoewijzing geïmplementeerd\nVertaald",
+        "fr": "Affectation automatique des rôles mise en place\nTraduction ajoutée",
+        "it": "Implementata l'assegnazione automatica dei ruoli\nTraduzione aggiunta",
+        "es": "implementada la asignación automática de roles\nSe ha añadido la traducción.",
+        "pl": "zaimplementowano automatyczne przypisywanie ról\ntłumaczenie dodane",
+        "uk": "Реалізовано автоматичне призначення ролей.\nпереклад додано",
+        "zh-cn": "已实现自动分配角色\n新功能：添加了支持新设备的功能。\n\n改进：优化了用户界面的性能。\n\n修复：修复了一个导致崩溃的bug。"
+      },
       "1.0.0-beta.2": {
         "en": "adapter config layout bug fixes\nconverted to esm project\nbug fixes",
         "de": "adapter config layout bugfixes\numgebaut in esm projekt\nfehlerbehebungen",
