@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import type { myTreeDefinition } from './myTypes';
+import type { myTreeDefinition } from './myIob';
+
 
 export function getObjectByString(path: any, obj: any, separator = '.'): any {
 	const properties = Array.isArray(path) ? path : path.split(separator);

@@ -25,7 +25,7 @@ export var disk;
             devicelinks: {
                 iobType: 'string',
                 name: 'hostname',
-                readVal(val, adapter, device) {
+                readVal(val, adapter, device, id) {
                     return JSON.stringify(val);
                 }
             },
@@ -65,7 +65,7 @@ export var disk;
                 iobType: 'number',
                 name: 'size',
                 unit: 'TB',
-                readVal(val, adapter, device) {
+                readVal(val, adapter, device, id) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
@@ -76,7 +76,7 @@ export var disk;
                 conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.temperature > 0;
                 },
-                readVal: function (val, adapter, device) {
+                readVal: function (val, adapter, device, id) {
                     return Math.round(val * 10) / 10;
                 },
             },

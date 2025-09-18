@@ -1,6 +1,7 @@
-import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { HwInfo } from '../types-hwInfo.js';
+import type { myTreeDefinition } from '../myIob.js';
 
 export namespace hwInfo {
 	let keys: string[] | undefined = undefined;
@@ -27,7 +28,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'cpu utilization',
 				unit: '%',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -69,7 +70,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory total',
 				unit: 'GB',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -77,7 +78,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory free',
 				unit: 'GB',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -85,7 +86,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory used',
 				unit: 'GB',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -93,7 +94,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory available',
 				unit: 'GB',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -101,7 +102,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'memory utilization',
 				unit: '%',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val * 100);
 				}
 			},
@@ -113,7 +114,7 @@ export namespace hwInfo {
 				iobType: 'number',
 				name: 'uptime',
 				unit: 's',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -122,7 +123,7 @@ export namespace hwInfo {
 				iobType: 'boolean',
 				name: 'upgradeable',
 				valFromProperty: 'availablePkgUpdates',
-				readVal(val: any, adapter: ioBroker.Adapter, device: HwInfo): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, id: string): ioBroker.StateValue {
 					return val > 0;
 				}
 			},

@@ -1,6 +1,7 @@
-import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions } from '../myTypes.js';
 import * as myHelper from '../helper.js';
 import type { Smb } from '../types-smb.js';
+import type { myTreeDefinition } from '../myIob.js';
 
 export namespace smb {
 	let keys: string[] | undefined = undefined;
@@ -30,7 +31,7 @@ export namespace smb {
 			guest: {
 				iobType: 'boolean',
 				name: 'enable',
-				readVal(val: any, adapter: ioBroker.Adapter, device: Smb): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smb, id: string): ioBroker.StateValue {
 					return val !== 'no'
 				}
 			},

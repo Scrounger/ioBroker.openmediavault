@@ -1,4 +1,5 @@
-import type { IoBrokerObjectDefinitions, myTreeDefinition } from '../myTypes.js';
+import type { IoBrokerObjectDefinitions } from '../myTypes.js';
+import type { myTreeDefinition } from '../myIob.js';
 export declare namespace smart {
     const idChannel = "smart";
     const iobObjectDefintions: IoBrokerObjectDefinitions;

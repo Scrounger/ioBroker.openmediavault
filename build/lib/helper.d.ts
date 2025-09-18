@@ -1,4 +1,4 @@
-import type { myTreeDefinition } from './myTypes';
+import type { myTreeDefinition } from './myIob';
 export declare function getObjectByString(path: any, obj: any, separator?: string): any;
 export declare function getAllowedCommonStates(path: any, obj: any, separator?: string): any;
 export declare function zeroPad(source: any, places: number): string;
