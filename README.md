@@ -26,9 +26,15 @@ You need the url of your OpenMediavault server and the password of your admin ac
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+- (Scrounger) dependencies updated
+- (Scrounger) bug fixes
+
 ### 1.0.0 (2025-09-11)
 
-- (scrounger) automatic role assignment implemented
+- (Scrounger) automatic role assignment implemented
 - (Scrounger) translation added
 
 ### 1.0.0-beta.2 (2025-08-31)
