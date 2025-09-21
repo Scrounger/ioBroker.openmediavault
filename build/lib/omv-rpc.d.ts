@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import https from 'node:https';
 export declare enum ApiEndpoints {
     login = "login",
