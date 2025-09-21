@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "news": {
+      "1.0.1": {
+        "en": "dependencies updated\nbug fixes",
+        "de": "aktualisierte abhängigkeiten\nfehlerbehebungen",
+        "ru": "обновленные зависимости\nисправление ошибок",
+        "pt": "dependências atualizadas\ncorreções de erros",
+        "nl": "afhankelijkheden bijgewerkt\nfoutherstel",
+        "fr": "dépendances mises à jour\ncorrections des bogues",
+        "it": "dipendenze aggiornate\ncorrezioni di bug",
+        "es": "dependencias actualizadas\nbug fixes",
+        "pl": "zaktualizowane zależności\npoprawki błędów",
+        "uk": "оновлені залежності\nвиправлення помилок",
+        "zh-cn": "更新依赖关系\n错误修正"
+      },
       "1.0.0": {
         "en": "automatic role assignment implemented\ntranslation added",
         "de": "Automatische Rollenzuweisung implementiert\nÜbersetzung hinzugefügt",
