@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "news": {
+      "1.0.2": {
+        "en": "bug fixes",
+        "de": "fehlerbehebungen",
+        "ru": "исправление ошибок",
+        "pt": "correções de erros",
+        "nl": "foutherstel",
+        "fr": "corrections des bogues",
+        "it": "correzioni di bug",
+        "es": "bug fixes",
+        "pl": "poprawki błędów",
+        "uk": "виправлення помилок",
+        "zh-cn": "错误修正"
+      },
       "1.0.1": {
         "en": "dependencies updated\nbug fixes",
         "de": "aktualisierte abhängigkeiten\nfehlerbehebungen",
