@@ -31,7 +31,7 @@ export namespace smb {
 			guest: {
 				iobType: 'boolean',
 				name: 'enable',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smb, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smb, channel: any, id: string): ioBroker.StateValue {
 					return val !== 'no'
 				}
 			},

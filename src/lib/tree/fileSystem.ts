@@ -20,7 +20,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'available',
 				unit: 'TB',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -56,7 +56,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'percentage',
 				unit: '%',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val);
 				}
 			},
@@ -64,7 +64,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'size',
 				unit: 'TB',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -76,7 +76,7 @@ export namespace fileSystem {
 				iobType: 'number',
 				name: 'used',
 				unit: 'TB',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
 					return Math.round((device.size - device.available) / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},

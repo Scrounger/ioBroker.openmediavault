@@ -31,7 +31,7 @@ export namespace disk {
 			devicelinks: {
 				iobType: 'string',
 				name: 'hostname',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Disk, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Disk, channel: any, id: string): ioBroker.StateValue {
 					return JSON.stringify(val);
 				}
 			},
@@ -71,7 +71,7 @@ export namespace disk {
 				iobType: 'number',
 				name: 'size',
 				unit: 'TB',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Disk, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Disk, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -82,7 +82,7 @@ export namespace disk {
 				conditionToCreateState(objDevice: Disk, objChannel: Disk, adapter: ioBroker.Adapter): boolean {
 					return objDevice.temperature > 0;
 				},
-				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Disk, id: string): ioBroker.StateValue {
+				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Disk, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val * 10) / 10;
 				},
 			},

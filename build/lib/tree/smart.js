@@ -31,7 +31,7 @@ export var smart;
             devicelinks: {
                 iobType: 'string',
                 name: 'hostname',
-                readVal(val, adapter, device, id) {
+                readVal(val, adapter, device, channel, id) {
                     return JSON.stringify(val);
                 }
             },
@@ -76,7 +76,7 @@ export var smart;
             powercycles: {
                 iobType: 'number',
                 name: 'powercycles',
-                readVal(val, adapter, device, id) {
+                readVal(val, adapter, device, channel, id) {
                     return parseInt(val);
                 },
             },
@@ -84,7 +84,7 @@ export var smart;
                 iobType: 'number',
                 name: 'poweronhours',
                 unit: 'h',
-                readVal(val, adapter, device, id) {
+                readVal(val, adapter, device, channel, id) {
                     return parseInt(val);
                 },
             },
@@ -92,7 +92,7 @@ export var smart;
                 iobType: 'number',
                 name: 'rotationrate',
                 unit: 'rpm',
-                readVal(val, adapter, device, id) {
+                readVal(val, adapter, device, channel, id) {
                     return parseInt(val.replace(' rpm', ''));
                 }
             },
@@ -104,7 +104,7 @@ export var smart;
                 iobType: 'number',
                 name: 'size',
                 unit: 'TB',
-                readVal(val, adapter, device, id) {
+                readVal(val, adapter, device, channel, id) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
@@ -115,7 +115,7 @@ export var smart;
                 conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.temperature > 0;
                 },
-                readVal: function (val, adapter, device, id) {
+                readVal: function (val, adapter, device, channel, id) {
                     return Math.round(val * 10) / 10;
                 },
             },

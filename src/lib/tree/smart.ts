@@ -37,7 +37,7 @@ export namespace smart {
 			devicelinks: {
 				iobType: 'string',
 				name: 'hostname',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return JSON.stringify(val);
 				}
 			},
@@ -82,7 +82,7 @@ export namespace smart {
 			powercycles: {
 				iobType: 'number',
 				name: 'powercycles',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return parseInt(val);
 				},
 			},
@@ -90,7 +90,7 @@ export namespace smart {
 				iobType: 'number',
 				name: 'poweronhours',
 				unit: 'h',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return parseInt(val);
 				},
 			},
@@ -98,7 +98,7 @@ export namespace smart {
 				iobType: 'number',
 				name: 'rotationrate',
 				unit: 'rpm',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return parseInt(val.replace(' rpm', ''));
 				}
 			},
@@ -110,7 +110,7 @@ export namespace smart {
 				iobType: 'number',
 				name: 'size',
 				unit: 'TB',
-				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
@@ -121,7 +121,7 @@ export namespace smart {
 				conditionToCreateState(objDevice: Smart, objChannel: Smart, adapter: ioBroker.myAdapter): boolean {
 					return objDevice.temperature > 0;
 				},
-				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Smart, id: string): ioBroker.StateValue {
+				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val * 10) / 10;
 				},
 			},
