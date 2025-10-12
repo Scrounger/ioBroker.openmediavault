@@ -30,6 +30,7 @@ You need the url of your OpenMediavault server and the password of your admin ac
 ### **WORK IN PROGRESS**
 
 - (Scrounger) auto translation bug fix
+- (Scrounger) bug fixes
 
 ### 1.0.3 (2025-09-30)
 
