@@ -6,6 +6,7 @@ export declare enum ApiEndpoints {
     disk = "disk",
     smart = "smart",
     smartInfo = "smartInfo",
+    smartAttributes = "smartAttributes",
     fileSystem = "fileSystem",
     shareMgmt = "shareMgmt",
     smb = "smb",

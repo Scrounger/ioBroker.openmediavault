@@ -8,11 +8,35 @@ export var smart;
         channelName: 'S.M.A.R.T info',
         deviceIdProperty: 'uuid',
         deviceNameProperty: 'devicename',
-        additionalRequest: {
-            endpoint: ApiEndpoints.smartInfo,
-            conditionProperty: 'monitor',
-            paramsProperty: 'devicefile'
-        }
+        additionalRequest: [
+            {
+                endpoint: ApiEndpoints.smartInfo,
+                conditionProperty: 'monitor',
+                paramsProperty: 'devicefile'
+            },
+            {
+                endpoint: ApiEndpoints.smartAttributes,
+                conditionProperty: 'monitor',
+                paramsProperty: 'devicefile',
+                converter: (data, adapter) => {
+                    const logPrefix = `[smart.getAttributes.converter]:`;
+                    try {
+                        if (data) {
+                            const result = {};
+                            data.forEach((item) => {
+                                const cleanAttrname = item.attrname.replace(/[-]/g, '_').toLowerCase();
+                                result[cleanAttrname] = item.rawvalue;
+                            });
+                            return result;
+                        }
+                    }
+                    catch (error) {
+                        adapter.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+                    }
+                    return {};
+                }
+            },
+        ]
     };
     function get() {
         return {
@@ -108,6 +132,18 @@ export var smart;
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
             },
+            spin_retry_count: {
+                iobType: 'number',
+                name: 'spin retry count',
+            },
+            spin_up_time: {
+                iobType: 'number',
+                name: 'spin uptime',
+            },
+            start_stop_count: {
+                iobType: 'number',
+                name: 'start stopcount',
+            },
             temperature: {
                 iobType: 'number',
                 name: 'temperature',
@@ -118,6 +154,22 @@ export var smart;
                 readVal: function (val, adapter, device, channel, id) {
                     return Math.round(val * 10) / 10;
                 },
+            },
+            total_lbas_written: {
+                iobType: 'number',
+                name: 'total lbas written',
+                unit: 'TB',
+                readVal(val, adapter, device, channel, id) {
+                    return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+                }
+            },
+            total_lbas_read: {
+                iobType: 'number',
+                name: 'total lbas read',
+                unit: 'TB',
+                readVal(val, adapter, device, channel, id) {
+                    return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+                }
             },
             uuid: {
                 iobType: 'string',

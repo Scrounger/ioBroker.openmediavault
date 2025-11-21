@@ -226,17 +226,25 @@ class Openmediavault extends utils.Adapter {
                                     if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] }))) {
                                         if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
                                             if (iobObjectDefintions.additionalRequest) {
-                                                if (device[iobObjectDefintions.additionalRequest.conditionProperty]) {
-                                                    const addtionalData = await this.omvApi?.retrievData(iobObjectDefintions.additionalRequest.endpoint, {
-                                                        [iobObjectDefintions.additionalRequest.paramsProperty]: device[iobObjectDefintions.additionalRequest.paramsProperty]
-                                                    });
-                                                    device = { ...addtionalData, ...device };
-                                                }
-                                                else {
-                                                    this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${iobObjectDefintions.additionalRequest.conditionProperty}' is '${device[iobObjectDefintions.additionalRequest.conditionProperty]}'`);
+                                                for (const additionalRequest of iobObjectDefintions.additionalRequest) {
+                                                    if (device[additionalRequest.conditionProperty]) {
+                                                        const addtionalData = await this.omvApi?.retrievData(additionalRequest.endpoint, {
+                                                            [additionalRequest.paramsProperty]: device[additionalRequest.paramsProperty]
+                                                        });
+                                                        if (additionalRequest.converter) {
+                                                            device = { ...additionalRequest.converter(addtionalData, this), ...device };
+                                                        }
+                                                        else {
+                                                            device = { ...addtionalData, ...device };
+                                                        }
+                                                    }
+                                                    else {
+                                                        this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
+                                                    }
                                                 }
                                             }
                                         }
+                                        this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
                                         this.configDevicesCache[endpoint].push({
                                             label: `${device[iobObjectDefintions.deviceNameProperty]} (${device[iobObjectDefintions.deviceIdProperty]})`,
                                             value: device[iobObjectDefintions.deviceIdProperty],

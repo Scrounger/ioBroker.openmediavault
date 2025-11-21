@@ -12,6 +12,7 @@ export var ApiEndpoints;
     ApiEndpoints["disk"] = "disk";
     ApiEndpoints["smart"] = "smart";
     ApiEndpoints["smartInfo"] = "smartInfo";
+    ApiEndpoints["smartAttributes"] = "smartAttributes";
     ApiEndpoints["fileSystem"] = "fileSystem";
     ApiEndpoints["shareMgmt"] = "shareMgmt";
     ApiEndpoints["smb"] = "smb";
@@ -114,7 +115,7 @@ export class OmvApi {
             if (response.ok) {
                 const result = await response.json();
                 if (result && result.response) {
-                    this.log.debug(`${logPrefix} reponse data for endpoint '${endpoint}'${params ? ` (params: ${JSON.stringify(params)})` : ''}: ${JSON.stringify(result)}`);
+                    this.log.silly(`${logPrefix} reponse data for endpoint '${endpoint}'${params ? ` (params: ${JSON.stringify(params)})` : ''}: ${JSON.stringify(result)}`);
                     if (result.response.data) {
                         return result.response.data;
                     }
@@ -222,6 +223,12 @@ export class OmvApi {
                 return {
                     service: 'Smart',
                     method: 'getInformation',
+                    params: null
+                };
+            case ApiEndpoints.smartAttributes:
+                return {
+                    service: 'Smart',
+                    method: 'getAttributes',
                     params: null
                 };
             case ApiEndpoints.fileSystem:

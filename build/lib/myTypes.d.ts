@@ -21,5 +21,6 @@ export interface IoBrokerObjectDefinitions {
         endpoint: ApiEndpoints;
         conditionProperty: string;
         paramsProperty: string;
-    };
+        converter?: (data: any, adapter: ioBroker.myAdapter) => myTreeData;
+    }[];
 }

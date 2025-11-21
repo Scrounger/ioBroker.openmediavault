@@ -29,6 +29,7 @@ You need the url of your OpenMediavault server and the password of your admin ac
 
 ### **WORK IN PROGRESS**
 
+- (Scrounger) additonal s.m.a.r.t. attributes added
 - (Scrounger) dependencies updated
 
 ### 1.0.4 (2025-10-19)

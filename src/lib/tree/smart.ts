@@ -13,11 +13,36 @@ export namespace smart {
 		channelName: 'S.M.A.R.T info',
 		deviceIdProperty: 'uuid',
 		deviceNameProperty: 'devicename',
-		additionalRequest: {
-			endpoint: ApiEndpoints.smartInfo,
-			conditionProperty: 'monitor',
-			paramsProperty: 'devicefile'
-		}
+		additionalRequest: [
+			{
+				endpoint: ApiEndpoints.smartInfo,
+				conditionProperty: 'monitor',
+				paramsProperty: 'devicefile'
+			},
+			{
+				endpoint: ApiEndpoints.smartAttributes,
+				conditionProperty: 'monitor',
+				paramsProperty: 'devicefile',
+				converter: (data: any, adapter: ioBroker.myAdapter): Smart => {
+					const logPrefix = `[smart.getAttributes.converter]:`;
+
+					try {
+						if (data) {
+							const result: { [key: string]: string | number } = {};
+							data.forEach((item: { attrname: string; rawvalue: string | number; }) => {
+								const cleanAttrname = item.attrname.replace(/[-]/g, '_').toLowerCase();
+								result[cleanAttrname] = item.rawvalue;
+							});
+
+							return result as Smart;
+						}
+					} catch (error: any) {
+						adapter.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
+					}
+					return {} as Smart;
+				}
+			},
+		]
 	}
 
 	export function get(): { [key: string]: myTreeDefinition } {
@@ -114,6 +139,18 @@ export namespace smart {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
 			},
+			spin_retry_count: {
+				iobType: 'number',
+				name: 'spin retry count',
+			},
+			spin_up_time: {
+				iobType: 'number',
+				name: 'spin uptime',
+			},
+			start_stop_count: {
+				iobType: 'number',
+				name: 'start stopcount',
+			},
 			temperature: {
 				iobType: 'number',
 				name: 'temperature',
@@ -124,6 +161,22 @@ export namespace smart {
 				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val * 10) / 10;
 				},
+			},
+			total_lbas_written: {
+				iobType: 'number',
+				name: 'total lbas written',
+				unit: 'TB',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+				}
+			},
+			total_lbas_read: {
+				iobType: 'number',
+				name: 'total lbas read',
+				unit: 'TB',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
+				}
 			},
 			uuid: {
 				iobType: 'string',

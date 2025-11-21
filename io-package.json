@@ -322,6 +322,18 @@
         "id": "size"
       },
       {
+        "id": "spin_retry_count"
+      },
+      {
+        "id": "spin_up_time"
+      },
+      {
+        "id": "total_lbas_written"
+      },
+      {
+        "id": "total_lbas_read"
+      },
+      {
         "id": "uuid"
       },
       {

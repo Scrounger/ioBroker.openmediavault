@@ -94,5 +94,10 @@
 	"recyclebin": "recycle bin",
 	"sharedfoldername": "shared folder name",
 	"load average": "load average",
-	"mntent": "mntent"
+	"mntent": "mntent",
+	"spin retry count": "spin retry count",
+	"spin uptime": "spin uptime",
+	"start stopcount": "start stopcount",
+	"total lbas written": "total lbas written",
+	"total lbas read": "total lbas read"
 }
