@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.0.4",
+    "version": "1.1.0",
     "news": {
+      "1.1.0": {
+        "en": "additonal s.m.a.r.t. attributes added\ndependencies updated",
+        "de": "additonal s.m.a.r.t. attribute hinzugefügt\naktualisierte abhängigkeiten",
+        "ru": "добавлены дополнительные атрибуты s.m.a.r.t\nобновленные зависимости",
+        "pt": "atributos additonal s.m.a.r.t. adicionados\ndependências atualizadas",
+        "nl": "additonal s.m.a.r.t. attributen toegevoegd\nafhankelijkheden bijgewerkt",
+        "fr": "additonal s.m.a.r.t. attributs ajoutés\ndépendances mises à jour",
+        "it": "additonal s.m.a.r.t. attributi aggiunti\ndipendenze aggiornate",
+        "es": "atributos agregados\ndependencias actualizadas",
+        "pl": "additonal s.m.a.r.t. atrybuty dodane\nzaktualizowane zależności",
+        "uk": "additonal s.m.a.r.t. атрибути додано\nоновлені залежності",
+        "zh-cn": "添加附加的 s.m.a.r.t.属性\n更新依赖关系"
+      },
       "1.0.4": {
         "en": "auto translation bug fix\nbug fixes",
         "de": "automatische übersetzung fehler beheben\nfehlerbehebungen",
@@ -80,19 +93,6 @@
         "pl": "błąd konfiguracji adaptera\nprzeliczane na projekt esm\npoprawki błędów",
         "uk": "виправлення помилок адаптера\nперетворено на проект esm\nвиправлення помилок",
         "zh-cn": "适配器配置布局错误修正\n转换为 esm 工程\n错误修正"
-      },
-      "1.0.0-beta.1": {
-        "en": "devices blacklist / whitelist added\nbug fixes",
-        "de": "geräte blacklist / whitelist hinzugefügt\nfehlerbehebungen",
-        "ru": "добавлены устройства blacklist / whitelist\nисправление ошибок",
-        "pt": "dispositivos lista negra / lista branca adicionada\ncorreções de erros",
-        "nl": "apparaten zwarte lijst / whitelist toegevoegd\nfoutherstel",
-        "fr": "périphériques liste noire / liste blanche ajouté\ncorrections des bogues",
-        "it": "dispositivi blacklist / whitelist aggiunto\ncorrezioni di bug",
-        "es": "dispositivos blacklist / whitelist añadido\nbug fixes",
-        "pl": "urządzenia czarna lista / biały dodany\npoprawki błędów",
-        "uk": "пристрої чорний список / білий список\nвиправлення помилок",
-        "zh-cn": "添加设备黑名单/ 白名单\n错误修正"
       }
     },
     "titleLang": {
