@@ -190,6 +190,48 @@
       {
         "admin": ">=7.6.17"
       }
+    ],
+    "messages": [
+      {
+        "condition": {
+          "operand": "and",
+          "rules": [
+            "oldVersion<=1.1.0",
+            "newVersion>=1.2.0"
+          ]
+        },
+        "title": {
+          "en": "Important notice",
+          "de": "Wichtiger Hinweis",
+          "ru": "Важное замечание",
+          "pt": "Notícia importante",
+          "nl": "Belangrijke mededeling",
+          "fr": "Avis important",
+          "it": "Avviso IMPORTANTE",
+          "es": "¡Noticia importante",
+          "pl": "Ważna uwaga",
+          "uk": "Важливе повідомлення",
+          "zh-cn": "重要的提醒！ zigbee2mqtt 2.0"
+        },
+        "text": {
+          "en": "Changed id channel for disk and S.M.A.R.T so that the id channel does not always change when changes are made in OMV.\\\\nBefore installation, all adapter states should be deleted or the adapter should be completely uninstalled.",
+          "de": "Geänderter id-Kanal für Festplatte und S.M.A.R. T so dass sich der id-Kanal nicht immer ändert, wenn Änderungen in der OMV.\\nBefore-Installation vorgenommen werden, sollten alle Adapterzustände gelöscht oder der Adapter vollständig deinstalliert werden.",
+          "ru": "Изменен id канал для диска и S.M.A.R. Т так, чтобы id-канал не всегда менялся при внесении изменений в OMV.\\\\nДо установки все состояния адаптера должны быть удалены или адаптер должен быть полностью удален.",
+          "pt": "O canal de id mudou para disco e S.M.A.R. T para que o canal id nem sempre mude quando as alterações são feitas em OMV.\\\\ nAntes da instalação, todos os estados do adaptador devem ser excluídos ou o adaptador deve ser completamente desinstalado.",
+          "nl": "Gewijzigd id kanaal voor schijf en S.M.A.R. T zodat het id-kanaal niet altijd verandert wanneer er wijzigingen worden aangebracht in OMV.\\\\nVoor de installatie moeten alle adaptertoestanden worden verwijderd of de adapter volledig worden verwijderd.",
+          "fr": "Canal id modifié pour disque et S.M.A.R. T afin que le canal id ne change pas toujours lorsque des modifications sont effectuées dans OMV.\\\\nAvant l'installation, tous les états de l'adaptateur doivent être supprimés ou l'adaptateur doit être complètement désinstallé.",
+          "it": "Cambiato canale id per disco e S.M.A.R. T in modo che il canale id non cambia sempre quando le modifiche sono effettuate nell'installazione OMV.\\nBefore, tutti gli stati dell'adattatore devono essere eliminati o l'adattatore deve essere completamente disinstallato.",
+          "es": "Canal id cambiado para el disco y S.M.A.R. T para que el canal id no siempre cambie cuando los cambios se hacen en OMV.\\\\nAntes de la instalación, todos los estados del adaptador deben ser eliminados o el adaptador debe ser desinstalado completamente.",
+          "pl": "Zmieniony kanał id dla dysku i S.M.A.R. T tak, że kanał id nie zawsze zmienia się, gdy zmiany są dokonywane w OMV.\\\\ nPrzed instalacją, wszystkie stany adaptera powinny być usunięte lub adapter powinien być całkowicie wyłączony.",
+          "uk": "Змінений id-канал для диска та S.M.A.R. Так що id-канал не завжди змінюється при змінах, внесених в OMV.\\nBefore, всі стани адаптера повинні бути видалені, або адаптер повинен бути повністю видалений.",
+          "zh-cn": "更改了磁盘和S.M.A.R的id频道. T 这样在 OMV 中进行更改时, id 通道并不总是会改变.\\\\\\n安装前, 所有适配器状态都应该删除, 或者适配器应该完全不安装 ."
+        },
+        "level": "warn",
+        "buttons": [
+          "agree",
+          "cancel"
+        ]
+      }
     ]
   },
   "encryptedNative": [

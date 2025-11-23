@@ -11,7 +11,17 @@ export namespace smart {
 
 	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
 		channelName: 'S.M.A.R.T info',
-		deviceIdProperty: 'uuid',
+		deviceIdProperty: (objDevice: Smart, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			if (objDevice.devicelinks) {
+				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-uuid/'));
+
+				if (find) {
+					return find.replace('/dev/disk/by-uuid/', '');
+				}
+			}
+
+			return objDevice.devicename;
+		},
 		deviceNameProperty: 'devicename',
 		additionalRequest: [
 			{
@@ -142,14 +152,23 @@ export namespace smart {
 			spin_retry_count: {
 				iobType: 'number',
 				name: 'spin retry count',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			spin_up_time: {
 				iobType: 'number',
 				name: 'spin uptime',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			start_stop_count: {
 				iobType: 'number',
 				name: 'start stopcount',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			temperature: {
 				iobType: 'number',

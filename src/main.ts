@@ -262,10 +262,19 @@ class Openmediavault extends utils.Adapter {
 							this.configDevicesCache[endpoint] = []
 
 							for (let device of data) {
-								if (iobObjectDefintions.deviceIdProperty && device[iobObjectDefintions.deviceIdProperty]) {
-									const idDevice = `${treeType.idChannel}.${device[iobObjectDefintions.deviceIdProperty]}`;
+								if (iobObjectDefintions.deviceIdProperty) {
+									let idDevice = '';
+									let deviceIdProperty = '';
 
-									if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: device[iobObjectDefintions.deviceIdProperty] }))) {
+									if ((typeof iobObjectDefintions.deviceIdProperty === 'function')) {
+										deviceIdProperty = iobObjectDefintions.deviceIdProperty(device, this);
+										idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
+									} else {
+										deviceIdProperty = device[iobObjectDefintions.deviceIdProperty];
+										idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
+									}
+
+									if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty }))) {
 
 										if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
 											if (iobObjectDefintions.additionalRequest) {
@@ -282,7 +291,7 @@ class Openmediavault extends utils.Adapter {
 															device = { ...addtionalData, ...device }
 														}
 													} else {
-														this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
+														this.log.debug(`${logPrefix} device '${deviceIdProperty}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
 													}
 												}
 											}
@@ -291,8 +300,8 @@ class Openmediavault extends utils.Adapter {
 										this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
 
 										this.configDevicesCache[endpoint].push({
-											label: `${device[iobObjectDefintions.deviceNameProperty]} (${device[iobObjectDefintions.deviceIdProperty]})`,
-											value: device[iobObjectDefintions.deviceIdProperty],
+											label: `${device[iobObjectDefintions.deviceNameProperty]} (${deviceIdProperty})`,
+											value: deviceIdProperty,
 										});
 
 										const deviceName = iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown';
@@ -300,17 +309,17 @@ class Openmediavault extends utils.Adapter {
 										await this.myIob.createOrUpdateDevice(idDevice, deviceName, undefined, undefined, undefined, isAdapterStart, true);
 										await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], deviceName, isAdapterStart);
 
-										this.log.debug(`${logPrefix} device '${device[iobObjectDefintions.deviceIdProperty]}' data successfully updated`);
+										this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
 									} else {
 										if (isAdapterStart) {
 											if (await this.objectExists(idDevice)) {
 												await this.delObjectAsync(idDevice, { recursive: true });
-												this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${device[iobObjectDefintions.deviceIdProperty]}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+												this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 											}
 										}
 									}
 								} else {
-									this.log.error(`${logPrefix} deviceName property '${iobObjectDefintions.deviceIdProperty}' not exists in device`);
+									this.log.error(`${logPrefix} deviceIdProperty property not exists in tree definition!`);
 								}
 							}
 						} else {

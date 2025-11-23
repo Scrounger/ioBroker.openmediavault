@@ -6,7 +6,15 @@ export var smart;
     smart.idChannel = 'smart';
     smart.iobObjectDefintions = {
         channelName: 'S.M.A.R.T info',
-        deviceIdProperty: 'uuid',
+        deviceIdProperty: (objDevice, adapter) => {
+            if (objDevice.devicelinks) {
+                const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-uuid/'));
+                if (find) {
+                    return find.replace('/dev/disk/by-uuid/', '');
+                }
+            }
+            return objDevice.devicename;
+        },
         deviceNameProperty: 'devicename',
         additionalRequest: [
             {
@@ -135,14 +143,23 @@ export var smart;
             spin_retry_count: {
                 iobType: 'number',
                 name: 'spin retry count',
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val);
+                },
             },
             spin_up_time: {
                 iobType: 'number',
                 name: 'spin uptime',
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val);
+                },
             },
             start_stop_count: {
                 iobType: 'number',
                 name: 'start stopcount',
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val);
+                },
             },
             temperature: {
                 iobType: 'number',

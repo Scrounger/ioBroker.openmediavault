@@ -10,7 +10,17 @@ export namespace disk {
 
 	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
 		channelName: 'disk info',
-		deviceIdProperty: 'devicename',
+		deviceIdProperty: (objDevice: Disk, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			if (objDevice.devicelinks) {
+				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-uuid/'));
+
+				if (find) {
+					return find.replace('/dev/disk/by-uuid/', '');
+				}
+			}
+
+			return objDevice.devicename;
+		},
 		deviceNameProperty: 'devicename'
 	}
 

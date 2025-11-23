@@ -5,7 +5,15 @@ export var disk;
     disk.idChannel = 'disk';
     disk.iobObjectDefintions = {
         channelName: 'disk info',
-        deviceIdProperty: 'devicename',
+        deviceIdProperty: (objDevice, adapter) => {
+            if (objDevice.devicelinks) {
+                const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-uuid/'));
+                if (find) {
+                    return find.replace('/dev/disk/by-uuid/', '');
+                }
+            }
+            return objDevice.devicename;
+        },
         deviceNameProperty: 'devicename'
     };
     function get() {
