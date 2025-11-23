@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "news": {
+      "1.2.0": {
+        "en": "using disk uuid as channel id for disk and s.m.a.r.t -> Breaking Change !!!\nbug fixes",
+        "de": "mit Festplatte uuid als Kanal id für Festplatte und s.m.a.rt -> Veränderung brechen!!!\nfehlerbehebungen",
+        "ru": "использование uuid диска в качестве id канала для диска и s.m.a.r.t Переломные перемены!!!\nисправление ошибок",
+        "pt": "usando uuid de disco como id de canal para disco e s.m.a.r.t -> Quebrar a Mudança !!!!\ncorreções de erros",
+        "nl": "gebruik van disk uuid als kanaal id voor schijf en s.m.a.r.t -> Breaking Change!!!\nfoutherstel",
+        "fr": "utilisant le disque uuid comme id de canal pour le disque et s.m.a.r.t -> Briser le changement !!!\ncorrections des bogues",
+        "it": "usando il disco uuid come canale id per il disco e s.m.a.r.t -> Cambiamento di rottura!!!\ncorrezioni di bug",
+        "es": "usando uuid de disco como canal id para disco y s.m.a.r.t Cambio de ruptura !!!\nbug fixes",
+        "pl": "uuid dysku jako id kanału dla dysku i s.m.a.r.t - > Łamanie zmian!!!\npoprawki błędów",
+        "uk": "за допомогою диска uuid як канал id для диска і s.m.a.r.t -> Змінити зміни!\nвиправлення помилок",
+        "zh-cn": "使用磁盘 uuid 作为磁盘和 s.m.a.r.t - > 突破变革!\n错误修正"
+      },
       "1.1.0": {
         "en": "additonal s.m.a.r.t. attributes added\ndependencies updated",
         "de": "additonal s.m.a.r.t. attribute hinzugefügt\naktualisierte abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "zaimplementowano automatyczne przypisywanie ról\ntłumaczenie dodane",
         "uk": "Реалізовано автоматичне призначення ролей.\nпереклад додано",
         "zh-cn": "已实现自动分配角色\n新功能：添加了支持新设备的功能。\n\n改进：优化了用户界面的性能。\n\n修复：修复了一个导致崩溃的bug。"
-      },
-      "1.0.0-beta.2": {
-        "en": "adapter config layout bug fixes\nconverted to esm project\nbug fixes",
-        "de": "adapter config layout bugfixes\numgebaut in esm projekt\nfehlerbehebungen",
-        "ru": "адаптер конфигурирует макет ошибки исправления\nпреобразуется в проект эсм\nисправление ошибок",
-        "pt": "correcções de erros de layout de configuração do adaptador\nconvertido para projeto esm\ncorreções de erros",
-        "nl": "adapter configuratie bug fixes\nomgezet in esm project\nfoutherstel",
-        "fr": "correction des bogues de configuration d'adaptateur\nconverti en projet esm\ncorrections des bogues",
-        "it": "adattatore config layout bug fix\nconvertito in progetto esm\ncorrezioni di bug",
-        "es": "adaptador configuración bug fixes\nconvertido al proyecto esm\nbug fixes",
-        "pl": "błąd konfiguracji adaptera\nprzeliczane na projekt esm\npoprawki błędów",
-        "uk": "виправлення помилок адаптера\nперетворено на проект esm\nвиправлення помилок",
-        "zh-cn": "适配器配置布局错误修正\n转换为 esm 工程\n错误修正"
       }
     },
     "titleLang": {

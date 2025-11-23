@@ -26,8 +26,7 @@ You need the url of your OpenMediavault server and the password of your admin ac
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.2.0 (2025-11-23)
 
 - (Scrounger) using disk uuid as channel id for disk and s.m.a.r.t -> Breaking Change !!!
 - (Scrounger) bug fixes
