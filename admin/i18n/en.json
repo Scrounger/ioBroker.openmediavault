@@ -99,5 +99,8 @@
 	"spin uptime": "spin uptime",
 	"start stopcount": "start stopcount",
 	"total lbas written": "total lbas written",
-	"total lbas read": "total lbas read"
+	"total lbas read": "total lbas read",
+	"is online": "is online",
+	"has errors": "has errors",
+	"status": "status"
 }

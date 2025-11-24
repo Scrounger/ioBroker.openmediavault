@@ -5,8 +5,21 @@ export var fileSystem;
     fileSystem.idChannel = 'fileSystem';
     fileSystem.iobObjectDefintions = {
         channelName: 'file system info',
-        deviceIdProperty: 'uuid',
+        deviceIdProperty: (objDevice, adapter) => {
+            if (objDevice.uuid) {
+                return objDevice.uuid;
+            }
+            else {
+                if (objDevice.devicefile && objDevice.devicefile.startsWith('/dev/disk/by-uuid/')) {
+                    return objDevice.devicefile.replace('/dev/disk/by-uuid/', '');
+                }
+            }
+            return undefined;
+        },
         deviceNameProperty: 'label',
+        deviceNamePropertyFallBack: 'comment',
+        deviceIsOnlineState: 'isOnline',
+        deviceHasErrorsState: 'hasErrors',
     };
     function get() {
         return {
@@ -33,6 +46,26 @@ export var fileSystem;
             devicename: {
                 iobType: 'string',
                 name: 'device name',
+            },
+            isOnline: {
+                id: 'isOnline',
+                iobType: 'boolean',
+                name: 'is online',
+                valFromProperty: 'status',
+                required: true,
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val) === 1;
+                },
+            },
+            hasErrors: {
+                id: 'hasErrors',
+                iobType: 'boolean',
+                name: 'has errors',
+                valFromProperty: 'status',
+                required: true,
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val) === 3;
+                },
             },
             label: {
                 iobType: 'string',
@@ -61,6 +94,18 @@ export var fileSystem;
                 readVal(val, adapter, device, channel, id) {
                     return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
                 }
+            },
+            status: {
+                iobType: 'number',
+                name: 'status',
+                states: {
+                    1: 'online',
+                    2: 'initializing',
+                    3: 'missing',
+                },
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val);
+                },
             },
             type: {
                 iobType: 'string',

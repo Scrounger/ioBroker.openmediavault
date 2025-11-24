@@ -18,6 +18,9 @@ export interface IoBrokerObjectDefinitions {
 	channelName: string,                        // Channel name attribute
 	deviceIdProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string),       // channel id attribute, if source is an array and is avaiable in api data (see definitions in tree)
 	deviceNameProperty: string | undefined,     // channel name attribute and is avaiable in api data (see definitions in tree)
+	deviceNamePropertyFallBack?: string | undefined,         // fallback channel name attribute and is avaiable in api data (see definitions in tree)
+	deviceIsOnlineState?: string,
+	deviceHasErrorsState?: string,
 	additionalRequest?: {
 		endpoint: ApiEndpoints,
 		conditionProperty: string,

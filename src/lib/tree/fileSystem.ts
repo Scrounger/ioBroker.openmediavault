@@ -10,8 +10,21 @@ export namespace fileSystem {
 
 	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
 		channelName: 'file system info',
-		deviceIdProperty: 'uuid',
+		deviceIdProperty: (objDevice: FileSystem, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			if (objDevice.uuid) {
+				return objDevice.uuid;
+			} else {
+				if (objDevice.devicefile && objDevice.devicefile.startsWith('/dev/disk/by-uuid/')) {
+					return objDevice.devicefile.replace('/dev/disk/by-uuid/', '');
+				}
+			}
+
+			return undefined;
+		},
 		deviceNameProperty: 'label',
+		deviceNamePropertyFallBack: 'comment',
+		deviceIsOnlineState: 'isOnline',
+		deviceHasErrorsState: 'hasErrors',
 	}
 
 	export function get(): { [key: string]: myTreeDefinition } {
@@ -40,6 +53,26 @@ export namespace fileSystem {
 				iobType: 'string',
 				name: 'device name',
 			},
+			isOnline: {
+				id: 'isOnline',
+				iobType: 'boolean',
+				name: 'is online',
+				valFromProperty: 'status',
+				required: true,
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val) === 1;
+				},
+			},
+			hasErrors: {
+				id: 'hasErrors',
+				iobType: 'boolean',
+				name: 'has errors',
+				valFromProperty: 'status',
+				required: true,
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val) === 3;
+				},
+			},
 			label: {
 				iobType: 'string',
 				name: 'device name',
@@ -67,6 +100,18 @@ export namespace fileSystem {
 				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val / 1024 / 1024 / 1024 / 1024 * 1000) / 1000;
 				}
+			},
+			status: {
+				iobType: 'number',
+				name: 'status',
+				states: {
+					1: 'online',
+					2: 'initializing',
+					3: 'missing',
+				},
+				readVal(val: any, adapter: ioBroker.myAdapter, device: FileSystem, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val);
+				},
 			},
 			type: {
 				iobType: 'string',

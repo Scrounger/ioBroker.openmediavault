@@ -255,8 +255,11 @@ export class OmvApi {
 			case ApiEndpoints.fileSystem:
 				return {
 					service: 'FileSystemMgmt',
-					method: 'enumerateMountedFilesystems',
-					params: null,
+					method: 'getList',
+					params: {
+						start: 0,
+						limit: -1,
+					}
 				}
 			case ApiEndpoints.shareMgmt:
 				return {

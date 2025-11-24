@@ -222,54 +222,57 @@ class Openmediavault extends utils.Adapter {
                             this.configDevicesCache[endpoint] = [];
                             for (let device of data) {
                                 if (iobObjectDefintions.deviceIdProperty) {
-                                    let idDevice = '';
                                     let deviceIdProperty = '';
                                     if ((typeof iobObjectDefintions.deviceIdProperty === 'function')) {
                                         deviceIdProperty = iobObjectDefintions.deviceIdProperty(device, this);
-                                        idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
                                     }
                                     else {
                                         deviceIdProperty = device[iobObjectDefintions.deviceIdProperty];
-                                        idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
                                     }
-                                    if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty }))) {
-                                        if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
-                                            if (iobObjectDefintions.additionalRequest) {
-                                                for (const additionalRequest of iobObjectDefintions.additionalRequest) {
-                                                    if (device[additionalRequest.conditionProperty]) {
-                                                        const addtionalData = await this.omvApi?.retrievData(additionalRequest.endpoint, {
-                                                            [additionalRequest.paramsProperty]: device[additionalRequest.paramsProperty]
-                                                        });
-                                                        if (additionalRequest.converter) {
-                                                            device = { ...additionalRequest.converter(addtionalData, this), ...device };
+                                    if (deviceIdProperty) {
+                                        const idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
+                                        if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty }))) {
+                                            if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
+                                                if (iobObjectDefintions.additionalRequest) {
+                                                    for (const additionalRequest of iobObjectDefintions.additionalRequest) {
+                                                        if (device[additionalRequest.conditionProperty]) {
+                                                            const addtionalData = await this.omvApi?.retrievData(additionalRequest.endpoint, {
+                                                                [additionalRequest.paramsProperty]: device[additionalRequest.paramsProperty]
+                                                            });
+                                                            if (additionalRequest.converter) {
+                                                                device = { ...additionalRequest.converter(addtionalData, this), ...device };
+                                                            }
+                                                            else {
+                                                                device = { ...addtionalData, ...device };
+                                                            }
                                                         }
                                                         else {
-                                                            device = { ...addtionalData, ...device };
+                                                            this.log.debug(`${logPrefix} device '${deviceIdProperty}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
                                                         }
-                                                    }
-                                                    else {
-                                                        this.log.debug(`${logPrefix} device '${deviceIdProperty}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
                                                     }
                                                 }
                                             }
+                                            this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
+                                            this.configDevicesCache[endpoint].push({
+                                                label: `${device[iobObjectDefintions.deviceNameProperty]} (${deviceIdProperty})`,
+                                                value: deviceIdProperty,
+                                            });
+                                            const deviceName = iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : iobObjectDefintions.deviceNamePropertyFallBack && device[iobObjectDefintions.deviceNamePropertyFallBack] ? device[iobObjectDefintions.deviceNamePropertyFallBack] : 'unknown';
+                                            await this.myIob.createOrUpdateDevice(idDevice, deviceName, iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined, iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined, undefined, isAdapterStart, true);
+                                            await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], deviceName, isAdapterStart);
+                                            this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
                                         }
-                                        this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
-                                        this.configDevicesCache[endpoint].push({
-                                            label: `${device[iobObjectDefintions.deviceNameProperty]} (${deviceIdProperty})`,
-                                            value: deviceIdProperty,
-                                        });
-                                        const deviceName = iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : 'unknown';
-                                        await this.myIob.createOrUpdateDevice(idDevice, deviceName, undefined, undefined, undefined, isAdapterStart, true);
-                                        await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], deviceName, isAdapterStart);
-                                        this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
-                                    }
-                                    else {
-                                        if (isAdapterStart) {
-                                            if (await this.objectExists(idDevice)) {
-                                                await this.delObjectAsync(idDevice, { recursive: true });
-                                                this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+                                        else {
+                                            if (isAdapterStart) {
+                                                if (await this.objectExists(idDevice)) {
+                                                    await this.delObjectAsync(idDevice, { recursive: true });
+                                                    this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+                                                }
                                             }
                                         }
+                                    }
+                                    else {
+                                        this.log.error(`${logPrefix} deviceIdProperty for device not exists! ('${JSON.stringify(device)}')`);
                                     }
                                 }
                                 else {
