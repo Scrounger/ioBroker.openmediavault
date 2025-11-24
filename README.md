@@ -29,6 +29,7 @@ You need the url of your OpenMediavault server and the password of your admin ac
 
 ### **WORK IN PROGRESS**
 
+- (Scrounger) s.m.a.r.t. error indicator added
 - (Scrounger) filesystem status, isOnline, hasErrors indicators added
 
 ### 1.2.0 (2025-11-23)

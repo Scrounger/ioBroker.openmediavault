@@ -16,6 +16,7 @@ export var smart;
             return objDevice.devicename;
         },
         deviceNameProperty: 'devicename',
+        deviceHasErrorsState: 'hasErrors',
         additionalRequest: [
             {
                 endpoint: ApiEndpoints.smartInfo,
@@ -84,6 +85,16 @@ export var smart;
                 name: 'firmwareversion',
                 conditionToCreateState(objDevice, objChannel, adapter) {
                     return objDevice.firmwareversion !== undefined && objDevice.firmwareversion !== '';
+                },
+            },
+            hasErrors: {
+                id: 'hasErrors',
+                iobType: 'boolean',
+                name: 'has errors',
+                valFromProperty: 'overallstatus',
+                required: true,
+                readVal(val, adapter, device, channel, id) {
+                    return val !== 'GOOD';
                 },
             },
             model: {

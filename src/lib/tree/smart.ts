@@ -23,6 +23,7 @@ export namespace smart {
 			return objDevice.devicename;
 		},
 		deviceNameProperty: 'devicename',
+		deviceHasErrorsState: 'hasErrors',
 		additionalRequest: [
 			{
 				endpoint: ApiEndpoints.smartInfo,
@@ -93,6 +94,16 @@ export namespace smart {
 				name: 'firmwareversion',
 				conditionToCreateState(objDevice: Smart, objChannel: Smart, adapter: ioBroker.myAdapter): boolean {
 					return objDevice.firmwareversion !== undefined && objDevice.firmwareversion !== '';
+				},
+			},
+			hasErrors: {
+				id: 'hasErrors',
+				iobType: 'boolean',
+				name: 'has errors',
+				valFromProperty: 'overallstatus',
+				required: true,
+				readVal(val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
+					return val !== 'GOOD';
 				},
 			},
 			model: {
