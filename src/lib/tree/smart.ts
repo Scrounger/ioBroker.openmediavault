@@ -22,7 +22,17 @@ export namespace smart {
 
 			return objDevice.devicename;
 		},
-		deviceNameProperty: 'devicename',
+		deviceNameProperty: (objDevice: Smart, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			if (objDevice.devicelinks) {
+				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-label/'));
+
+				if (find) {
+					return find.replace('/dev/disk/by-label/', '');
+				}
+			}
+
+			return objDevice.devicename;
+		},
 		deviceHasErrorsState: 'hasErrors',
 		additionalRequest: [
 			{

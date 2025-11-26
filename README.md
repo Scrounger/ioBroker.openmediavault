@@ -26,6 +26,11 @@ You need the url of your OpenMediavault server and the password of your admin ac
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+
+- (Scrounger) disk and s.m.a.r.t using label as channel name if avaiable
+
 ### 1.3.0 (2025-11-24)
 
 - (Scrounger) s.m.a.r.t. error indicator added

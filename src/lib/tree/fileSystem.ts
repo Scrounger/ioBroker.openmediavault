@@ -21,8 +21,9 @@ export namespace fileSystem {
 
 			return undefined;
 		},
-		deviceNameProperty: 'label',
-		deviceNamePropertyFallBack: 'comment',
+		deviceNameProperty: (objDevice: FileSystem, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			return objDevice.label || objDevice.comment
+		},
 		deviceIsOnlineState: 'isOnline',
 		deviceHasErrorsState: 'hasErrors',
 	}

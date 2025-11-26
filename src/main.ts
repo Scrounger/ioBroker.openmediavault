@@ -263,6 +263,15 @@ class Openmediavault extends utils.Adapter {
 
 							for (let device of data) {
 								if (iobObjectDefintions.deviceIdProperty) {
+
+									let deviceName = 'unknown';
+
+									if ((typeof iobObjectDefintions.deviceNameProperty === 'function')) {
+										deviceName = iobObjectDefintions.deviceNameProperty(device, this);
+									} else {
+										deviceName = device[iobObjectDefintions.deviceNameProperty];
+									}
+
 									let deviceIdProperty = '';
 
 									if ((typeof iobObjectDefintions.deviceIdProperty === 'function')) {
@@ -299,12 +308,13 @@ class Openmediavault extends utils.Adapter {
 
 											this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
 
+
+
+
 											this.configDevicesCache[endpoint].push({
-												label: `${device[iobObjectDefintions.deviceNameProperty]} (${deviceIdProperty})`,
+												label: `${deviceName} (${deviceIdProperty})`,
 												value: deviceIdProperty,
 											});
-
-											const deviceName = iobObjectDefintions.deviceNameProperty && device[iobObjectDefintions.deviceNameProperty] ? device[iobObjectDefintions.deviceNameProperty] : iobObjectDefintions.deviceNamePropertyFallBack && device[iobObjectDefintions.deviceNamePropertyFallBack] ? device[iobObjectDefintions.deviceNamePropertyFallBack] : 'unknown';
 
 											await this.myIob.createOrUpdateDevice(idDevice, deviceName, iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined, iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined, undefined, isAdapterStart, true);
 											await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], deviceName, isAdapterStart);
@@ -314,7 +324,7 @@ class Openmediavault extends utils.Adapter {
 											if (isAdapterStart) {
 												if (await this.objectExists(idDevice)) {
 													await this.delObjectAsync(idDevice, { recursive: true });
-													this.log.warn(`${logPrefix} device '${device[iobObjectDefintions.deviceNameProperty]}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+													this.log.warn(`${logPrefix} device '${deviceName}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
 												}
 											}
 										}

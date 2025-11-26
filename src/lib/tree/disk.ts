@@ -21,7 +21,17 @@ export namespace disk {
 
 			return objDevice.devicename;
 		},
-		deviceNameProperty: 'devicename'
+		deviceNameProperty: (objDevice: Disk, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+			if (objDevice.devicelinks) {
+				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-label/'));
+
+				if (find) {
+					return find.replace('/dev/disk/by-label/', '');
+				}
+			}
+
+			return objDevice.devicename;
+		},
 	}
 
 	export function get(): { [key: string]: myTreeDefinition } {

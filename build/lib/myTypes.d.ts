@@ -16,8 +16,7 @@ export interface EndpointData {
 export interface IoBrokerObjectDefinitions {
     channelName: string;
     deviceIdProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string);
-    deviceNameProperty: string | undefined;
-    deviceNamePropertyFallBack?: string | undefined;
+    deviceNameProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string);
     deviceIsOnlineState?: string;
     deviceHasErrorsState?: string;
     additionalRequest?: {
