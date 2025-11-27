@@ -128,7 +128,7 @@ export class OmvApi {
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(endpointData),
 				agent: this.httpsAgent,
-				signal: AbortSignal.timeout(5000),
+				signal: AbortSignal.timeout(10000),
 			});
 
 			if (response.ok) {

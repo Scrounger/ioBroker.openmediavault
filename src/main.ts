@@ -219,8 +219,6 @@ class Openmediavault extends utils.Adapter {
 					for (const endpoint in ApiEndpoints) {
 						if (tree[endpoint]) {
 							if (Object.hasOwn(tree[endpoint], 'iobObjectDefintions')) {
-								this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
-
 								//@ts-ignore
 								await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
 							} else {
@@ -251,6 +249,8 @@ class Openmediavault extends utils.Adapter {
 		try {
 			if (this.connected && this.omvApi?.isConnected) {
 				if (this.config[`${endpoint}Enabled`]) {
+					this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
+
 					if (isAdapterStart) {
 						await this.myIob.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, undefined, true);
 					}
