@@ -17,8 +17,14 @@ This adapter allows to read informations from your OpenMediaVault using the rpc 
 
 ## Configuration
 
-You need the url of your OpenMediavault server and the password of your admin account.
+You need the url of your OpenMediavault server and the password of your admin account.<br>
 **Note**: using admin account is neccessary because rpc interface is only avaiable for admin
+
+## Known issues
+
+The adapter prevents hard disks from going into standby mode during cyclic polling and wakes them up from standby mode when queried.<br>
+The reason is that this is inherent in the design of the rpc api.<br>
+[see Details](https://github.com/openmediavault/openmediavault/issues/2063)
 
 ## Changelog
 
@@ -29,6 +35,7 @@ You need the url of your OpenMediavault server and the password of your admin ac
 
 ### **WORK IN PROGRESS**
 
+- (Scrounger) dependencies updated
 - (Scrounger) disk and s.m.a.r.t using label as channel name if avaiable
 
 ### 1.3.0 (2025-11-24)
