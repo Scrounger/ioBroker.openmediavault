@@ -102,5 +102,7 @@
 	"total lbas read": "total lbas read",
 	"is online": "is online",
 	"has errors": "has errors",
-	"status": "status"
+	"status": "status",
+	"Expert": "Expert",
+	"connection timeout": "connection timeout"
 }

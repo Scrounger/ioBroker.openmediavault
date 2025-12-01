@@ -35,6 +35,7 @@ The reason is that this is inherent in the design of the rpc api.<br>
 
 ### **WORK IN PROGRESS**
 
+- (Scrounger) connectio timeout configurable
 - (Scrounger) dependencies updated
 - (Scrounger) disk and s.m.a.r.t using label as channel name if avaiable
 

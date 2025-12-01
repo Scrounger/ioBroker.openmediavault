@@ -44,6 +44,8 @@ declare global {
 			smbBlackList: { id: string }[];
 			smbStatesIsWhiteList: boolean;
 			smbStatesBlackList: { id: string }[];
+
+			connectionTimeout: number;
 		}
 
 		interface myAdapter extends ioBroker.Adapter {

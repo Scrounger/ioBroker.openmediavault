@@ -1,0 +1,34 @@
+{
+    "label": "Expert",
+    "expertMode": true,
+    "items": {
+        "donation_link": {
+            "type": "staticLink",
+            "text": "You like the adapter? Then support me.",
+            "button": true,
+            "newLine": true,
+            "href": "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VWAXSTS634G88&source=url",
+            "style": {
+                "justifyContent": "flex-start !important"
+            },
+            "xs": 12,
+            "sm": 12,
+            "md": 12,
+            "lg": 12,
+            "xl": 12
+        },
+        "connectionTimeout": {
+            "newLine": true,
+            "type": "number",
+            "label": "connection timeout",
+            "min": 2500,
+            "max": 60000,
+            "xs": 12,
+            "sm": 12,
+            "md": 3,
+            "lg": 3,
+            "xl": 3,
+            "unit": "ms"
+        }
+    }
+}

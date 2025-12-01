@@ -246,6 +246,7 @@
     "password": "",
     "ignoreSSLCertificate": false,
     "updateInterval": 60,
+    "connectionTimeout": 5000,
     "hwInfoEnabled": true,
     "hwInfoStatesIsWhiteList": false,
     "hwInfoStatesBlackList": [

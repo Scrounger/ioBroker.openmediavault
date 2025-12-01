@@ -29,6 +29,10 @@
 		"tab_smb": {
 			"type": "panel",
 			"#include": "smb.jsonConfig.json"
+		},
+		"tab_expert": {
+			"type": "panel",
+			"#include": "expert.jsonConfig.json"
 		}
 	}
 }

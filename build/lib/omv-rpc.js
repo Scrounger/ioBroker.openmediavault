@@ -61,7 +61,7 @@ export class OmvApi {
                     },
                     body: JSON.stringify(this.getEndpointData(ApiEndpoints.login)),
                     agent: this.httpsAgent,
-                    signal: AbortSignal.timeout(5000),
+                    signal: AbortSignal.timeout(this.adapter.config.connectionTimeout || 5000),
                 });
                 if (response.ok) {
                     const result = await response.json();
