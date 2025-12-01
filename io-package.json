@@ -1,21 +1,8 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.0",
+    "version": "1.3.0",
     "news": {
-      "1.4.0": {
-        "en": "option to update data with cron job added\nconnection timeout configurable\ndependencies updated\ndisk and s.m.a.r.t using label as channel name if avaiable",
-        "de": "möglichkeit, daten mit cron job hinzugefügt zu aktualisieren\nanschluss timeout konfigurierbar\naktualisierte abhängigkeiten\ndisk und s.m.a.r.t mit label als kanalname, wenn avaiable",
-        "ru": "возможность обновления данных с добавлением работы cron\nнастраиваемое время соединения\nобновленные зависимости\nдиск и s.m.a.r.t с использованием метки в качестве названия канала",
-        "pt": "opção para atualizar dados com trabalho cron adicionado\ntempo- limite de conexão configurável\ndependências atualizadas\ndisco e s.m.a.r.t usando rótulo como nome do canal se disponível",
-        "nl": "optie om gegevens bij te werken met cron taak toegevoegd\nverbinding timeout configureerbaar\nafhankelijkheden bijgewerkt\ndisk en s.m.a.r.t met label als kanaalnaam indien beschikbaar",
-        "fr": "option pour mettre à jour les données avec cron travail ajouté\ndélai de connexion configurable\ndépendances mises à jour\ndisque et s.m.a.r.t utilisant l'étiquette comme nom de canal si disponible",
-        "it": "opzione per aggiornare i dati con cron job aggiunto\ntimeout di connessione configurabile\ndipendenze aggiornate\ndisco e s.m.a.r.t usando l'etichetta come nome del canale se disponibile",
-        "es": "opción para actualizar los datos con trabajo cron añadido\ntiempo de conexión configurable\ndependencias actualizadas\ndisco y s.m.a.r.t usando la etiqueta como nombre de canal si avaiable",
-        "pl": "opcja aktualizacji danych z dodanym zadaniem cron\nkonfigurowalny czas połączenia\nzaktualizowane zależności\ndysk i s.m.a.r.t używając etykiety jako nazwy kanału, jeśli jest możliwe",
-        "uk": "можливість оновити дані з користувачем cron\nналаштування часу підключення\nоновлені залежності\nдиск і s.m.a.r.t за допомогою етикетки як назва каналу, якщо avaiable",
-        "zh-cn": "选项以添加 cron 任务更新数据\n可配置的连接超时\n更新依赖关系\n磁盘和 s.m.a.r.t 如果可用,则使用标签作为频道名称"
-      },
       "1.3.0": {
         "en": "s.m.a.r.t. error indicator added\nfilesystem status, isOnline, hasErrors indicators added",
         "de": "s.m.a.r.t fehlerindikator hinzugefügt\ndateisystemstatus, isOnline, hasErrors Indikatoren hinzugefügt",
@@ -93,6 +80,19 @@
         "pl": "poprawki błędów",
         "uk": "виправлення помилок",
         "zh-cn": "错误修正"
+      },
+      "1.0.1": {
+        "en": "dependencies updated\nbug fixes",
+        "de": "aktualisierte abhängigkeiten\nfehlerbehebungen",
+        "ru": "обновленные зависимости\nисправление ошибок",
+        "pt": "dependências atualizadas\ncorreções de erros",
+        "nl": "afhankelijkheden bijgewerkt\nfoutherstel",
+        "fr": "dépendances mises à jour\ncorrections des bogues",
+        "it": "dipendenze aggiornate\ncorrezioni di bug",
+        "es": "dependencias actualizadas\nbug fixes",
+        "pl": "zaktualizowane zależności\npoprawki błędów",
+        "uk": "оновлені залежності\nвиправлення помилок",
+        "zh-cn": "更新依赖关系\n错误修正"
       }
     },
     "titleLang": {
