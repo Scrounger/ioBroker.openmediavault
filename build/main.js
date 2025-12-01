@@ -6,6 +6,7 @@
 import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
 import url from 'node:url';
+import * as schedule from 'node-schedule';
 // Load your modules here, e.g.:
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js';
@@ -13,6 +14,7 @@ import { myIob } from './lib/myIob.js';
 class Openmediavault extends utils.Adapter {
     omvApi = undefined;
     myIob;
+    updateSchedule = undefined;
     subscribedList = [];
     statesUsingValAsLastChanged = [ // id of states where lc is taken from the value
     ];
@@ -69,6 +71,9 @@ class Openmediavault extends utils.Adapter {
             // Here you must clear all timeouts or intervals that may still be active
             if (this.updateTimeout) {
                 clearTimeout(this.updateTimeout);
+            }
+            if (this.updateSchedule) {
+                this.updateSchedule.cancel();
             }
             // clearTimeout(timeout2);
             // ...
@@ -167,13 +172,23 @@ class Openmediavault extends utils.Adapter {
     async updateData(isAdapterStart = false) {
         const logPrefix = '[updateData]:';
         try {
-            if (this.updateTimeout) {
-                this.clearTimeout(this.updateTimeout);
-                this.updateTimeout = undefined;
+            if (!this.config.updateMethode) {
+                if (this.updateTimeout) {
+                    this.clearTimeout(this.updateTimeout);
+                    this.updateTimeout = undefined;
+                }
+                this.updateTimeout = this.setTimeout(async () => {
+                    await this.updateData();
+                }, this.config.updateInterval * 1000);
             }
-            this.updateTimeout = this.setTimeout(async () => {
-                await this.updateData();
-            }, this.config.updateInterval * 1000);
+            else {
+                if (isAdapterStart) {
+                    this.log.info(`${logPrefix} starting cron job with parameter '${this.config.updateCron}'`);
+                    this.updateSchedule = schedule.scheduleJob(this.config.updateCron, async () => {
+                        await this.updateData();
+                    });
+                }
+            }
             if (this.omvApi) {
                 if (!this.omvApi.isConnected) {
                     await this.omvApi.login();

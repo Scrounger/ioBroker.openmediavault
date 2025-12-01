@@ -7,6 +7,7 @@
 import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
 import url from 'node:url';
+import * as schedule from 'node-schedule';
 
 // Load your modules here, e.g.:
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
@@ -17,8 +18,9 @@ import { myIob } from './lib/myIob.js';
 
 class Openmediavault extends utils.Adapter {
 	omvApi: OmvApi | undefined = undefined;
-
 	myIob: myIob;
+
+	updateSchedule: schedule.Job | undefined = undefined;
 
 	subscribedList: string[] = [];
 
@@ -92,6 +94,10 @@ class Openmediavault extends utils.Adapter {
 			if (this.updateTimeout) {
 				clearTimeout(this.updateTimeout);
 			}
+			if (this.updateSchedule) {
+				this.updateSchedule.cancel();
+			}
+
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
@@ -201,14 +207,24 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[updateData]:';
 
 		try {
-			if (this.updateTimeout) {
-				this.clearTimeout(this.updateTimeout);
-				this.updateTimeout = undefined;
-			}
 
-			this.updateTimeout = this.setTimeout(async () => {
-				await this.updateData()
-			}, this.config.updateInterval * 1000);
+			if (!this.config.updateMethode) {
+				if (this.updateTimeout) {
+					this.clearTimeout(this.updateTimeout);
+					this.updateTimeout = undefined;
+				}
+
+				this.updateTimeout = this.setTimeout(async () => {
+					await this.updateData()
+				}, this.config.updateInterval * 1000);
+			} else {
+				if (isAdapterStart) {
+					this.log.info(`${logPrefix} starting cron job with parameter '${this.config.updateCron}'`);
+					this.updateSchedule = schedule.scheduleJob(this.config.updateCron, async () => {
+						await this.updateData();
+					});
+				}
+			}
 
 			if (this.omvApi) {
 				if (!this.omvApi.isConnected) {

@@ -11,7 +11,7 @@
 
 **Tests:** ![Test and Release](https://github.com/Scrounger/ioBroker.openmediavault/workflows/Test%20and%20Release/badge.svg)
 
-## openmediavault adapter for ioBroker
+## OpenMediaVault adapter for ioBroker
 
 This adapter allows to read informations from your OpenMediaVault using the rpc interface.
 
@@ -26,6 +26,9 @@ The adapter prevents hard disks from going into standby mode during cyclic polli
 The reason is that this is inherent in the design of the rpc api.<br>
 [see Details](https://github.com/openmediavault/openmediavault/issues/2063)
 
+To prevent this, the data can also be updated using a cron job.<br>
+For example, you can schedule the adapter query for a time when the hard disks are not in standby mode anyway, such as during backup time.
+
 ## Changelog
 
 <!--
@@ -35,7 +38,8 @@ The reason is that this is inherent in the design of the rpc api.<br>
 
 ### **WORK IN PROGRESS**
 
-- (Scrounger) connectio timeout configurable
+- (Scrounger) option to update data with cron job added
+- (Scrounger) connection timeout configurable
 - (Scrounger) dependencies updated
 - (Scrounger) disk and s.m.a.r.t using label as channel name if avaiable
 

@@ -61,12 +61,39 @@
             "lg": 3,
             "xl": 3
         },
-        "updateInterval": {
+        "dividerUpdateMethode": {
             "newLine": true,
+            "type": "header",
+            "text": "update methode",
+            "size": 2
+        },
+        "updateMethode": {
+            "newLine": true,
+            "type": "checkbox",
+            "label": "${data.updateMethode ? 'cron job' : 'interval'}",
+            "xs": 12,
+            "sm": 12,
+            "md": 3,
+            "lg": 3,
+            "xl": 3
+        },
+        "updateInterval": {
             "type": "number",
             "label": "update interval",
+            "hidden": "data.updateMethode",
             "min": 10,
             "max": 86400,
+            "xs": 12,
+            "sm": 12,
+            "md": 3,
+            "lg": 3,
+            "xl": 3
+        },
+        "updateCron": {
+            "type": "cron",
+            "label": "updateCron",
+            "complex": true,
+            "hidden": "!data.updateMethode",
             "xs": 12,
             "sm": 12,
             "md": 3,

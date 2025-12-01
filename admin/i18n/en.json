@@ -104,5 +104,8 @@
 	"has errors": "has errors",
 	"status": "status",
 	"Expert": "Expert",
-	"connection timeout": "connection timeout"
+	"connection timeout": "connection timeout",
+	"interval": "interval",
+	"cron job": "cron job",
+	"update methode": "update methode"
 }

@@ -9,7 +9,9 @@ declare global {
 			user: string;
 			password: string;
 			ignoreSSLCertificate: boolean;
+			updateMethode: boolean;
 			updateInterval: number;
+			updateCron: string;
 
 			hwInfoEnabled: boolean;
 			hwInfoStatesIsWhiteList: boolean;
