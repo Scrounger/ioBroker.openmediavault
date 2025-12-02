@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.0",
+    "version": "1.4.1",
     "news": {
+      "1.4.1": {
+        "en": "session expired bug fix",
+        "de": "sitzung abgelaufen fehler beheben",
+        "ru": "сеанс просроченный bug fix",
+        "pt": "correção de erro expirada da sessão",
+        "nl": "sessie verlopen foutherstel",
+        "fr": "correction du bug expiré de session",
+        "it": "sessione scaduta correzione bug",
+        "es": "sesión expirada corrección de errores",
+        "pl": "sesja wygasła naprawianie błędów",
+        "uk": "сесія expired виправлення помилок",
+        "zh-cn": "会话过期错误修正"
+      },
       "1.4.0": {
         "en": "option to update data with cron job added\nconnection timeout configurable\ndependencies updated\ndisk and s.m.a.r.t using label as channel name if avaiable",
         "de": "möglichkeit, daten mit cron job hinzugefügt zu aktualisieren\nanschluss timeout konfigurierbar\naktualisierte abhängigkeiten\ndisk und s.m.a.r.t mit label als kanalname, wenn avaiable",
@@ -80,19 +93,6 @@
         "pl": "zaktualizowane zależności\npoprawki błędów",
         "uk": "оновлені залежності\nвиправлення помилок",
         "zh-cn": "更新依赖关系\n错误修正"
-      },
-      "1.0.2": {
-        "en": "bug fixes",
-        "de": "fehlerbehebungen",
-        "ru": "исправление ошибок",
-        "pt": "correções de erros",
-        "nl": "foutherstel",
-        "fr": "corrections des bogues",
-        "it": "correzioni di bug",
-        "es": "bug fixes",
-        "pl": "poprawki błędów",
-        "uk": "виправлення помилок",
-        "zh-cn": "错误修正"
       }
     },
     "titleLang": {
