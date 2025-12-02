@@ -1,6 +1,5 @@
 import type { IoBrokerObjectDefinitions } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import type { ShareMgmt } from '../types-shareMgmt.js';
 import type { myTreeDefinition } from '../myIob.js';
 
 export namespace shareMgmt {

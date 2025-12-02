@@ -1,4 +1,5 @@
 import https from 'node:https';
+import moment from 'moment';
 export declare enum ApiEndpoints {
     login = "login",
     logout = "logout",
@@ -25,6 +26,8 @@ export declare class OmvApi {
     httpsAgent: https.Agent | undefined;
     private jar;
     private fetchWithCookies;
+    lastLogin: moment.Moment | null;
+    MAX_LOGIN_AGE_MINUTES: number;
     constructor(adapter: ioBroker.Adapter);
     login(): Promise<void>;
     retrievData(endpoint: ApiEndpoints, params?: {

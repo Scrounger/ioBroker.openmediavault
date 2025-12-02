@@ -3,6 +3,7 @@ import fetchCookie from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'node:https';
 import * as url from 'node:url';
+import moment from 'moment';
 export var ApiEndpoints;
 (function (ApiEndpoints) {
     ApiEndpoints["login"] = "login";
@@ -31,6 +32,8 @@ export class OmvApi {
     httpsAgent = undefined;
     jar;
     fetchWithCookies;
+    lastLogin = null;
+    MAX_LOGIN_AGE_MINUTES = 30;
     constructor(adapter) {
         const logPrefix = `[${this.logPrefix}.constructor]:`;
         this.adapter = adapter;
@@ -70,6 +73,7 @@ export class OmvApi {
                             this.log.debug(`${logPrefix} result: ${JSON.stringify(result)}`);
                             this.log.info(`${logPrefix} login to OpenMediaVault successful`);
                             await this.setConnectionStatus(true);
+                            this.lastLogin = moment();
                             return;
                         }
                         else {

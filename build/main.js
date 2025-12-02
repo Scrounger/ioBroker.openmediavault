@@ -7,6 +7,7 @@ import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
 import url from 'node:url';
 import * as schedule from 'node-schedule';
+import moment from 'moment';
 // Load your modules here, e.g.:
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js';
@@ -190,7 +191,10 @@ class Openmediavault extends utils.Adapter {
                 }
             }
             if (this.omvApi) {
-                if (!this.omvApi.isConnected) {
+                if (!this.omvApi.isConnected || moment().diff(this.omvApi.lastLogin ?? 0, 'minutes') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
+                    if (this.omvApi.lastLogin !== null && moment().diff(this.omvApi.lastLogin ?? 0, 'minutes') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
+                        this.log.debug(`${logPrefix} re-login because session id expired`);
+                    }
                     await this.omvApi.login();
                 }
                 if (this.connected && this.omvApi?.isConnected) {

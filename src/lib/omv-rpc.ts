@@ -3,6 +3,7 @@ import fetchCookie, { type FetchCookieImpl } from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'node:https';
 import * as url from 'node:url';
+import moment from 'moment';
 
 import type * as myTypes from './myTypes.js'
 
@@ -38,6 +39,9 @@ export class OmvApi {
 	httpsAgent: https.Agent | undefined = undefined;
 	private jar: CookieJar;
 	private fetchWithCookies: FetchCookieImpl<fetch.RequestInfo, fetch.RequestInit, fetch.Response>;
+
+	public lastLogin: moment.Moment | null = null;
+	public MAX_LOGIN_AGE_MINUTES = 30;
 
 	public constructor(adapter: ioBroker.Adapter) {
 		const logPrefix = `[${this.logPrefix}.constructor]:`;
@@ -88,6 +92,8 @@ export class OmvApi {
 							this.log.info(`${logPrefix} login to OpenMediaVault successful`);
 
 							await this.setConnectionStatus(true)
+
+							this.lastLogin = moment();
 
 							return;
 						} else {
