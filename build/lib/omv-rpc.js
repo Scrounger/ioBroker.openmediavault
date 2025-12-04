@@ -114,7 +114,7 @@ export class OmvApi {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(endpointData),
                 agent: this.httpsAgent,
-                signal: AbortSignal.timeout(10000),
+                signal: AbortSignal.timeout(this.adapter.config.connectionTimeout || 5000),
             });
             if (response.ok) {
                 const result = await response.json();
@@ -163,7 +163,7 @@ export class OmvApi {
                     },
                     body: JSON.stringify(this.getEndpointData(ApiEndpoints.logout)),
                     agent: this.httpsAgent,
-                    signal: AbortSignal.timeout(5000),
+                    signal: AbortSignal.timeout(this.adapter.config.connectionTimeout || 5000),
                 });
                 if (response.ok) {
                     this.log.info(`${logPrefix} logout from OpenMediaVault successful`);
