@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.1",
+    "version": "1.4.2",
     "news": {
+      "1.4.2": {
+        "en": "connection timeout bug fix",
+        "de": "verbindung timeout fehler beheben",
+        "ru": "отключение timeout bug refix",
+        "pt": "correção de erro de tempo- limite de conexão",
+        "nl": "verbinding timeout bug fix",
+        "fr": "correction du délai de connexion",
+        "it": "connessione timeout bug fix",
+        "es": "conexión tiempo de corrección de errores",
+        "pl": "błąd timeout połączenia",
+        "uk": "виправлення помилок з'єднання",
+        "zh-cn": "连接超时错误修正"
+      },
       "1.4.1": {
         "en": "session expired bug fix",
         "de": "sitzung abgelaufen fehler beheben",
@@ -80,19 +93,6 @@
         "pl": "automatyczne tłumaczenie błąd naprawić\npoprawki błędów",
         "uk": "автоматичного виправлення помилок перекладу\nвиправлення помилок",
         "zh-cn": "自动翻译错误修正\n错误修正"
-      },
-      "1.0.3": {
-        "en": "dependencies updated\nbug fixes",
-        "de": "aktualisierte abhängigkeiten\nfehlerbehebungen",
-        "ru": "обновленные зависимости\nисправление ошибок",
-        "pt": "dependências atualizadas\ncorreções de erros",
-        "nl": "afhankelijkheden bijgewerkt\nfoutherstel",
-        "fr": "dépendances mises à jour\ncorrections des bogues",
-        "it": "dipendenze aggiornate\ncorrezioni di bug",
-        "es": "dependencias actualizadas\nbug fixes",
-        "pl": "zaktualizowane zależności\npoprawki błędów",
-        "uk": "оновлені залежності\nвиправлення помилок",
-        "zh-cn": "更新依赖关系\n错误修正"
       }
     },
     "titleLang": {

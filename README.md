@@ -35,8 +35,7 @@ For example, you can schedule the adapter query for a time when the hard disks a
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.4.2 (2025-12-04)
 
 - (Scrounger) connection timeout bug fix
 
