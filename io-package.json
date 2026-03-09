@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.2",
+    "version": "1.4.3",
     "news": {
+      "1.4.3": {
+        "en": "translation updates\ndependencies updated\ndowngrade @iobroker/adapter-core to v3.3.1 to prevent conflicts with js-controller < v7.1.0 in rare cases",
+        "de": "übersetzungs-updates\naktualisierte abhängigkeiten\ndowngrade @iobroker/adapter-core to v3.3.1, um konflikte mit js-controller < v7.1.0 in seltenen fällen zu verhindern",
+        "ru": "обновления перевода\nобновленные зависимости\nпонижение @iobroker/adapter-core до v3.3.1 для предотвращения конфликтов с js-контроллером < v7.1.0 в редких случаях",
+        "pt": "atualizações de tradução\ndependências atualizadas\ndowngrade @iobroker/adapter-core para v3.3.1 para evitar conflitos com js-controller < v7.1.0 em casos raros",
+        "nl": "vertaalupdates\nafhankelijkheden bijgewerkt\ndowngrade @iobroker/adapter-core naar v3.3.1 om conflicten met js-controller < v7.1.0 in zeldzame gevallen te voorkomen",
+        "fr": "mises à jour de traduction\ndépendances mises à jour\ndowngrade @iobroker/adaptateur-core to v3.3.1 pour prévenir les conflits avec js-controller < v7.1.0 dans de rares cas",
+        "it": "aggiornamenti di traduzione\ndipendenze aggiornate\ndowngrade @iobroker/adapter-core a v3.3.1 per prevenire conflitti con js-controller < v7.1.0 in rari casi",
+        "es": "actualizaciones de traducción\ndependencias actualizadas\ndowngrade @iobroker/adapter-core a v3.3.1 para prevenir conflictos con js-controller ■ v7.1.0 en casos raros",
+        "pl": "aktualizacje tłumaczeń\nzaktualizowane zależności\ndowngrade @ iobroker / adapter- core do v3.3.1, aby zapobiec konfliktom ze sterownikiem js- controller < v7.1.0 w rzadkich przypadkach",
+        "uk": "оновлення перекладу\nоновлені залежності\n@iobroker/adapter-core to v3.3.1 для запобігання конфліктів з js-controller < v7.1.0 в рідкісних випадках",
+        "zh-cn": "翻译更新\n更新依赖关系\n降级@iobrocco/ adapter- core 到 v3.3.1 , 以防止与 js- controler < v7.1.0 在罕见情况下的冲突"
+      },
       "1.4.2": {
         "en": "connection timeout bug fix",
         "de": "verbindung timeout fehler beheben",
@@ -80,19 +93,6 @@
         "pl": "additonal s.m.a.r.t. atrybuty dodane\nzaktualizowane zależności",
         "uk": "additonal s.m.a.r.t. атрибути додано\nоновлені залежності",
         "zh-cn": "添加附加的 s.m.a.r.t.属性\n更新依赖关系"
-      },
-      "1.0.4": {
-        "en": "auto translation bug fix\nbug fixes",
-        "de": "automatische übersetzung fehler beheben\nfehlerbehebungen",
-        "ru": "автоматический перевод bug fix\nисправление ошибок",
-        "pt": "correção de erro de tradução automática\ncorreções de erros",
-        "nl": "auto vertaling fout fix\nfoutherstel",
-        "fr": "correction du bug de traduction automatique\ncorrections des bogues",
-        "it": "correzione di bug di traduzione automatica\ncorrezioni di bug",
-        "es": "corrección de error de traducción automática\nbug fixes",
-        "pl": "automatyczne tłumaczenie błąd naprawić\npoprawki błędów",
-        "uk": "автоматичного виправлення помилок перекладу\nвиправлення помилок",
-        "zh-cn": "自动翻译错误修正\n错误修正"
       }
     },
     "titleLang": {
