@@ -38,6 +38,8 @@ For example, you can schedule the adapter query for a time when the hard disks a
 
 ### **WORK IN PROGRESS**
 
+- (Scrounger) translation updates
+- (Scrounger) dependencies updated
 - (Scrounger) downgrade @iobroker/adapter-core to v3.3.1 to prevent conflicts with js-controller < v7.1.0 in rare cases
 
 ### 1.4.2 (2025-12-04)
