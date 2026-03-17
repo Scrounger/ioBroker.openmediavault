@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.3",
+    "version": "1.4.4",
     "news": {
+      "1.4.4": {
+        "en": "dependencies updated",
+        "de": "aktualisierte abhängigkeiten",
+        "ru": "обновленные зависимости",
+        "pt": "dependências atualizadas",
+        "nl": "afhankelijkheden bijgewerkt",
+        "fr": "dépendances mises à jour",
+        "it": "dipendenze aggiornate",
+        "es": "dependencias actualizadas",
+        "pl": "zaktualizowane zależności",
+        "uk": "оновлені залежності",
+        "zh-cn": "更新依赖关系"
+      },
       "1.4.3": {
         "en": "translation updates\ndependencies updated\ndowngrade @iobroker/adapter-core to v3.3.1 to prevent conflicts with js-controller < v7.1.0 in rare cases",
         "de": "übersetzungs-updates\naktualisierte abhängigkeiten\ndowngrade @iobroker/adapter-core to v3.3.1, um konflikte mit js-controller < v7.1.0 in seltenen fällen zu verhindern",
@@ -80,19 +93,6 @@
         "pl": "uuid dysku jako id kanału dla dysku i s.m.a.r.t - > Łamanie zmian!!!\npoprawki błędów",
         "uk": "за допомогою диска uuid як канал id для диска і s.m.a.r.t -> Змінити зміни!\nвиправлення помилок",
         "zh-cn": "使用磁盘 uuid 作为磁盘和 s.m.a.r.t - > 突破变革!\n错误修正"
-      },
-      "1.1.0": {
-        "en": "additonal s.m.a.r.t. attributes added\ndependencies updated",
-        "de": "additonal s.m.a.r.t. attribute hinzugefügt\naktualisierte abhängigkeiten",
-        "ru": "добавлены дополнительные атрибуты s.m.a.r.t\nобновленные зависимости",
-        "pt": "atributos additonal s.m.a.r.t. adicionados\ndependências atualizadas",
-        "nl": "additonal s.m.a.r.t. attributen toegevoegd\nafhankelijkheden bijgewerkt",
-        "fr": "additonal s.m.a.r.t. attributs ajoutés\ndépendances mises à jour",
-        "it": "additonal s.m.a.r.t. attributi aggiunti\ndipendenze aggiornate",
-        "es": "atributos agregados\ndependencias actualizadas",
-        "pl": "additonal s.m.a.r.t. atrybuty dodane\nzaktualizowane zależności",
-        "uk": "additonal s.m.a.r.t. атрибути додано\nоновлені залежності",
-        "zh-cn": "添加附加的 s.m.a.r.t.属性\n更新依赖关系"
       }
     },
     "titleLang": {
