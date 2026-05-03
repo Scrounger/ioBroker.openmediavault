@@ -114,6 +114,8 @@ For example, you can schedule the adapter query for a time when the hard disks a
 
 - (Scrounger) initial release
 
+[Older changelogs can be found there](CHANGELOG_OLD.md)
+
 ## License
 
 MIT License
