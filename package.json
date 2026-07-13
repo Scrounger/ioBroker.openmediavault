@@ -19,7 +19,7 @@
     "url": "https://github.com/Scrounger/ioBroker.openmediavault.git"
   },
   "engines": {
-    "node": ">= 20",
+    "node": ">= 22",
     "node-fetch": "^2.7.0"
   },
   "dependencies": {
