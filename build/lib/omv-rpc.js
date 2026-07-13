@@ -69,7 +69,8 @@ export class OmvApi {
                 if (response.ok) {
                     const result = await response.json();
                     if (result && response) {
-                        if (result.response.authenticated) {
+                        // since 8.5.x authenticated sturcture changed, now we have to use status instead of authenticated
+                        if (result.response.authenticated || result.response.status === 'authenticated') {
                             this.log.debug(`${logPrefix} result: ${JSON.stringify(result)}`);
                             this.log.info(`${logPrefix} login to OpenMediaVault successful`);
                             await this.setConnectionStatus(true);
