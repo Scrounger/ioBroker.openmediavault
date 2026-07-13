@@ -13,7 +13,7 @@ export var smart;
                     return find.replace('/dev/disk/by-uuid/', '');
                 }
             }
-            return objDevice.devicename;
+            return objDevice.devicename ? objDevice.devicename : '';
         },
         deviceNameProperty: (objDevice, adapter) => {
             if (objDevice.devicelinks) {
@@ -22,7 +22,7 @@ export var smart;
                     return find.replace('/dev/disk/by-label/', '');
                 }
             }
-            return objDevice.devicename;
+            return objDevice.devicename ? objDevice.devicename : '';
         },
         deviceHasErrorsState: 'hasErrors',
         additionalRequest: [
@@ -185,7 +185,7 @@ export var smart;
                 name: 'temperature',
                 unit: '°C',
                 conditionToCreateState(objDevice, objChannel, adapter) {
-                    return objDevice.temperature > 0;
+                    return objDevice.temperature ? objDevice.temperature > 0 : false;
                 },
                 readVal: function (val, adapter, device, channel, id) {
                     return Math.round(val * 10) / 10;

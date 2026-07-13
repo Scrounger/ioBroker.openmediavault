@@ -14,7 +14,7 @@ export namespace smb {
 		deviceNameProperty: 'sharedfoldername',
 	}
 
-	export function get(): { [key: string]: myTreeDefinition } {
+	export function get(): { [key: string]: myTreeDefinition<any, Smb, ioBroker.myAdapter> } {
 		return {
 			browseable: {
 				iobType: 'boolean',

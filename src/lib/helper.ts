@@ -30,10 +30,10 @@ export function zeroPad(source: any, places: number): string {
 /**
  * Collect all properties used in tree defintions
  *
- * @param treefDefintion @see tree-devices.ts @see tree-clients.ts
+ * @param treefDefintion {@see} tree-devices.ts {@see} tree-clients.ts
  * @returns
  */
-export function getAllKeysOfTreeDefinition(treefDefintion: { [key: string]: myTreeDefinition }): string[] {
+export function getAllKeysOfTreeDefinition(treefDefintion: { [key: string]: myTreeDefinition<any, any, any> }): string[] {
 	const keys: any = [];
 
 	// Hilfsfunktion für rekursive Durchsuchung des Objekts
@@ -66,7 +66,7 @@ export function getAllKeysOfTreeDefinition(treefDefintion: { [key: string]: myTr
 	return _.uniq(keys);
 }
 
-export function getAllIdsOfTreeDefinition(treefDefintion: { [key: string]: myTreeDefinition }): string[] {
+export function getAllIdsOfTreeDefinition(treefDefintion: { [key: string]: myTreeDefinition<any, any, any> }): string[] {
 	const keys: any = [];
 
 	// Hilfsfunktion für rekursive Durchsuchung des Objekts

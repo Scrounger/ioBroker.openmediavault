@@ -13,13 +13,14 @@ import moment from 'moment';
 // Load your modules here, e.g.:
 import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
 import * as tree from './lib/tree/index.js'
-import type { IoBrokerObjectDefinitions } from './lib/myTypes.js';
 import { myIob } from './lib/myIob.js';
+
+type TreeEndpoint = keyof typeof tree;
 
 
 class Openmediavault extends utils.Adapter {
 	omvApi: OmvApi | undefined = undefined;
-	myIob: myIob;
+	myIob: myIob | undefined = undefined;
 
 	updateSchedule: schedule.Job | undefined = undefined;
 
@@ -152,9 +153,10 @@ class Openmediavault extends utils.Adapter {
 		const logPrefix = '[onMessage]:';
 
 		try {
-			if (typeof obj === 'object') {
+			if (typeof obj === 'object' && this.myIob) {
 				if (obj.command.endsWith('StateList')) {
-					const states = tree[obj.command.replace('StateList', '')].getStateIDs();
+					const endpoint = obj.command.replace('StateList', '') as TreeEndpoint;
+					const states = tree[endpoint].getStateIDs();
 					let list = [];
 
 					if (states) {
@@ -237,15 +239,12 @@ class Openmediavault extends utils.Adapter {
 				}
 
 				if (this.connected && this.omvApi?.isConnected) {
-					for (const endpoint in ApiEndpoints) {
-						if (tree[endpoint]) {
-							if (Object.hasOwn(tree[endpoint], 'iobObjectDefintions')) {
-								//@ts-ignore
-								await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
-							} else {
-								if (this.log.level === 'debug') {
-									this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
-								}
+					for (const endpoint of Object.keys(tree) as TreeEndpoint[]) {
+						if (Object.hasOwn(tree[endpoint], 'iobObjectDefintions')) {
+							await this.updateDataGeneric(endpoint, tree[endpoint], tree[endpoint].iobObjectDefintions, isAdapterStart);
+						} else {
+							if (this.log.level === 'debug') {
+								this.log.warn(`${logPrefix} no iob definitions for endpoint ${endpoint} exists!`);
 							}
 						}
 					}
@@ -264,112 +263,117 @@ class Openmediavault extends utils.Adapter {
 	 * @param iobObjectDefintions
 	 * @param isAdapterStart
 	 */
-	private async updateDataGeneric(endpoint: ApiEndpoints, treeType: any, iobObjectDefintions: IoBrokerObjectDefinitions, isAdapterStart: boolean = false): Promise<void> {
+	private async updateDataGeneric(endpoint: TreeEndpoint, treeType: typeof tree[TreeEndpoint], iobObjectDefintions: typeof tree[TreeEndpoint]['iobObjectDefintions'], isAdapterStart: boolean = false): Promise<void> {
 		const logPrefix = `[updateDataGeneric]: [${endpoint}]: `;
+		const configDynamic = this.config as Record<string, any>;
 
 		try {
-			if (this.connected && this.omvApi?.isConnected) {
-				if (this.config[`${endpoint}Enabled`]) {
-					this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
+			if (this.myIob) {
+				if (this.connected && this.omvApi?.isConnected) {
+					if (this.config[`${endpoint}Enabled`]) {
+						this.log.debug(`${logPrefix} [${endpoint}]: start updating data...`);
 
-					if (isAdapterStart) {
-						await this.myIob.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, undefined, true);
-					}
+						if (isAdapterStart) {
+							await this.myIob.createOrUpdateChannel(treeType.idChannel, iobObjectDefintions.channelName, undefined, true);
+						}
 
-					const data: any = await this.omvApi?.retrievData(endpoint);
+						const data: any = await this.omvApi?.retrievData(endpoint as ApiEndpoints);
 
-					if (data) {
-						if (Array.isArray(data)) {
-							this.configDevicesCache[endpoint] = []
+						if (data) {
+							if (Array.isArray(data)) {
+								this.configDevicesCache[endpoint] = []
 
-							for (let device of data) {
-								if (iobObjectDefintions.deviceIdProperty) {
+								for (let device of data) {
+									if (iobObjectDefintions.deviceIdProperty) {
 
-									let deviceName = 'unknown';
+										let deviceName = 'unknown';
 
-									if ((typeof iobObjectDefintions.deviceNameProperty === 'function')) {
-										deviceName = iobObjectDefintions.deviceNameProperty(device, this);
-									} else {
-										deviceName = device[iobObjectDefintions.deviceNameProperty];
-									}
+										if ((typeof iobObjectDefintions.deviceNameProperty === 'function')) {
+											deviceName = iobObjectDefintions.deviceNameProperty(device, this);
+										} else if (typeof iobObjectDefintions.deviceNameProperty === 'string') {
+											deviceName = device[iobObjectDefintions.deviceNameProperty];
+										}
 
-									let deviceIdProperty = '';
+										let deviceIdProperty = '';
 
-									if ((typeof iobObjectDefintions.deviceIdProperty === 'function')) {
-										deviceIdProperty = iobObjectDefintions.deviceIdProperty(device, this);
-									} else {
-										deviceIdProperty = device[iobObjectDefintions.deviceIdProperty];
-									}
+										if ((typeof iobObjectDefintions.deviceIdProperty === 'function')) {
+											deviceIdProperty = iobObjectDefintions.deviceIdProperty(device, this);
+										} else {
+											deviceIdProperty = device[iobObjectDefintions.deviceIdProperty];
+										}
 
-									if (deviceIdProperty) {
-										const idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
+										if (deviceIdProperty) {
+											const idDevice = `${treeType.idChannel}.${deviceIdProperty}`;
+											const isWhiteList = (configDynamic[`${endpoint}IsWhiteList`] as boolean | undefined) ?? false;
+											const blackList = (configDynamic[`${endpoint}BlackList`] as { id: string }[] | undefined) ?? [];
 
-										if ((!this.config[`${endpoint}IsWhiteList`] && !_.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty })) || (this.config[`${endpoint}IsWhiteList`] && _.some(this.config[`${endpoint}BlackList`], { id: deviceIdProperty }))) {
+											if ((!isWhiteList && !_.some(blackList, { id: deviceIdProperty })) || (isWhiteList && _.some(blackList, { id: deviceIdProperty }))) {
 
-											if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
-												if (iobObjectDefintions.additionalRequest) {
-													for (const additionalRequest of iobObjectDefintions.additionalRequest) {
-														if (device[additionalRequest.conditionProperty]) {
-															const addtionalData = await this.omvApi?.retrievData(additionalRequest.endpoint,
-																{
-																	[additionalRequest.paramsProperty]: device[additionalRequest.paramsProperty]
-																});
+												if (Object.hasOwn(iobObjectDefintions, 'additionalRequest')) {
+													if (iobObjectDefintions.additionalRequest) {
+														for (const additionalRequest of iobObjectDefintions.additionalRequest) {
+															if (device[additionalRequest.conditionProperty]) {
+																const addtionalData = await this.omvApi?.retrievData(additionalRequest.endpoint,
+																	{
+																		[additionalRequest.paramsProperty]: device[additionalRequest.paramsProperty]
+																	});
 
-															if (additionalRequest.converter) {
-																device = { ...additionalRequest.converter(addtionalData, this), ...device }
+																if (additionalRequest.converter) {
+																	device = { ...additionalRequest.converter(addtionalData, this), ...device }
+																} else {
+																	device = { ...addtionalData, ...device }
+																}
 															} else {
-																device = { ...addtionalData, ...device }
+																this.log.debug(`${logPrefix} device '${deviceIdProperty}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
 															}
-														} else {
-															this.log.debug(`${logPrefix} device '${deviceIdProperty}' - no additional data request because condition property '${additionalRequest.conditionProperty}' is '${device[additionalRequest.conditionProperty]}'`);
 														}
 													}
 												}
-											}
 
-											this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
-
+												this.log.debug(`${logPrefix} final data ${JSON.stringify(device)}`);
 
 
 
-											this.configDevicesCache[endpoint].push({
-												label: `${deviceName} (${deviceIdProperty})`,
-												value: deviceIdProperty,
-											});
 
-											await this.myIob.createOrUpdateDevice(idDevice, deviceName, iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined, iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined, undefined, isAdapterStart, true);
-											await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], deviceName, isAdapterStart);
+												this.configDevicesCache[endpoint].push({
+													label: `${deviceName} (${deviceIdProperty})`,
+													value: deviceIdProperty,
+												});
 
-											this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
-										} else {
-											if (isAdapterStart) {
-												if (await this.objectExists(idDevice)) {
-													await this.delObjectAsync(idDevice, { recursive: true });
-													this.log.warn(`${logPrefix} device '${deviceName}' (id: ${deviceIdProperty}) delete, ${this.config[`${endpoint}IsWhiteList`] ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+												await this.myIob.createOrUpdateDevice(idDevice, deviceName, iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined, iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined, undefined, isAdapterStart, true);
+												await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [], (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false, deviceName, isAdapterStart);
+
+												this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
+											} else {
+												if (isAdapterStart) {
+													if (await this.objectExists(idDevice)) {
+														await this.delObjectAsync(idDevice, { recursive: true });
+														this.log.warn(`${logPrefix} device '${deviceName}' (id: ${deviceIdProperty}) delete, ${isWhiteList ? 'it\'s not on the whitelist' : 'it\'s on the blacklist'}`);
+													}
 												}
 											}
+										} else {
+											this.log.error(`${logPrefix} deviceIdProperty for device not exists! ('${JSON.stringify(device)}')`);
 										}
 									} else {
-										this.log.error(`${logPrefix} deviceIdProperty for device not exists! ('${JSON.stringify(device)}')`);
+										this.log.error(`${logPrefix} deviceIdProperty property not exists in tree definition!`);
 									}
-								} else {
-									this.log.error(`${logPrefix} deviceIdProperty property not exists in tree definition!`);
 								}
+							} else {
+								await this.myIob.createOrUpdateStates(treeType.idChannel, treeType.get(), data, data, (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [], (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false, iobObjectDefintions.channelName, isAdapterStart);
+
+								this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
 							}
-						} else {
-							await this.myIob.createOrUpdateStates(treeType.idChannel, treeType.get(), data, data, this.config[`${endpoint}StatesBlackList`], this.config[`${endpoint}StatesIsWhiteList`], iobObjectDefintions.channelName, isAdapterStart);
 
-							this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
+							if (isAdapterStart) {
+								this.log.info(`${logPrefix} data successfully updated`);
+							}
 						}
-
-						if (isAdapterStart) {
-							this.log.info(`${logPrefix} data successfully updated`);
+					} else {
+						if (await this.objectExists(treeType.idChannel)) {
+							await this.delObjectAsync(treeType.idChannel, { recursive: true });
+							this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
 						}
-					}
-				} else {
-					if (await this.objectExists(treeType.idChannel)) {
-						await this.delObjectAsync(treeType.idChannel, { recursive: true });
-						this.log.debug(`${logPrefix} '${treeType.idChannel}' deleted`);
 					}
 				}
 			}

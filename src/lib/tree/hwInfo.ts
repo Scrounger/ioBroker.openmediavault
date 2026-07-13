@@ -14,7 +14,7 @@ export namespace hwInfo {
 		deviceNameProperty: undefined,
 	}
 
-	export function get(): { [key: string]: myTreeDefinition } {
+	export function get(): { [key: string]: myTreeDefinition<any, HwInfo, ioBroker.myAdapter> } {
 		return {
 			availablePkgUpdates: {
 				iobType: 'number',

@@ -14,16 +14,19 @@ export interface EndpointData {
 	params?: { [key: string]: any } | null;
 }
 
-export interface IoBrokerObjectDefinitions {
+export interface IoBrokerObjectDefinitions<
+	TTreeData extends myTreeData = myTreeData,
+	TAdapter extends ioBroker.Adapter | ioBroker.myAdapter = ioBroker.Adapter | ioBroker.myAdapter
+> {
 	channelName: string,                        // Channel name attribute
-	deviceIdProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string),       // channel id attribute, if source is an array and is avaiable in api data (see definitions in tree)
-	deviceNameProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string),     // channel name attribute and is avaiable in api data (see definitions in tree)
+	deviceIdProperty: string | undefined | ((objDevice: TTreeData, adapter: TAdapter) => string),       // channel id attribute, if source is an array and is avaiable in api data (see definitions in tree)
+	deviceNameProperty: string | undefined | ((objDevice: TTreeData, adapter: TAdapter) => string),     // channel name attribute and is avaiable in api data (see definitions in tree)
 	deviceIsOnlineState?: string,
 	deviceHasErrorsState?: string,
 	additionalRequest?: {
 		endpoint: ApiEndpoints,
 		conditionProperty: string,
 		paramsProperty: string,
-		converter?: (data: any, adapter: ioBroker.myAdapter) => myTreeData,
+		converter?: (data: any, adapter: ioBroker.myAdapter) => TTreeData,
 	}[];
 }

@@ -22,7 +22,7 @@ export declare class OmvApi {
     isConnected: boolean;
     private adapter;
     private log;
-    url: URL;
+    url: URL | undefined;
     httpsAgent: https.Agent | undefined;
     private jar;
     private fetchWithCookies;
@@ -35,6 +35,7 @@ export declare class OmvApi {
     } | undefined): Promise<any>;
     logout(): Promise<void>;
     private getEndpointData;
+    private checkUrl;
     /**
      * Set adapter info.connection state and internal var
      *

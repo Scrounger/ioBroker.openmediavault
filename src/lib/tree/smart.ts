@@ -9,7 +9,7 @@ export namespace smart {
 
 	export const idChannel = 'smart'
 
-	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+	export const iobObjectDefintions: IoBrokerObjectDefinitions<Smart, ioBroker.myAdapter> = {
 		channelName: 'S.M.A.R.T info',
 		deviceIdProperty: (objDevice: Smart, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
 			if (objDevice.devicelinks) {
@@ -20,7 +20,7 @@ export namespace smart {
 				}
 			}
 
-			return objDevice.devicename;
+			return objDevice.devicename ? objDevice.devicename : '';
 		},
 		deviceNameProperty: (objDevice: Smart, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
 			if (objDevice.devicelinks) {
@@ -31,7 +31,7 @@ export namespace smart {
 				}
 			}
 
-			return objDevice.devicename;
+			return objDevice.devicename ? objDevice.devicename : '';
 		},
 		deviceHasErrorsState: 'hasErrors',
 		additionalRequest: [
@@ -55,18 +55,18 @@ export namespace smart {
 								result[cleanAttrname] = item.rawvalue;
 							});
 
-							return result as Smart;
+							return result;
 						}
 					} catch (error: any) {
 						adapter.log.error(`${logPrefix} error: ${error}, stack: ${error.stack}`);
 					}
-					return {} as Smart;
+					return {};
 				}
 			},
 		]
 	}
 
-	export function get(): { [key: string]: myTreeDefinition } {
+	export function get(): { [key: string]: myTreeDefinition<any, Smart, ioBroker.myAdapter> } {
 		return {
 			canonicaldevicefile: {
 				iobType: 'string',
@@ -196,7 +196,7 @@ export namespace smart {
 				name: 'temperature',
 				unit: '°C',
 				conditionToCreateState(objDevice: Smart, objChannel: Smart, adapter: ioBroker.myAdapter): boolean {
-					return objDevice.temperature > 0;
+					return objDevice.temperature ? objDevice.temperature > 0 : false;
 				},
 				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Smart, channel: any, id: string): ioBroker.StateValue {
 					return Math.round(val * 10) / 10;

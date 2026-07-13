@@ -4,10 +4,10 @@ import { OmvApi } from './lib/omv-rpc.js';
 import { myIob } from './lib/myIob.js';
 declare class Openmediavault extends utils.Adapter {
     omvApi: OmvApi | undefined;
-    myIob: myIob;
+    myIob: myIob | undefined;
     updateSchedule: schedule.Job | undefined;
     subscribedList: string[];
-    statesUsingValAsLastChanged: any[];
+    statesUsingValAsLastChanged: never[];
     updateTimeout: ioBroker.Timeout | undefined;
     configDevicesCache: {
         [key: string]: {

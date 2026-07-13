@@ -30,7 +30,7 @@ export class OmvApi {
     log;
     url;
     httpsAgent = undefined;
-    jar;
+    jar = new CookieJar();
     fetchWithCookies;
     lastLogin = null;
     MAX_LOGIN_AGE_MINUTES = 30;
@@ -38,6 +38,7 @@ export class OmvApi {
         const logPrefix = `[${this.logPrefix}.constructor]:`;
         this.adapter = adapter;
         this.log = adapter.log;
+        this.fetchWithCookies = fetchCookie(fetch, this.jar);
         try {
             this.url = new url.URL(`${this.adapter.config.url}/rpc.php`);
             if (this.adapter.config.ignoreSSLCertificate && this.url.protocol === 'https:') {
@@ -57,7 +58,7 @@ export class OmvApi {
         const logPrefix = `[${this.logPrefix}.login]:`;
         try {
             if (this.url) {
-                const response = await this.fetchWithCookies(this.url, {
+                const response = await this.fetchWithCookies(this.url.toString(), {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -106,11 +107,15 @@ export class OmvApi {
     async retrievData(endpoint, params = undefined) {
         const logPrefix = `[${this.logPrefix}.retrievData]:`;
         try {
+            const requestUrl = await this.checkUrl(logPrefix);
+            if (!requestUrl) {
+                return undefined;
+            }
             const endpointData = this.getEndpointData(endpoint);
             if (params) {
                 endpointData.params = params;
             }
-            const response = await this.fetchWithCookies(this.url, {
+            const response = await this.fetchWithCookies(requestUrl, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(endpointData),
@@ -157,7 +162,11 @@ export class OmvApi {
         const logPrefix = `[${this.logPrefix}.logout]:`;
         try {
             if (this.isConnected) {
-                const response = await this.fetchWithCookies(this.url, {
+                const requestUrl = await this.checkUrl(logPrefix);
+                if (!requestUrl) {
+                    return;
+                }
+                const response = await this.fetchWithCookies(requestUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -300,6 +309,14 @@ export class OmvApi {
                     params: null,
                 };
         }
+    }
+    async checkUrl(logPrefix) {
+        if (!this.url) {
+            this.log.error(`${logPrefix} url '${this.url}' is not valid. Check the adapter settings!`);
+            await this.setConnectionStatus(false);
+            return undefined;
+        }
+        return this.url.toString();
     }
     /**
      * Set adapter info.connection state and internal var

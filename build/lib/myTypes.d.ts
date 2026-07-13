@@ -13,16 +13,16 @@ export interface EndpointData {
         [key: string]: any;
     } | null;
 }
-export interface IoBrokerObjectDefinitions {
+export interface IoBrokerObjectDefinitions<TTreeData extends myTreeData = myTreeData, TAdapter extends ioBroker.Adapter | ioBroker.myAdapter = ioBroker.Adapter | ioBroker.myAdapter> {
     channelName: string;
-    deviceIdProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string);
-    deviceNameProperty: string | undefined | ((objDevice: myTreeData, adapter: ioBroker.Adapter | ioBroker.myAdapter) => string);
+    deviceIdProperty: string | undefined | ((objDevice: TTreeData, adapter: TAdapter) => string);
+    deviceNameProperty: string | undefined | ((objDevice: TTreeData, adapter: TAdapter) => string);
     deviceIsOnlineState?: string;
     deviceHasErrorsState?: string;
     additionalRequest?: {
         endpoint: ApiEndpoints;
         conditionProperty: string;
         paramsProperty: string;
-        converter?: (data: any, adapter: ioBroker.myAdapter) => myTreeData;
+        converter?: (data: any, adapter: ioBroker.myAdapter) => TTreeData;
     }[];
 }

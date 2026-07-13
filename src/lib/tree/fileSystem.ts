@@ -8,7 +8,7 @@ export namespace fileSystem {
 
 	export const idChannel = 'fileSystem'
 
-	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+	export const iobObjectDefintions: IoBrokerObjectDefinitions<FileSystem, ioBroker.myAdapter> = {
 		channelName: 'file system info',
 		deviceIdProperty: (objDevice: FileSystem, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
 			if (objDevice.uuid) {
@@ -19,7 +19,7 @@ export namespace fileSystem {
 				}
 			}
 
-			return undefined;
+			return "";
 		},
 		deviceNameProperty: (objDevice: FileSystem, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
 			return objDevice.label || objDevice.comment
@@ -28,7 +28,7 @@ export namespace fileSystem {
 		deviceHasErrorsState: 'hasErrors',
 	}
 
-	export function get(): { [key: string]: myTreeDefinition } {
+	export function get(): { [key: string]: myTreeDefinition<any, FileSystem, ioBroker.myAdapter> } {
 		return {
 			available: {
 				iobType: 'number',

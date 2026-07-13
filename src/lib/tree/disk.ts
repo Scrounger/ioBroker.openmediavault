@@ -8,9 +8,9 @@ export namespace disk {
 
 	export const idChannel = 'disk'
 
-	export const iobObjectDefintions: IoBrokerObjectDefinitions = {
+	export const iobObjectDefintions: IoBrokerObjectDefinitions<Disk, ioBroker.myAdapter> = {
 		channelName: 'disk info',
-		deviceIdProperty: (objDevice: Disk, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+		deviceIdProperty: (objDevice: Disk, adapter: ioBroker.myAdapter): string => {
 			if (objDevice.devicelinks) {
 				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-uuid/'));
 
@@ -21,7 +21,7 @@ export namespace disk {
 
 			return objDevice.devicename;
 		},
-		deviceNameProperty: (objDevice: Disk, adapter: ioBroker.Adapter | ioBroker.myAdapter): string => {
+		deviceNameProperty: (objDevice: Disk, adapter: ioBroker.myAdapter): string => {
 			if (objDevice.devicelinks) {
 				const find = objDevice.devicelinks.find(x => x.includes('/dev/disk/by-label/'));
 
@@ -34,7 +34,7 @@ export namespace disk {
 		},
 	}
 
-	export function get(): { [key: string]: myTreeDefinition } {
+	export function get(): { [key: string]: myTreeDefinition<any, Disk, ioBroker.myAdapter> } {
 		return {
 			canonicaldevicefile: {
 				iobType: 'string',
@@ -99,7 +99,7 @@ export namespace disk {
 				iobType: 'number',
 				name: 'temperature',
 				unit: '°C',
-				conditionToCreateState(objDevice: Disk, objChannel: Disk, adapter: ioBroker.Adapter): boolean {
+				conditionToCreateState(objDevice: Disk, objChannel: Disk, adapter: ioBroker.myAdapter): boolean {
 					return objDevice.temperature > 0;
 				},
 				readVal: function (val: any, adapter: ioBroker.myAdapter, device: Disk, channel: any, id: string): ioBroker.StateValue {

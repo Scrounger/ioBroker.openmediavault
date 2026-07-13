@@ -51,7 +51,7 @@ declare global {
 		}
 
 		interface myAdapter extends ioBroker.Adapter {
-			myIob: myIob;
+			myIob: myIob | undefined;
 		}
 	}
 }

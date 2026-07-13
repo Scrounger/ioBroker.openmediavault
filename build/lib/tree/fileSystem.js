@@ -14,7 +14,7 @@ export var fileSystem;
                     return objDevice.devicefile.replace('/dev/disk/by-uuid/', '');
                 }
             }
-            return undefined;
+            return "";
         },
         deviceNameProperty: (objDevice, adapter) => {
             return objDevice.label || objDevice.comment;

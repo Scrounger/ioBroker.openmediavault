@@ -36,6 +36,8 @@ For example, you can schedule the adapter query for a time when the hard disks a
 	### **WORK IN PROGRESS**
 -->
 ### **WORK IN PROGRESS**
+- (Scrounger) dependencies updated
+- (Scrounger) typescript 6.x bug fixes
 - (Scrounger) authentication bug fix for >= v.8.5.x #63
 - (copilot) Adapter requires node.js >= 22 now
 - (ioBrokerTranslator) spanish language added #57

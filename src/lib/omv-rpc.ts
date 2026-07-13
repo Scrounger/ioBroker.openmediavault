@@ -1,4 +1,4 @@
-import fetch, { AbortError } from 'node-fetch';
+import fetch, { AbortError, type RequestInfo, type RequestInit, type Response } from 'node-fetch';
 import fetchCookie, { type FetchCookieImpl } from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'node:https';
@@ -35,10 +35,10 @@ export class OmvApi {
 	private adapter: ioBroker.Adapter;
 	private log: ioBroker.Logger;
 
-	url: URL;
+	url: URL | undefined;
 	httpsAgent: https.Agent | undefined = undefined;
-	private jar: CookieJar;
-	private fetchWithCookies: FetchCookieImpl<fetch.RequestInfo, fetch.RequestInit, fetch.Response>;
+	private jar: CookieJar = new CookieJar();
+	private fetchWithCookies: FetchCookieImpl<RequestInfo, RequestInit, Response>;
 
 	public lastLogin: moment.Moment | null = null;
 	public MAX_LOGIN_AGE_MINUTES = 30;
@@ -48,6 +48,7 @@ export class OmvApi {
 
 		this.adapter = adapter;
 		this.log = adapter.log;
+		this.fetchWithCookies = fetchCookie(fetch, this.jar);
 
 		try {
 			this.url = new url.URL(`${this.adapter.config.url}/rpc.php`)
@@ -72,7 +73,7 @@ export class OmvApi {
 
 		try {
 			if (this.url) {
-				const response = await this.fetchWithCookies(this.url, {
+				const response = await this.fetchWithCookies(this.url.toString(), {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ export class OmvApi {
 				});
 
 				if (response.ok) {
-					const result = await response.json();
+					const result: any = await response.json();
 
 					if (result && response) {
 						// since 8.5.x authenticated sturcture changed, now we have to use status instead of authenticated
@@ -124,13 +125,18 @@ export class OmvApi {
 		const logPrefix = `[${this.logPrefix}.retrievData]:`;
 
 		try {
+			const requestUrl = await this.checkUrl(logPrefix);
+			if (!requestUrl) {
+				return undefined;
+			}
+
 			const endpointData = this.getEndpointData(endpoint);
 
 			if (params) {
 				endpointData.params = params
 			}
 
-			const response = await this.fetchWithCookies(this.url, {
+			const response = await this.fetchWithCookies(requestUrl, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(endpointData),
@@ -139,7 +145,7 @@ export class OmvApi {
 			});
 
 			if (response.ok) {
-				const result = await response.json();
+				const result: any = await response.json();
 
 				if (result && result.response) {
 					this.log.silly(`${logPrefix} reponse data for endpoint '${endpoint}'${params ? ` (params: ${JSON.stringify(params)})` : ''}: ${JSON.stringify(result)}`);
@@ -179,7 +185,12 @@ export class OmvApi {
 
 		try {
 			if (this.isConnected) {
-				const response = await this.fetchWithCookies(this.url, {
+				const requestUrl = await this.checkUrl(logPrefix);
+				if (!requestUrl) {
+					return;
+				}
+
+				const response = await this.fetchWithCookies(requestUrl, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -192,7 +203,7 @@ export class OmvApi {
 				if (response.ok) {
 					this.log.info(`${logPrefix} logout from OpenMediaVault successful`);
 
-					const result = await response.json();
+					const result: any = await response.json();
 					this.log.info(JSON.stringify(result));
 				}
 			} else {
@@ -323,6 +334,16 @@ export class OmvApi {
 					params: null,
 				}
 		}
+	}
+
+	private async checkUrl(logPrefix: string): Promise<string | undefined> {
+		if (!this.url) {
+			this.log.error(`${logPrefix} url '${this.url}' is not valid. Check the adapter settings!`);
+			await this.setConnectionStatus(false);
+			return undefined;
+		}
+
+		return this.url.toString();
 	}
 
 	/**
