@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.4.4",
+    "version": "1.5.0",
     "news": {
+      "1.5.0": {
+        "en": "dependencies updated\ntypescript 6.x bug fixes\nauthentication bug fix for >= v.8.5.x #63\nAdapter requires node.js >= 22 now\nspanish language added #57",
+        "de": "Abhängigkeiten aktualisiert\nFehlerbehebungen für TypeScript 6.x\nFehlerbehebung für die Authentifizierung in Versionen >= 8.5.x #63\nDer Adapter benötigt jetzt Node.js >= 22.\nSpanische Sprache hinzugefügt #57",
+        "ru": "Зависимости обновлены\nИсправления ошибок в TypeScript 6.x\nИсправлена ошибка аутентификации для версий >= 8.5.x #63\nДля работы адаптера требуется Node.js версии >= 22.\nДобавлен испанский язык #57",
+        "pt": "dependências atualizadas\nCorreções de bugs do TypeScript 6.x\nCorreção de bug de autenticação para versões >= 8.5.x #63\nO adaptador agora requer Node.js >= 22.\nIdioma espanhol adicionado #57",
+        "nl": "afhankelijkheden bijgewerkt\nBugfixes voor TypeScript 6.x\nAuthenticatiebug opgelost voor >= v.8.5.x #63\nDe adapter vereist nu Node.js versie 22 of hoger.\nSpaanse taal toegevoegd #57",
+        "fr": "dépendances mises à jour\nCorrections de bugs pour TypeScript 6.x\nCorrection d'un bug d'authentification pour les versions >= 8.5.x #63\nL'adaptateur nécessite désormais Node.js >= 22.\nLangue espagnole ajoutée #57",
+        "it": "dipendenze aggiornate\nCorrezioni di bug per TypeScript 6.x\nCorrezione di un bug di autenticazione per le versioni >= v.8.5.x #63\nL'adattatore ora richiede Node.js >= 22\nlingua spagnola aggiunta #57",
+        "es": "dependencias actualizadas\nCorrecciones de errores de TypeScript 6.x\nCorrección de error de autenticación para versiones >= 8.5.x #63\nEl adaptador ahora requiere node.js >= 22.\nEspañol idioma añadido #57",
+        "pl": "zależności zaktualizowane\npoprawki błędów w TypeScript 6.x\npoprawka błędu uwierzytelniania dla >= v.8.5.x #63\nAdapter wymaga teraz node.js >= 22\ndodano język hiszpański #57",
+        "uk": "залежності оновлено\nВиправлення помилок у TypeScript 6.x\nвиправлення помилки автентифікації для >= версії 8.5.x #63\nАдаптер тепер вимагає node.js >= 22\nдодано іспанську мову #57",
+        "zh-cn": "依赖项已更新\nTypeScript 6.x 错误修复\n修复了版本 8.5.x 及更高版本的身份验证错误 #63\n适配器现在需要 node.js 版本 >= 22。\n西班牙语新增 #57"
+      },
       "1.4.4": {
         "en": "dependencies updated",
         "de": "aktualisierte abhängigkeiten",
@@ -80,19 +93,6 @@
         "pl": "dodany wskaźnik błędu s.m.a.r.t\nstatus systemu plików, isOnline, dodano wskaźniki błędów",
         "uk": "s.m.a.r.t. індикатор помилки додано\nстатус на сервери",
         "zh-cn": "添加 s.m.a.r.t. 错误指标\n文件系统状态, isOnline, 已添加错误指标"
-      },
-      "1.2.0": {
-        "en": "using disk uuid as channel id for disk and s.m.a.r.t -> Breaking Change !!!\nbug fixes",
-        "de": "mit Festplatte uuid als Kanal id für Festplatte und s.m.a.rt -> Veränderung brechen!!!\nfehlerbehebungen",
-        "ru": "использование uuid диска в качестве id канала для диска и s.m.a.r.t Переломные перемены!!!\nисправление ошибок",
-        "pt": "usando uuid de disco como id de canal para disco e s.m.a.r.t -> Quebrar a Mudança !!!!\ncorreções de erros",
-        "nl": "gebruik van disk uuid als kanaal id voor schijf en s.m.a.r.t -> Breaking Change!!!\nfoutherstel",
-        "fr": "utilisant le disque uuid comme id de canal pour le disque et s.m.a.r.t -> Briser le changement !!!\ncorrections des bogues",
-        "it": "usando il disco uuid come canale id per il disco e s.m.a.r.t -> Cambiamento di rottura!!!\ncorrezioni di bug",
-        "es": "usando uuid de disco como canal id para disco y s.m.a.r.t Cambio de ruptura !!!\nbug fixes",
-        "pl": "uuid dysku jako id kanału dla dysku i s.m.a.r.t - > Łamanie zmian!!!\npoprawki błędów",
-        "uk": "за допомогою диска uuid як канал id для диска і s.m.a.r.t -> Змінити зміни!\nвиправлення помилок",
-        "zh-cn": "使用磁盘 uuid 作为磁盘和 s.m.a.r.t - > 突破变革!\n错误修正"
       }
     },
     "titleLang": {
