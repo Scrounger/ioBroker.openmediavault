@@ -21,5 +21,10 @@ mybuild.sh
 myrelease.sh
 ioBroker.openmediavault.lnk
 
+# local environment / credentials (live tests)
+.env
+.env.*
+!.env.example
+
 # test coverage reports (npm run test:coverage)
 coverage/

@@ -70,6 +70,8 @@
     "watch:ts": "build-adapter ts --watch",
     "test:ts": "node test/tools/withMyIobCopy.mjs mocha --config test/mocharc.custom.json \"test/unit/**/*.test.ts\"",
     "test:coverage": "c8 npm run test:ts && node tools/updateCoverageBadge.mjs",
+    "test:live": "mocha --config test/mocharc.custom.json \"test/tools/**/*.live.test.ts\" --exit",
+    "test:all": "npm run test:ts && npm run test:package && npm run test:live",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",
