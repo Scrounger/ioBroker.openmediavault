@@ -9,7 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.openmediavault.png?downloads=true)](https://nodei.co/npm/iobroker.openmediavault/)
 
-**Tests:** ![Test and Release](https://github.com/Scrounger/ioBroker.openmediavault/workflows/Test%20and%20Release/badge.svg)
+**Tests:** ![Test and Release](https://github.com/Scrounger/ioBroker.openmediavault/workflows/Test%20and%20Release/badge.svg) ![Coverage](https://img.shields.io/badge/coverage-42%25-red)
 
 ## OpenMediaVault adapter for ioBroker
 

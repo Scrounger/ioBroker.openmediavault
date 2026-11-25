@@ -6,14 +6,14 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
-import url from 'node:url';
-import * as schedule from 'node-schedule';
 import moment from 'moment';
+import * as schedule from 'node-schedule';
+import url from 'node:url';
 
 // Load your modules here, e.g.:
-import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
-import * as tree from './lib/tree/index.js'
 import { myIob } from './lib/myIob.js';
+import { ApiEndpoints, OmvApi } from './lib/omv-rpc.js';
+import * as tree from './lib/tree/index.js';
 
 type TreeEndpoint = keyof typeof tree;
 
@@ -69,7 +69,7 @@ class Openmediavault extends utils.Adapter {
 				this.log.warn(`${logPrefix} url and / or login data missing!`);
 			}
 
-			this.myIob.findMissingTranslation();
+			this.myIob.findMissingTranslation(tree);
 
 			// const tmp = tree.smart.getStateIDs();
 			// let list = []
@@ -340,8 +340,18 @@ class Openmediavault extends utils.Adapter {
 													value: deviceIdProperty,
 												});
 
-												await this.myIob.createOrUpdateDevice(idDevice, deviceName, iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined, iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined, undefined, isAdapterStart, true);
-												await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [], (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false, deviceName, isAdapterStart);
+												await this.myIob.createOrUpdateDevice(idDevice, deviceName, {
+													onlineId: iobObjectDefintions.deviceIsOnlineState ? `${idDevice}.${iobObjectDefintions.deviceIsOnlineState}` : undefined,
+													errorId: iobObjectDefintions.deviceHasErrorsState ? `${idDevice}.${iobObjectDefintions.deviceHasErrorsState}` : undefined,
+													updateObject: isAdapterStart,
+													logChanges: true,
+												});
+												await this.myIob.createOrUpdateStates(idDevice, treeType.get(), device, device, {
+													blacklistFilter: (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [],
+													isWhiteList: (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false,
+													logDeviceName: deviceName,
+													updateObject: isAdapterStart,
+												});
 
 												this.log.debug(`${logPrefix} device '${deviceIdProperty}' data successfully updated`);
 											} else {
@@ -360,7 +370,12 @@ class Openmediavault extends utils.Adapter {
 									}
 								}
 							} else {
-								await this.myIob.createOrUpdateStates(treeType.idChannel, treeType.get(), data, data, (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [], (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false, iobObjectDefintions.channelName, isAdapterStart);
+								await this.myIob.createOrUpdateStates(treeType.idChannel, treeType.get(), data, data, {
+									blacklistFilter: (configDynamic[`${endpoint}StatesBlackList`] as { id: string }[] | undefined) ?? [],
+									isWhiteList: (configDynamic[`${endpoint}StatesIsWhiteList`] as boolean | undefined) ?? false,
+									logDeviceName: iobObjectDefintions.channelName,
+									updateObject: isAdapterStart,
+								});
 
 								this.log.debug(`${logPrefix} channel '${iobObjectDefintions.channelName}' data successfully updated`);
 							}

@@ -30,7 +30,7 @@ export function zeroPad(source: any, places: number): string {
 /**
  * Collect all properties used in tree defintions
  *
- * @param treefDefintion {@see} tree-devices.ts {@see} tree-clients.ts
+ * @param treefDefintion see `tree-devices.ts` and `tree-clients.ts`
  * @returns
  */
 export function getAllKeysOfTreeDefinition(treefDefintion: { [key: string]: myTreeDefinition<any, any, any> }): string[] {
@@ -47,7 +47,7 @@ export function getAllKeysOfTreeDefinition(treefDefintion: { [key: string]: myTr
 
 				// Wenn es ein Array oder Object ist, dann rekursiv weitergehen
 				if (_.isArray(value) || _.isObject(value)) {
-					// Nur unter 'array' oder 'object' rekursiv weiter
+					// Nur unter "array" oder "object" rekursiv weiter
 					recurse(value, fullKey);
 				}
 			} else {
@@ -90,7 +90,7 @@ export function getAllIdsOfTreeDefinition(treefDefintion: { [key: string]: myTre
 
 				// Wenn es ein Array oder Object ist, dann rekursiv weitergehen
 				if (_.isArray(value) || _.isObject(value)) {
-					// Nur unter 'array' oder 'object' rekursiv weiter
+					// Nur unter "array" oder "object" rekursiv weiter
 					recurse(value, fullKey);
 				}
 			}

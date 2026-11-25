@@ -20,3 +20,6 @@ admin/i18n/*/flat.txt
 mybuild.sh
 myrelease.sh
 ioBroker.openmediavault.lnk
+
+# test coverage reports (npm run test:coverage)
+coverage/

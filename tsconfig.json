@@ -16,8 +16,8 @@
     "sourceMap": false /* Generates corresponding '.map' file. */,
     // "outFile": "./",                       /* Concatenate and emit output to single file. */
     "outDir": "./build",
-    "rootDir": "./src",
-    // "rootDir": "./",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    // rootDir "./" covers src and test (ts-node requires an explicit rootDir when it emits)
+    "rootDir": "./", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "composite": true,                     /* Enable project compilation */
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
@@ -72,5 +72,12 @@
     "build/**",
     "node_modules",
     "widgets/**"
-  ]
+  ],
+  // ts-node (ESM loader) must load the global type declarations (src/lib/adapter-config.d.ts).
+  // transpileOnly: the unit tests skip type checking, because src/main.ts does not match the
+  // newer shared myIob API yet (see npm run check). Type checking runs via npm run check.
+  "ts-node": {
+    "files": true,
+    "transpileOnly": true
+  }
 }
