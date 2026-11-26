@@ -1,6 +1,6 @@
 import * as utils from '@iobroker/adapter-core';
 import { expect } from 'chai';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import sinon from 'sinon';
 import { OmvApi } from '../../src/lib/omv-rpc.js';
 import * as tree from '../../src/lib/tree/index.js';
@@ -139,7 +139,7 @@ describe('updateData', () => {
     it('logs in again and logs a debug message when the session is too old', async () => {
         const login = sinon.stub().resolves();
         const adapter = createAdapter({
-            omvApi: { isConnected: true, lastLogin: moment().subtract(31, 'minutes'), MAX_LOGIN_AGE_MINUTES: 30, login },
+            omvApi: { isConnected: true, lastLogin: dayjs().subtract(31, 'minute'), MAX_LOGIN_AGE_MINUTES: 30, login },
         });
 
         await adapter.updateData();
@@ -151,7 +151,7 @@ describe('updateData', () => {
     it('does not log in when the session is still valid', async () => {
         const login = sinon.stub().resolves();
         const adapter = createAdapter({
-            omvApi: { isConnected: true, lastLogin: moment(), MAX_LOGIN_AGE_MINUTES: 30, login },
+            omvApi: { isConnected: true, lastLogin: dayjs(), MAX_LOGIN_AGE_MINUTES: 30, login },
         });
 
         await adapter.updateData();
@@ -172,7 +172,7 @@ describe('updateData', () => {
     it('updates every endpoint that has iob definitions when connected', async () => {
         const adapter = createAdapter({
             connected: true,
-            omvApi: { isConnected: true, lastLogin: moment(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
+            omvApi: { isConnected: true, lastLogin: dayjs(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
         });
         const updateDataGeneric = sinon.stub(adapter, 'updateDataGeneric').resolves();
         const expectedCount = Object.keys(tree).filter(key => Object.hasOwn((tree as any)[key], 'iobObjectDefintions')).length;
@@ -188,7 +188,7 @@ describe('updateData', () => {
     it('does not update any endpoint when not connected', async () => {
         const adapter = createAdapter({
             connected: false,
-            omvApi: { isConnected: true, lastLogin: moment(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
+            omvApi: { isConnected: true, lastLogin: dayjs(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
         });
         const updateDataGeneric = sinon.stub(adapter, 'updateDataGeneric').resolves();
 
@@ -202,7 +202,7 @@ describe('updateData', () => {
         const descriptor = Object.getOwnPropertyDescriptor(disk, 'iobObjectDefintions');
         const adapter = createAdapter({
             connected: true,
-            omvApi: { isConnected: true, lastLogin: moment(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
+            omvApi: { isConnected: true, lastLogin: dayjs(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
         });
         adapter.log.level = 'debug';
         const updateDataGeneric = sinon.stub(adapter, 'updateDataGeneric').resolves();
@@ -224,7 +224,7 @@ describe('updateData', () => {
     it('logs an error when an endpoint update throws', async () => {
         const adapter = createAdapter({
             connected: true,
-            omvApi: { isConnected: true, lastLogin: moment(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
+            omvApi: { isConnected: true, lastLogin: dayjs(), MAX_LOGIN_AGE_MINUTES: 30, login: sinon.stub().resolves() },
         });
         sinon.stub(adapter, 'updateDataGeneric').rejects(new Error('endpoint failed'));
 

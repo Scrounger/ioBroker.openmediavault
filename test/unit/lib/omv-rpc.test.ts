@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { AbortError } from 'node-fetch';
 import https from 'node:https';
 import sinon from 'sinon';
@@ -103,7 +103,7 @@ describe('OmvApi', () => {
 
             expect(api.isConnected).to.be.true;
             expect(adapter.connected).to.be.true;
-            expect(moment.isMoment(api.lastLogin)).to.be.true;
+            expect(dayjs.isDayjs(api.lastLogin)).to.be.true;
             expect(adapter.setState).to.have.been.calledWith('info.connection', true, true);
             expect(adapter.log.info).to.have.been.calledWithMatch('login to OpenMediaVault successful');
         });

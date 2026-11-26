@@ -3,7 +3,7 @@ import fetchCookie from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'node:https';
 import * as url from 'node:url';
-import moment from 'moment';
+import dayjs from 'dayjs';
 export var ApiEndpoints;
 (function (ApiEndpoints) {
     ApiEndpoints["login"] = "login";
@@ -75,7 +75,7 @@ export class OmvApi {
                             this.log.debug(`${logPrefix} result: ${JSON.stringify(result)}`);
                             this.log.info(`${logPrefix} login to OpenMediaVault successful`);
                             await this.setConnectionStatus(true);
-                            this.lastLogin = moment();
+                            this.lastLogin = dayjs();
                             return;
                         }
                         else {

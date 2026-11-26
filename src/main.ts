@@ -6,7 +6,7 @@
 // you need to create an adapter
 import * as utils from '@iobroker/adapter-core';
 import _ from 'lodash';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import * as schedule from 'node-schedule';
 import url from 'node:url';
 
@@ -230,8 +230,8 @@ class Openmediavault extends utils.Adapter {
 			}
 
 			if (this.omvApi) {
-				if (!this.omvApi.isConnected || moment().diff(this.omvApi.lastLogin ?? 0, 'minutes') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
-					if (this.omvApi.lastLogin !== null && moment().diff(this.omvApi.lastLogin ?? 0, 'minutes') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
+				if (!this.omvApi.isConnected || dayjs().diff(this.omvApi.lastLogin ?? 0, 'minute') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
+					if (this.omvApi.lastLogin !== null && dayjs().diff(this.omvApi.lastLogin ?? 0, 'minute') >= this.omvApi.MAX_LOGIN_AGE_MINUTES) {
 						this.log.debug(`${logPrefix} re-login because session id expired`);
 					}
 

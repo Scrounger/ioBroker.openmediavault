@@ -33,7 +33,7 @@ describe('live: login', function () {
         await api!.login();
 
         expect(api!.isConnected, 'isConnected').to.be.true;
-        expect(api!.lastLogin?.isValid(), 'lastLogin is a valid moment').to.be.true;
+        expect(api!.lastLogin?.isValid(), 'lastLogin is a valid dayjs object').to.be.true;
     });
 
     it('returns data for an endpoint after login', async () => {

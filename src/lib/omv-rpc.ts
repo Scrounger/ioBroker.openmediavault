@@ -3,7 +3,7 @@ import fetchCookie, { type FetchCookieImpl } from 'fetch-cookie';
 import { CookieJar } from 'tough-cookie';
 import https from 'node:https';
 import * as url from 'node:url';
-import moment from 'moment';
+import dayjs, { type Dayjs } from 'dayjs';
 
 import type * as myTypes from './myTypes.js'
 
@@ -40,7 +40,7 @@ export class OmvApi {
 	private jar: CookieJar = new CookieJar();
 	private fetchWithCookies: FetchCookieImpl<RequestInfo, RequestInit, Response>;
 
-	public lastLogin: moment.Moment | null = null;
+	public lastLogin: Dayjs | null = null;
 	public MAX_LOGIN_AGE_MINUTES = 30;
 
 	public constructor(adapter: ioBroker.Adapter) {
@@ -95,7 +95,7 @@ export class OmvApi {
 
 							await this.setConnectionStatus(true)
 
-							this.lastLogin = moment();
+							this.lastLogin = dayjs();
 
 							return;
 						} else {
