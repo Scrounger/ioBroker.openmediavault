@@ -34,7 +34,8 @@ export function getFixtureDocuments(): FixtureDocument[] {
 }
 
 /** `describe` when recorded fixtures exist, otherwise `describe.skip`. */
-export const describeWithFixtures: Mocha.SuiteFunction = getFixtureDocuments().length > 0 ? describe : describe.skip;
+export const describeWithFixtures: Mocha.SuiteFunction | Mocha.PendingSuiteFunction =
+    getFixtureDocuments().length > 0 ? describe : describe.skip;
 
 /**
  * Compares the params of a recorded document with the requested params.

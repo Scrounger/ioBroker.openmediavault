@@ -39,7 +39,7 @@ afterEach(() => {
 describe('onReady', () => {
     beforeEach(() => {
         sinon.stub((utils as any).I18n, 'init').resolves();
-        sinon.stub((utils as any).I18n, 'getTranslatedObject').callsFake((key: string) => ({ en: key }));
+        sinon.stub((utils as any).I18n, 'getTranslatedObject').callsFake((key: unknown) => ({ en: String(key) }));
     });
 
     it('warns and does not create the API when url, user or password is missing', async () => {
