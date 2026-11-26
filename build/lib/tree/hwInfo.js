@@ -29,10 +29,16 @@ export var hwInfo;
             cpuCores: {
                 iobType: 'number',
                 name: 'cpu cores',
+                readVal(val, adapter, device, channel, id) {
+                    return parseInt(val);
+                }
             },
             cpuMhz: {
                 iobType: 'number',
                 name: 'cpu freqency',
+                readVal(val, adapter, device, channel, id) {
+                    return parseFloat(val);
+                }
             },
             hostname: {
                 iobType: 'string',

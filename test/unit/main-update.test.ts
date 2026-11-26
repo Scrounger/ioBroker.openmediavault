@@ -4,6 +4,7 @@ import moment from 'moment';
 import sinon from 'sinon';
 import { OmvApi } from '../../src/lib/omv-rpc.js';
 import * as tree from '../../src/lib/tree/index.js';
+import { describeWithFixtures, getFixtureRecords, getFixtureResponse } from './helpers/fixtures.js';
 import { createMainAdapter, DEFAULT_CONFIG } from './helpers/mainAdapter.js';
 
 /** Adapters with a cron job. Their jobs are cancelled after each test, otherwise mocha would not exit. */
@@ -553,5 +554,109 @@ describe('updateDataGeneric', () => {
         await adapter.updateDataGeneric(ENDPOINT, treeType, createDefinitions(), false);
 
         expect(adapter.log.error).to.have.been.calledWithMatch('retrieval failed');
+    });
+});
+
+describeWithFixtures('updateDataGeneric with recorded fixtures', () => {
+    /**
+     * Creates an adapter with the endpoint enabled and the API answering with the recorded responses.
+     *
+     * @param endpoint the endpoint to enable
+     */
+    function createFixtureAdapter(endpoint: string): any {
+        const retrievData = sinon.stub().callsFake(async (requested: string, params?: Record<string, unknown>) => getFixtureResponse(requested, params));
+
+        return createAdapter({
+            connected: true,
+            config: { ...DEFAULT_CONFIG, [`${endpoint}Enabled`]: true },
+            omvApi: { isConnected: true, retrievData },
+            myIob: {
+                createOrUpdateChannel: sinon.stub().resolves(),
+                createOrUpdateDevice: sinon.stub().resolves(),
+                createOrUpdateStates: sinon.stub().resolves(),
+            },
+        });
+    }
+
+    const endpoints = Object.keys(tree).filter(endpoint => getFixtureRecords(endpoint) !== undefined);
+
+    for (const endpoint of endpoints) {
+        const def = (tree as any)[endpoint];
+        const hasDevices = def.iobObjectDefintions?.deviceIdProperty !== undefined;
+
+        it(`${endpoint}: processes every recorded entry without errors`, async () => {
+            const adapter = createFixtureAdapter(endpoint);
+
+            await adapter.updateDataGeneric(endpoint, def, def.iobObjectDefintions, true);
+
+            const records = getFixtureRecords(endpoint) ?? [];
+            expect(adapter.log.error).to.not.have.been.called;
+            if (hasDevices) {
+                expect(adapter.myIob.createOrUpdateDevice.callCount).to.equal(records.length);
+            } else {
+                expect(adapter.myIob.createOrUpdateStates).to.have.been.calledOnce;
+            }
+        });
+
+        if (hasDevices) {
+            it(`${endpoint}: creates one device per recorded entry with a unique id`, async () => {
+                const adapter = createFixtureAdapter(endpoint);
+
+                await adapter.updateDataGeneric(endpoint, def, def.iobObjectDefintions, true);
+
+                const ids: string[] = adapter.myIob.createOrUpdateDevice.getCalls().map((call: sinon.SinonSpyCall) => call.args[0]);
+                expect(ids).to.have.lengthOf(getFixtureRecords(endpoint)?.length ?? 0);
+                expect(new Set(ids).size).to.equal(ids.length);
+                for (const id of ids) {
+                    expect(id).to.match(new RegExp(`^${def.idChannel}\\.`));
+                }
+            });
+        }
+    }
+
+    it('fileSystem: online and error states are bound to the recorded status values', async () => {
+        const adapter = createFixtureAdapter('fileSystem');
+
+        await adapter.updateDataGeneric('fileSystem', tree.fileSystem, tree.fileSystem.iobObjectDefintions, true);
+
+        const options = adapter.myIob.createOrUpdateDevice.getCalls().map((call: sinon.SinonSpyCall) => call.args[2]);
+        expect(options).to.not.be.empty;
+        for (const option of options) {
+            expect(option.onlineId).to.match(/\.isOnline$/);
+            expect(option.errorId).to.match(/\.hasErrors$/);
+        }
+    });
+
+    it('smart: monitored devices receive the recorded smartInfo and smartAttributes data', async () => {
+        const adapter = createFixtureAdapter('smart');
+        const additionalRequests: any[] = (tree.smart.iobObjectDefintions as any).additionalRequest;
+
+        await adapter.updateDataGeneric('smart', tree.smart, tree.smart.iobObjectDefintions, true);
+
+        const records = getFixtureRecords('smart') ?? [];
+        expect(adapter.myIob.createOrUpdateStates.callCount).to.equal(records.length);
+
+        records.forEach((record, index) => {
+            const device = adapter.myIob.createOrUpdateStates.getCall(index).args[2];
+            expect(device.devicefile).to.equal(record.devicefile);
+
+            if (!record.monitor) {
+                expect(device.devicemodel).to.be.undefined;
+                return;
+            }
+
+            const info = getFixtureResponse('smartInfo', { devicefile: record.devicefile });
+            expect(info, `smartInfo for ${record.devicefile}`).to.exist;
+            expect(device.devicemodel).to.equal(info.devicemodel);
+            expect(device.powercycles).to.equal(info.powercycles);
+            expect(device.poweronhours).to.equal(info.poweronhours);
+            expect(device.rotationrate).to.equal(info.rotationrate);
+
+            const attributes = additionalRequests[1].converter(getFixtureResponse('smartAttributes', { devicefile: record.devicefile }), adapter);
+            expect(Object.keys(attributes), `attributes for ${record.devicefile}`).to.not.be.empty;
+            for (const [key, value] of Object.entries(attributes)) {
+                expect(device).to.have.property(key, value);
+            }
+        });
     });
 });

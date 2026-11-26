@@ -21,7 +21,7 @@ export function zeroPad(source, places) {
 /**
  * Collect all properties used in tree defintions
  *
- * @param treefDefintion {@see} tree-devices.ts {@see} tree-clients.ts
+ * @param treefDefintion see `tree-devices.ts` and `tree-clients.ts`
  * @returns
  */
 export function getAllKeysOfTreeDefinition(treefDefintion) {
@@ -35,7 +35,7 @@ export function getAllKeysOfTreeDefinition(treefDefintion) {
                 keys.push(fullKey);
                 // Wenn es ein Array oder Object ist, dann rekursiv weitergehen
                 if (_.isArray(value) || _.isObject(value)) {
-                    // Nur unter 'array' oder 'object' rekursiv weiter
+                    // Nur unter "array" oder "object" rekursiv weiter
                     recurse(value, fullKey);
                 }
             }
@@ -72,7 +72,7 @@ export function getAllIdsOfTreeDefinition(treefDefintion) {
                 }
                 // Wenn es ein Array oder Object ist, dann rekursiv weitergehen
                 if (_.isArray(value) || _.isObject(value)) {
-                    // Nur unter 'array' oder 'object' rekursiv weiter
+                    // Nur unter "array" oder "object" rekursiv weiter
                     recurse(value, fullKey);
                 }
             }

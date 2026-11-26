@@ -9,7 +9,7 @@
 
 [![NPM](https://nodei.co/npm/iobroker.openmediavault.png?downloads=true)](https://nodei.co/npm/iobroker.openmediavault/)
 
-**Tests:** ![Test and Release](https://github.com/Scrounger/ioBroker.openmediavault/workflows/Test%20and%20Release/badge.svg) ![Coverage](https://img.shields.io/badge/coverage-88%25-green)
+**Tests:** ![Test and Release](https://github.com/Scrounger/ioBroker.openmediavault/workflows/Test%20and%20Release/badge.svg) ![Coverage](https://img.shields.io/badge/coverage-91%25-brightgreen)
 
 ## OpenMediaVault adapter for ioBroker
 
@@ -75,6 +75,11 @@ Fixtures are stored in `test/fixtures/local/<version>/` and are git-ignored, as 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
+
+### **WORK IN PROGRESS**
+- (Scrounger) bug fixes
+- (Scrounger) dependencies updated
+
 ### 1.5.0 (2026-07-13)
 - (Scrounger) dependencies updated
 - (Scrounger) typescript 6.x bug fixes

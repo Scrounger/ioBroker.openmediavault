@@ -1,7 +1,7 @@
-import type { IoBrokerObjectDefinitions } from '../myTypes.js';
 import * as myHelper from '../helper.js';
-import type { HwInfo } from '../types-hwInfo.js';
 import type { myTreeDefinition } from '../myIob.js';
+import type { IoBrokerObjectDefinitions } from '../myTypes.js';
+import type { HwInfo } from '../types-hwInfo.js';
 
 export namespace hwInfo {
 	let keys: string[] | undefined = undefined;
@@ -35,10 +35,16 @@ export namespace hwInfo {
 			cpuCores: {
 				iobType: 'number',
 				name: 'cpu cores',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, channel: any, id: string): ioBroker.StateValue {
+					return parseInt(val);
+				}
 			},
 			cpuMhz: {
 				iobType: 'number',
 				name: 'cpu freqency',
+				readVal(val: any, adapter: ioBroker.myAdapter, device: HwInfo, channel: any, id: string): ioBroker.StateValue {
+					return parseFloat(val);
+				}
 			},
 			hostname: {
 				iobType: 'string',
