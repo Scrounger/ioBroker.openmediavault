@@ -75,8 +75,7 @@ Fixtures are stored in `test/fixtures/local/<version>/` and are git-ignored, as 
 	Placeholder for the next version (at the beginning of the line):
 	### **WORK IN PROGRESS**
 -->
-
-### **WORK IN PROGRESS**
+### 1.6.0 (2026-11-26)
 - (Scrounger) bug fixes
 - (Scrounger) dependencies updated
 - (Scrounger) momment replaced with day.js
@@ -101,10 +100,6 @@ Fixtures are stored in `test/fixtures/local/<version>/` and are git-ignored, as 
 ### 1.4.2 (2025-12-04)
 
 - (Scrounger) connection timeout bug fix
-
-### 1.4.1 (2025-12-02)
-
-- (Scrounger) session expired bug fix
 
 [Older changelogs can be found there](CHANGELOG_OLD.md)
 

@@ -1,4 +1,9 @@
 # Older changes
+## 1.4.1 (2025-12-02)
+
+- (Scrounger) session expired bug fix
+
+
 ## 1.4.0 (2025-12-01)
 
 - (Scrounger) option to update data with cron job added

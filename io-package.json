@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "openmediavault",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "news": {
+      "1.6.0": {
+        "en": "bug fixes\ndependencies updated\nmomment replaced with day.js",
+        "de": "Bugfixes\nAbhängigkeiten aktualisiert\nMoment ersetzt durch day.js",
+        "ru": "исправления ошибок\nзависимости обновлены\nмомент заменен на day.js",
+        "pt": "bug fixes\ndependências atualizadas\nsubstituída por day.js",
+        "nl": "bugfixes\nafhankelijkheden bijgewerkt\nmoment vervangen door day.js",
+        "fr": "bugs fixes\ndépendances mises à jour\nmoment remplacé par day.js",
+        "it": "bug fix\ndipendenze aggiornate\nmomento sostituito da day.js",
+        "es": "bugs fix\ndependencias actualizadas\nmomento reemplazado por day.js",
+        "pl": "poprawki błędów\naktualizacja zależności\nmomment zastąpiony na day.js",
+        "uk": "виправлення помилок\nзалежності оновлені\nmomment замінено на day.js",
+        "zh-cn": "错误修复\n依赖关系已更新\nmoment 替换为 day.js"
+      },
       "1.5.0": {
         "en": "dependencies updated\ntypescript 6.x bug fixes\nauthentication bug fix for >= v.8.5.x #63\nAdapter requires node.js >= 22 now\nspanish language added #57",
         "de": "Abhängigkeiten aktualisiert\nFehlerbehebungen für TypeScript 6.x\nFehlerbehebung für die Authentifizierung in Versionen >= 8.5.x #63\nDer Adapter benötigt jetzt Node.js >= 22.\nSpanische Sprache hinzugefügt #57",
@@ -80,19 +93,6 @@
         "pl": "opcja aktualizacji danych z dodanym zadaniem cron\nkonfigurowalny czas połączenia\nzaktualizowane zależności\ndysk i s.m.a.r.t używając etykiety jako nazwy kanału, jeśli jest możliwe",
         "uk": "можливість оновити дані з користувачем cron\nналаштування часу підключення\nоновлені залежності\nдиск і s.m.a.r.t за допомогою етикетки як назва каналу, якщо avaiable",
         "zh-cn": "选项以添加 cron 任务更新数据\n可配置的连接超时\n更新依赖关系\n磁盘和 s.m.a.r.t 如果可用,则使用标签作为频道名称"
-      },
-      "1.3.0": {
-        "en": "s.m.a.r.t. error indicator added\nfilesystem status, isOnline, hasErrors indicators added",
-        "de": "s.m.a.r.t fehlerindikator hinzugefügt\ndateisystemstatus, isOnline, hasErrors Indikatoren hinzugefügt",
-        "ru": "добавлен индикатор ошибки s.m.a.r.t\nсостояние файловой системы, isOnline, добавлены индикаторы ошибок",
-        "pt": "indicador de erro s.m.a.r.t. adicionado\nstatus do sistema de arquivos, isOnline, tem indicadores de erros adicionados",
-        "nl": "s.m.a.r.t. foutindicator toegevoegd\nfilesystem status, isOnline, hasErrors indicatoren toegevoegd",
-        "fr": "indicateur d'erreur s.m.a.r.t ajouté\nétat du système de fichiers, isOnline, a ajouté les indicateurs Errrors",
-        "it": "s.m.a.r.t. indicatore di errore aggiunto\nstato del filesystem, isOnline, haErrors indicatori aggiunti",
-        "es": "s.m.a.r.t. indicador de error añadido\nestado del sistema de archivos, isOnline, hasErrors indicadores añadidos",
-        "pl": "dodany wskaźnik błędu s.m.a.r.t\nstatus systemu plików, isOnline, dodano wskaźniki błędów",
-        "uk": "s.m.a.r.t. індикатор помилки додано\nстатус на сервери",
-        "zh-cn": "添加 s.m.a.r.t. 错误指标\n文件系统状态, isOnline, 已添加错误指标"
       }
     },
     "titleLang": {
