@@ -26,5 +26,8 @@ ioBroker.openmediavault.lnk
 .env.*
 !.env.example
 
+# recorded API fixtures from a real server (npm run record:api), may contain personal data
+test/fixtures/local/
+
 # test coverage reports (npm run test:coverage)
 coverage/
